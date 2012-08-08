@@ -1,0 +1,68 @@
+body { 
+	color: #434343; 
+	font-size: 14px;
+	font-family: sans-serif;
+	line-height: 24px;
+	margin: 0; 
+	padding: 0; 
+}
+
+header h1 {
+	background: url('../images/logo.png');
+	height: 39px;
+	float: left;
+	margin: 0;
+	padding-left: 190px;
+	overflow: hidden;
+	width: 0;
+}
+
+header span {
+	color: #DCDCDC;
+	display: block;
+	float: left;
+	font-family: ff-din-round-web, sans-serif;
+	font-size: 24px;
+	margin-top: 21px;
+}
+
+p {
+	margin: 50px 0;
+}
+
+a { color: #fd9846; text-decoration: none; }
+
+#wrap { 
+	margin: 0 auto;
+	width: 660px;
+}
+
+header {
+	height: 38px;
+	margin-top: 200px;
+}
+
+.button {
+	border: 1px solid #DCDCDC;
+	height: 130px;
+	font-family: ff-din-round-web, sans-serif;
+	font-size: 24px;
+	line-height: 30px;
+}
+
+.demo {
+	background: url('../images/go.png') no-repeat 30px center; 
+	font-weight: bold;
+	float: left;
+	padding: 0 30px 0 100px;
+	line-height: 130px;
+}
+
+.fork {
+	background: url('../images/fork.png') no-repeat 30px center; 
+	float: right;
+	height: 100px;
+	padding: 30px 0 0 135px;
+	line-height: 37px;
+	width: 182px;
+}
