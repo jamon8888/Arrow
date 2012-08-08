@@ -8,30 +8,6 @@
 
 /* Typography ---------------------------------------------------------------------------------- */
 
-/* Din light */
-@font-face {
-    font-family: 'DINLight';
-    src: url('/fonts/din-light-webfont.eot');
-    src: url('/fonts/din-light-webfont.eot?#iefix') format('embedded-opentype'),
-         url('/fonts/din-light-webfont.woff') format('woff'),
-         url('/fonts/din-light-webfont.ttf') format('truetype'),
-         url('/fonts/din-light-webfont.svg#DINLight') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-/* Din Regular */
-@font-face {
-    font-family: 'DINRegular';
-    src: url('/fonts/din-regular-webfont.eot');
-    src: url('/fonts/din-regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('/fonts/din-regular-webfont.woff') format('woff'),
-         url('/fonts/din-regular-webfont.ttf') format('truetype'),
-         url('/fonts/din-regular-webfont.svg#DINRegular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
 body { 
 	color: #434343;
 	font-size: 12px;
@@ -39,7 +15,7 @@ body {
 }
 
 h1, h2 {
-	font-family: DINRegular,Helvetica,Arial,sans-serif;
+	font-family: ff-din-round-web,Helvetica,Arial,sans-serif;
 }
 
 
@@ -174,7 +150,7 @@ form .right input { margin: 50px 45px; }
 /* Header  ------------------------------------------------------------------------------------- */
 
 header {
-	background: url('/images/icon.png') no-repeat center center;
+	background: url('../images/icon.png') no-repeat center center;
 	height: 100px;
 	position: absolute;
 	top: 0;
@@ -183,7 +159,7 @@ header {
 
 .processing header { display: none; }
 
-.visulise header { width: 50px; height: 100%; bottom: 0; background: #434343 url('/images/arrow.png') no-repeat center 10px; position: fixed; }
+.visulise header { width: 50px; height: 100%; bottom: 0; background: #434343 url('../images/arrow.png') no-repeat center 10px; position: fixed; }
 
 /* Github link --------------------------------------------------------------------------------- */
 
@@ -200,7 +176,7 @@ header {
 }
 
 #github .large { 
-	font-family: DINRegular,Helvetica,Arial,sans-serif; 
+	font-family: ff-din-round-web,Helvetica,Arial,sans-serif; 
 	font-size: 18px;
 }
 
@@ -228,7 +204,7 @@ header {
 .widget .header { overflow: hidden; }
 .widget .header h3 {
 	float: left; font-weight: normal; font-size: 18px; margin: 0 0 20px 0;
-	font-family: DINRegular,Helvetica,Arial,sans-serif;
+	font-family: ff-din-round-web,Helvetica,Arial,sans-serif;
 }
 
 .widget .labels { margin: 20px 0 0 0; }
@@ -272,7 +248,7 @@ header {
 .interactions { stroke: #fd9846; fill: none; }
 .interactions-area { fill: #EFEFEF; }
 
-.interactions-total { font-size: 80px; font-family: DINRegular,Helvetica,Arial,sans-serif; position: absolute; top: 40px; left: 70px; line-height: 50px; }
+.interactions-total { font-size: 80px; font-family: ff-din-round-web,Helvetica,Arial,sans-serif; position: absolute; top: 40px; left: 70px; line-height: 50px; }
 .interactions-total span { font-size: 24px; }
 
 
@@ -290,7 +266,7 @@ header {
 	-moz-animation: fade-moment-in 0.5s ease-out;
 	-ms-animation: fade-moment-in 0.5s ease-out;
 }
-#waiting span { font-size: 24px; font-family: DINRegular,Helvetica,Arial,sans-serif; }
+#waiting span { font-size: 24px; font-family: ff-din-round-web,Helvetica,Arial,sans-serif; }
 #waiting .progress { margin-top: 20px; height: 24px; }
 #waiting .progress .bar { height: 24px; }
 
@@ -430,7 +406,7 @@ header {
 
 
 
-.pie .percentage { font-family: DINRegular,Helvetica,Arial,sans-serif; font-size: 20px; fill: #434343; }
+.pie .percentage { font-family: ff-din-round-web,Helvetica,Arial,sans-serif; font-size: 20px; fill: #434343; }
 
 
 #tooltip { position: absolute; background: rgba(0, 0, 0, 0.75); padding: 10px; border-radius: 5px; color: #FFFFFF; }
