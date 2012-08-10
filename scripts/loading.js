@@ -27,7 +27,7 @@ var Loading = (function () {
 		progress.appendChild(bar);
 
 		document.body.appendChild(waiting);
-	}
+	};
 
 	return {
 
@@ -53,15 +53,6 @@ var Loading = (function () {
 		*/
 		updateMessage: function (message) {
 			status.update(message);
-		},
-
-		/*
-		* Remove the big loading bar and move to the bottom left. This is
-		* useful for when we have enough data to render but haven't completed
-		* loading the data yet
-		*/
-		minimise: function () {
-			waiting.addClassName('small');
 		}
-	}
+	};
 })();

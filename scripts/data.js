@@ -145,6 +145,12 @@ var Data = (function () {
 
 		time = new Date(date);
 		time.setMilliseconds(0);
+
+		// if we go over a minutes, only store minutes
+		if (Object.keys(timeData).length > 60) {
+			time.setSeconds(0);
+		}
+
 		time = time.getTime();
 
 		if (!timeData[time]) {
