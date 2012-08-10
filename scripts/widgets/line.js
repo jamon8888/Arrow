@@ -15,7 +15,7 @@
  * @return {Object} init & refresh
  */
 var Line = (function () {
-
+	"use strict";
 
 	var data	= false,
 		dataHash = false,
@@ -26,24 +26,35 @@ var Line = (function () {
 		max = false;
 
 	var render = function () {
+		// Normalize data
+		for (var i = 0; i < data.length; i++) {
+			if (!(data[i].time instanceof Date) && (typeof data[i].time === 'number')) {
+				// Not a Date object, so we assume it's a timestamp
+				if (data[i].time * 1000 >= new Date().getTime()) { // Detection if it's already a "JavaScript timestamp" that's in msec; we assume that all dates have to be in the past or present
+					data[i].time = new Date(data[i].time);
+				} else {
+					data[i].time = new Date(data[i].time * 1000);
+				}
+			}
+		}
 
 		// find the max time
-		max = data.max(function (i) {
+		max = d3.max(data, function (i) {
 			return i.time;
 		});
 
 		// find the min time
-		min = data.min(function (i) {
+		min = d3.min(data, function (i) {
 			return i.time;
 		});
 
 		// get the max count
-		var maxCount = data.max(function (i) {
-			return i.value;
+		var maxCount = d3.max(data, function (i) {
+			return parseInt(i.value, 10);
 		});
 
-		var minCount = data.min(function (i) {
-			return i.value;
+		var minCount = d3.min(data, function (i) {
+			return parseInt(i.value, 10);
 		});
 
 		// x and y functions
@@ -140,7 +151,7 @@ var Line = (function () {
 		refresh: function (_data) {
 
 			data = _data;
-			div.update('');
+			div.innerHTML = '';
 			render();
 
 		}

@@ -188,10 +188,10 @@ var Pie = (function () {
 
 		// first we need to loop through our data to see if we already have
 		// the data, if we do update it so we keep the colour
-		_data.each(function (d) {
+		_data.forEach(function (d) {
 			var found = false;
 
-			data.each(function (obj) {
+			data.forEach(function (obj) {
 				if (obj.label === d.label) {
 					obj.value = d.value;
 					found = true;
@@ -209,7 +209,7 @@ var Pie = (function () {
 
 		// iterate through to find the other
 		var other = 0;
-		data.each(function (obj, i) {
+		data.forEach(function (obj, i) {
 			if (obj.label === 'other') {
 				other = i;
 			}
@@ -226,7 +226,7 @@ var Pie = (function () {
 
 		total = 0;
 		// find the total
-		data.each(function (i) {
+		data.forEach(function (i) {
 			total += i.value;
 		});
 
@@ -234,7 +234,7 @@ var Pie = (function () {
 		if (data.length > 9) {
 			var removed = data.splice(9);
 			var removedCount = 0;
-			removed.each(function (r) {
+			removed.forEach(function (r) {
 				removedCount += r.value;
 			});
 

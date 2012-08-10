@@ -80,7 +80,7 @@ var Interactions = (function () {
 			.attr('class', 'interactions-label');
 
 		var number = new Element('div', {'class': 'interactions-total'});
-		number.update(total + ' <span>total analyzed interactions</span>');
+		number.innerHTML = total + ' <span>total analyzed interactions</span>';
 		div.appendChild(number);
 	};
 
@@ -132,23 +132,25 @@ var Interactions = (function () {
 		}
 
 		total = 0;
-		dataHash.each(function (pair) {
-			var time = Math.floor(pair.key / wrap) * wrap;
+		//dataHash.each(function (pair) {
+		var i;
+		for (i = 0; i < dataHash.length; i++) {
+			var time = Math.floor(dataHash[i][0] / wrap) * wrap;
 			if (!tempdata[time]) {
 				tempdata[time] = 0;
 			}
-			tempdata[time] += pair.value.count;
-			total += pair.value.count;
-		});
+			tempdata[time] += dataHash[i][1].count;
+			total += dataHash[i][1].count;
+		}
 
 		tempdata = new Hash(tempdata);
 
-		tempdata.each(function (pair) {
+		for (i = 0; i < tempdata.length; i++) {
 			data.push({
-				'time': new Date(parseInt(pair.key, 10)),
-				'count': pair.value
+				'time': new Date(parseInt(tempdata[i][0], 10)),
+				'count': tempdata[i][1]
 			});
-		});
+		}
 
 	};
 
@@ -171,7 +173,7 @@ var Interactions = (function () {
 
 		update: function (_data) {
 			timeframe(_data);
-			div.update('');
+			div.innerHTML = '';
 			render();
 		},
 
