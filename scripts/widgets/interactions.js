@@ -132,7 +132,6 @@ var Interactions = (function () {
 		}
 
 		total = 0;
-		//dataHash.each(function (pair) {
 		var i;
 		for (i = 0; i < dataHash.length; i++) {
 			var time = Math.floor(dataHash[i][0] / wrap) * wrap;

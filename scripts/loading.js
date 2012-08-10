@@ -56,6 +56,13 @@ var Loading = (function () {
 		},
 
 		/*
+		* Cancel (for login errors etc)
+		*/
+		cancel: function () {
+			waiting.remove();
+		},
+
+		/*
 		* Remove the big loading bar and move to the bottom left. This is
 		* useful for when we have enough data to render but haven't completed
 		* loading the data yet
