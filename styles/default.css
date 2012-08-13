@@ -241,14 +241,14 @@ header {
 
 /* Interactions ------------------------------------------------------------------------------- */
 
-#interactions { background: #FFFFFF; height: 300px; padding-top: 40px; margin: 0; }
+#interactions { background: #EFEFEF; height: 300px; padding-top: 40px; margin: 0; }
 #interactions:empty { height: 0; padding: 0; margin: 0; }
 .interactions-line { stroke: #E5E5E5; }
 .interactions-label { fill: #ADADAD; font-family: Helvetica,Arial,sans-serif; font-size: 12px; }
 .interactions { stroke: #fd9846; fill: none; }
 .interactions-area { fill: #EFEFEF; }
 
-.interactions-total { font-size: 80px; font-family: ff-din-round-web,Helvetica,Arial,sans-serif; position: absolute; top: 40px; left: 70px; line-height: 50px; }
+.interactions-total { background: #EFEFEF; font-size: 80px; font-family: ff-din-round-web,Helvetica,Arial,sans-serif; position: absolute; top: 40px; left: 70px; line-height: 50px; }
 .interactions-total span { font-size: 24px; }
 
 
