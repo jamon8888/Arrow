@@ -132,6 +132,11 @@ var Data = (function () {
 			lng = data.twitter.retweeted.geo.longtitude;
 			data.twitter.geo = lat + ',' + lng;
 		}
+
+		// convert UTC offset to a string
+		if (data && data.twitter && data.twitter.user && data.twitter.user.utc) {
+			data.twitter.user.utc = "" + data.twitter.user.utc + "";
+		}
 	};
 
 	/**
