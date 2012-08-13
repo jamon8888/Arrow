@@ -284,8 +284,10 @@ var Dashboard = (function () {
 		var renderData = function () {
 			var d = buffer.shift();
 
-			// render the items
-			render(d[0], d[1], d[2]);
+			if (d) {
+				// render the items
+				render(d[0], d[1], d[2]);
+			}
 
 			// if we have some remaining, process the next one
 			if (buffer.length > 0) {
