@@ -195,7 +195,7 @@ var Pie = (function () {
 				if (obj.label === d.label) {
 					obj.value = d.value;
 					found = true;
-					throw $break;
+					return;
 				}
 			});
 

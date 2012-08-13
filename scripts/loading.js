@@ -27,7 +27,7 @@ var Loading = (function () {
 		progress.appendChild(bar);
 
 		document.body.appendChild(waiting);
-	}
+	};
 
 	return {
 
@@ -70,5 +70,5 @@ var Loading = (function () {
 		minimise: function () {
 			waiting.addClassName('small');
 		}
-	}
+	};
 })();

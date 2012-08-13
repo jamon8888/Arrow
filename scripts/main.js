@@ -21,7 +21,9 @@ var Dashboard = (function () {
 		widgets			= [],
 		width			= false,
 		interactions	= false,
-		total			= 0;
+		total			= 0,
+		renderTime		= 100,
+		rendering		= false;
 
 	/**
 	 * Start streaming from DataSift
@@ -44,15 +46,19 @@ var Dashboard = (function () {
 
 		var startStreaming = function () {
 
+			if (rendering) {
+				Thread.start(startStreaming, 'startStreaming', renderTime);
+				return;
+			}
+
 			var data = Data.get();
 
 			if (Object.keys(data).length > 0) {
-				Loading.minimise();
-				Loading.update(80);
+				Loading.update(100);
 				build();
-				Thread.start(startStreaming, 'startstreaming', 6000);
+				startStreaming();
 			} else {
-				Loading.updateMessage('Waiting for Interactions ...');
+				Loading.updateMessage('Waiting for Interactions ...');	
 				Thread.start(startStreaming, 'startstreaming', 1000);
 			}
 		};
@@ -193,8 +199,7 @@ var Dashboard = (function () {
 			if (counter < totalLength) {
 				Thread.start(processInteraction, 'loadStatic');
 			} else {
-				Loading.updateMessage('Building Charts');
-				Loading.minimise();
+				Loading.update(100);
 				build();
 			}
 
@@ -293,14 +298,10 @@ var Dashboard = (function () {
 			}
 		});
 
+		rendering = true;
+
 		// render the buffer
 		var renderData = function () {
-
-			var length		= buffer.length;
-			var percentage	= Math.floor(((bufferLength - length) / bufferLength) * 100);
-			// update the progress bar percentage
-			Loading.update(80 + Math.ceil(percentage * 0.2));
-
 			var d = buffer.shift();
 
 			// render the items
@@ -308,11 +309,14 @@ var Dashboard = (function () {
 
 			// if we have some remaining, process the next one
 			if (buffer.length > 0) {
-				Thread.start(renderData, 'render', 4000 / bufferLength);
+				Thread.start(renderData, 'render', renderTime);
+			} else {
+				// restart the streamer in 2 seconds
+				rendering = false;
 			}
 		};
 
-		Thread.start(renderData, 'render', 500);
+		Thread.start(renderData, 'render', renderTime);
 	};
 
 	/*

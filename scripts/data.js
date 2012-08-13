@@ -82,7 +82,17 @@ var Data = (function () {
 
 		// store each of them as a string
 		value.each(function (item) {
-			storeString(key, item);
+			// determine the content of the array
+			if (Object.isString(item)) {
+				// store as a string
+				storeString(key, item);
+			} else if (Object.isNumber(item)) {
+				// store as a int
+				storeInt(key, item);
+			} else {
+				// must be an object, which we need to reflatten
+				flatten(item, key);
+			}
 		});
 	};
 
@@ -100,10 +110,6 @@ var Data = (function () {
 			var end = data.demographic.age_range.end;
 			data.demographic.age_range = start + '-' + end;
 		}
-
-		// fix demographic for CSV
-		// 
-		
 
 		// compensation when lat and long come through as numbers
 		var lat = false,
@@ -126,7 +132,107 @@ var Data = (function () {
 			lng = data.twitter.retweeted.geo.longtitude;
 			data.twitter.geo = lat + ',' + lng;
 		}
+	};
 
+	/**
+	 * Count the total number of interactions and count the total over time
+	 * 
+	 * @param  {Object} data The interaction
+	 */
+	var count = function (data) {
+
+		var date = data.interaction_created_at ? data.interaction_created_at : data.interaction.created_at;
+
+		time = new Date(date);
+		time.setMilliseconds(0);
+
+		// if we go over a minutes, only store minutes
+		if (Object.keys(timeData).length > 60) {
+			time.setSeconds(0);
+		}
+
+		time = time.getTime();
+
+		if (!timeData[time]) {
+			timeData[time] = {
+				count: 0
+			};
+		}
+
+		timeData[time].count += 1;
+	};
+
+	/*
+	* Take an interaction object and flatten it, we are taking all the nested
+	* objects of objects and converting them into the format of object_object
+	* so we can easily count them. This function recurses quite a bit.
+	*
+	* @param data, data Object
+	* @param name, the current name we are on
+	*/
+	var flatten = function (data, name) {
+		
+		// keep a copy of the name
+		var _name	= name,
+			date	= false;
+
+		// fix the data
+		fixes(data);
+
+		// we only show a total count with time, so they have to be there
+		if ((data && data.interaction && data.interaction.created_at) || data.interaction_created_at) {
+			count(data);
+		}
+
+
+		// loop through all the data
+		for (var key in data) {
+			if (data.hasOwnProperty(key)) {
+
+				// build up the name
+				name = name ? name += '_' + key : key;
+
+				// skip if in the blacklist
+				if (blacklist.indexOf(name) !== -1) {
+					name = _name;
+					break;
+				}
+
+				// if it grows too large, remove it but only for strings
+				if (formattedData.string[name] && Object.keys(formattedData.string[name]).length > 500) {
+					blacklist.push(name);
+					delete(formattedData.string[name]);
+					name = _name;
+					return;
+				}
+
+				// comparisons
+				if (Object.isString(data[key])) {
+
+					// is a latlong?
+					if (data[key].match(/^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$/)) {
+						// latlong
+						storeLatLong(name, data[key]);
+					} else {
+						// string
+						storeString(name, data[key]);
+					}
+
+				} else if (Object.isNumber(data[key])) {
+					// number
+					storeInt(name, data[key]);
+				} else if (Object.isArray(data[key])) {
+					// array
+					storeArray(name, data[key]);
+				} else {
+					// object
+					flatten(data[key], name);
+				}
+
+				name = _name;
+
+			}
+		}
 	};
 
 	return {
@@ -140,75 +246,7 @@ var Data = (function () {
 		* @param name, the current name we are on
 		*/
 		flatten: function (data, name) {
-
-			// fix the data
-			fixes(data);
-
-			var copyName = name;
-
-			if ((data && data.interaction && data.interaction.created_at) || data.interaction_created_at) {
-
-				var date = data.interaction_created_at ? data.interaction_created_at : data.interaction.created_at;
-
-				time = new Date(date);
-				time.setMilliseconds(0);
-				time = time.getTime();
-
-				if (!timeData[time]) {
-					timeData[time] = {
-						count: 0
-					};
-				}
-
-				timeData[time].count += 1;
-			}
-
-			data = new Hash(data);
-
-			data.each(function (pair) {
-
-				name = name ? name += '_' + pair.key : pair.key;
-
-				if (blacklist.indexOf(name) !== -1) {
-					name = copyName;
-					return;
-				}
-
-				
-				// if it grows too large, remove it but only for strings
-				if (formattedData.string[name] && Object.keys(formattedData.string[name]).length > 500) {
-					blacklist.push(name);
-					delete(formattedData.string[name]);
-					name = copyName;
-					return;
-				}
-
-
-				// comparisons
-				if (Object.isString(pair.value)) {
-
-					// is a latlong?
-					if (pair.value.match(/^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$/)) {
-						// latlong
-						storeLatLong(name, pair.value);
-					} else {
-						// string
-						storeString(name, pair.value);
-					}
-
-				} else if (Object.isNumber(pair.value)) {
-					// number
-					storeInt(name, pair.value);
-				} else if (Object.isArray(pair.value)) {
-					// array
-					storeArray(name, pair.value);
-				} else {
-					this.flatten(pair.value, name);
-				}
-
-				name = copyName;
-
-			}.bind(this));
+			flatten(data, name);
 		},
 
 		/*

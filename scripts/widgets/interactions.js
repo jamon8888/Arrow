@@ -10,14 +10,15 @@ var Interactions = (function () {
 	"use strict";
 
 	var	div			= false,
-		data		= false,
+		data		= [],
 		options		= false,
 		width		= false,
 		height		= 300,
 		currentTime = 0,
 		timeCount	= 0,
 		format		= '',
-		total		= 0;
+		total		= 0,
+		padding		= 20;
 
 	// parts
 	var chart = false,
@@ -29,9 +30,23 @@ var Interactions = (function () {
 			return d.count;
 		});
 
-		var parse	= d3.time.format(format),
-			x		= d3.time.scale().domain([0, data.length - 1]).range([0, width]),
-			y		= d3.scale.linear().domain([0, maxCount]).range([0, height]);
+		// find the max time
+		var max = d3.max(data, function (i) {
+			return i.time;
+		});
+
+		// find the min time
+		var min = d3.min(data, function (i) {
+			return i.time;
+		});
+
+		var x = d3.time.scale().domain([min, max]).range([0, width]),
+			y = d3.scale.linear().domain([0, maxCount]).range([height - padding, 0]);
+
+		// make sure the data is sorted by time
+		data.sort(function (a, b) {
+			return a.time - b.time;
+		});
 
 		// build the chart
 		chart = d3.select(div)
@@ -40,117 +55,69 @@ var Interactions = (function () {
 			.attr('height', height)
 			.append('g');
 
-		rectangles = chart
+		// add a wrapper for the points
+		var points = chart
 			.append('g')
-			.attr('id', 'rectangles')
-			.attr("transform", "translate(0, " + height + ")");
+			.attr('id', 'points');
 
+		// create the line function
 		var line = d3.svg.line()
-			.x(function (value, index) { return x(index); })
-			.y(function (value) { return -1 * y(value.count); });
+			.x(function (value) { return x(value.time); })
+			.y(function (value) { return y(value.count); });
 
-		var area = d3.svg.area()
-			.x(line.x())
-			.y1(line.y())
-			.y0(y(0));
-
-		rectangles.append("path")
-			.attr("d", area(data))
-			.attr("class", 'interactions-area');
-
-		rectangles.append('path')
+		// render the line
+		points.append('path')
 			.attr('d', line(data))
-			.attr('class', 'interactions');
+			.attr('class', 'line-points');
 
-		// add some labels
-		chart.selectAll('text')
-			.data(data)
-		.enter()
-			.append('text')
-			.text(function (value, i) {
-				if (i % Math.round(data.length / 10)) {
-					return '';
-				}
-				return parse(value.time);
-			}.bind(this))
-			.attr('x', function (value, index) { return x(index); })
-			.attr('y', height)
-			.attr("dx", 0)
-			.attr("text-anchor", "middle")
-			.attr('class', 'interactions-label');
+		// x axis function
+		var xAxis = d3.svg.axis()
+			.scale(x)
+			.orient('bottom')
+			.ticks(5);
+
+		// render x axis
+		chart.append('g')
+		    .call(xAxis)
+		    .attr("transform", "translate(0," + (height - padding) + ")")
+		    .attr('class', 'line-axis');
+
+		// y axis function
+		var yAxis = d3.svg.axis()
+			.scale(y)
+			.orient('left')
+			.ticks(5);
+			//.tickFormat(d3.format(',.0e'));
+
+		// render y axis
+		chart.append('g')
+			.call(yAxis)
+			.attr("transform", "translate(" + (100) + ",0)")
+			.attr('class', 'line-axis y')
+			.attr('text-anchor', 'start');
 
 		var number = new Element('div', {'class': 'interactions-total'});
 		number.innerHTML = total + ' <span>total analyzed interactions</span>';
 		div.appendChild(number);
+
 	};
 
+	/**
+	 * Reformat the data
+	 * 
+	 * @param  {Object} _data The data object
+	 */
 	var timeframe = function (_data) {
-
-		var tempdata	= {},
-			dataHash	= new Hash(_data),
-			range		= 0,
-			wrap		= 0;
-
-		// find the smallest time
-		var min = dataHash.min(function (pair) {
-			return parseInt(pair.key, 10);
-		});
-
-		// find the largest time
-		var max = dataHash.max(function (pair) {
-			return parseInt(pair.key, 10);
-		});
-
-		data = [];
-		range = (max - min) / 1000;
-
-		// work out the timeframe of the chart, we need at least 10
-		if (range >= 60 * 60 * 24 * 365 * 10) {
-			// years
-			wrap = 1000 * 60 * 60 * 60 * 24 * 365;
-			format = '%x';
-		} else if (range >= 60 * 60 * 24 * 7 * 10) {
-			// weeks
-			wrap = 1000 * 60 * 60 * 24 * 7;
-			format = '%d %b';
-		} else if (range >= 60 * 60 * 24 * 10) {
-			// days
-			wrap = 1000 * 60 * 60 * 24;
-			format = '%d %b';
-		} else if (range >= 60 * 60 * 10) {
-			// hours
-			wrap = 1000 * 60 * 60;
-			format = '%m/%d %H:%M';
-		} else if (range >= 60 * 3) {
-			// mins
-			wrap = 1000 * 60;
-			format = '%H:%M';
-		} else {
-			// seconds
-			wrap = 1000;
-			format = '%H:%M:%S';
-		}
-
 		total = 0;
-		var i;
-		for (i = 0; i < dataHash.length; i++) {
-			var time = Math.floor(dataHash[i][0] / wrap) * wrap;
-			if (!tempdata[time]) {
-				tempdata[time] = 0;
+		for (var key in _data) {
+			if (_data.hasOwnProperty(key)) {
+				data.push({
+					'time': new Date(parseInt(key, 10)),
+					'count': _data[key].count
+				});
+				total += _data[key].count;
 			}
-			tempdata[time] += dataHash[i][1].count;
-			total += dataHash[i][1].count;
-		}
-
-		tempdata = new Hash(tempdata);
-
-		for (i = 0; i < tempdata.length; i++) {
-			data.push({
-				'time': new Date(parseInt(tempdata[i][0], 10)),
-				'count': tempdata[i][1]
-			});
-		}
-
+		}	
 	};
 
 
@@ -182,68 +149,3 @@ var Interactions = (function () {
 	};
 
 })();
-
-/*
-var liveInteractions = {
-
-
-	width: document.viewport.getWidth(),
-	height: 300,
-	currentTime: 0,
-	timeCount: 0,
-
-	init: function(div, options) {
-
-		this.div = div;
-		this.options = options;
-		this.interactions = [];
-
-		// how many bars can we fit in?
-		this.bars = Math.floor(this.width/80);
-
-		for (var i = 0; i < this.bars; i++) {
-			this.interactions.push(0);
-		}
-
-		this.render();
-
-		setInterval(this.update.bindAsEventListener(this), 1000);
-
-		// listen for events
-		$(document).observe('dashboard:message', this.onMessage.bindAsEventListener(this));
-	},
-
-	onMessage: function() {
-		var d = new Date();
-		var currentTime = Math.floor(d.getTime()/1000);
-
-		if (currentTime == this.currentTime) {
-			this.timeCount++;
-		} else {
-			this.currentTime = currentTime;
-			this.interactions.push(this.timeCount);
-			this.timeCount = 1;
-		}
-
-		if (this.interactions.length > this.bars) {
-			this.interactions.shift();
-		}
-	},
-
-	render: function() {
-
-
-
-	},
-
-	update: function() {
-		this.y = d3.scale.linear().domain([0, d3.max(this.interactions)]).range([0, this.height]);
-
-		this.rectangles.selectAll('rect')
-			.data(this.interactions)
-		.transition()
-			.duration(1000)
-			.attr('y', function(value) { return this.height - this.y(value); }.bind(this))
-			.attr('height', function(value) { return this.y(value); }.bind(this));
-	}
-}*/
