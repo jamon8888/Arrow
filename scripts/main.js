@@ -55,6 +55,7 @@ var Dashboard = (function () {
 
 			if (Object.keys(data.string).length > 0 || Object.keys(data.latlong).length > 0 || Object.keys(data.number).length > 0) { 
 				Loading.update(100);
+				objects.signin.remove();
 				build();
 				startStreaming();
 			} else {
@@ -167,6 +168,8 @@ var Dashboard = (function () {
 		// update progress
 		Loading.updateMessage('Processing Data');
 		Loading.update(20);
+
+		objects.signin.remove();
 
 		var counter = 0;
 		var totalLength = dataArray.length;
