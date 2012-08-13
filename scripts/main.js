@@ -53,7 +53,7 @@ var Dashboard = (function () {
 
 			var data = Data.get();
 
-			if (Object.keys(data).length > 0) {
+			if (Object.keys(data.string).length > 0 || Object.keys(data.latlong).length > 0 || Object.keys(data.number).length > 0) { 
 				Loading.update(100);
 				build();
 				startStreaming();
