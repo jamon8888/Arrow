@@ -107,7 +107,7 @@ form input:focus {
 	-o-transition: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(253, 152, 70, 0.6);
 }
 
-form input[type="submit"], form input[type="button"] {
+form input[type="submit"], form input[type="button"], .button {
 	background-color: #FAA732;
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fca763), color-stop(100%,#fd9846));
 	background: -webkit-linear-gradient(top, #fca763 0%,#fd9846 100%);
@@ -120,12 +120,13 @@ form input[type="submit"], form input[type="button"] {
 	cursor: pointer;
 	width: 200px;
 	display: inline-block;
+	padding: 10px;
 	font-family: DINLight, Helvetica, Arial, sans-serif;
 	text-shadow: rgba(0,0,0,0.5) 0 -1px 0;
 	margin: 0;
 }
 
-form input[type="submit"]:hover, form input[type="button"]:hover {
+form input[type="submit"]:hover, form input[type="button"]:hover, .button:hover {
 	background-color: #FAA732;
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fd9846), color-stop(100%,#fca763));
 	background: -webkit-linear-gradient(top, #fd9846 0%,#fca763 100%);
@@ -199,10 +200,11 @@ header {
 .widget .wrap {
 	background: #FFFFFF;
 	border: 1px solid #DCDCDC;
-	height: 400px;
+	height: 410px;
 	min-height: 100px;
 	overflow: hidden;
 	padding: 20px;
+	position: relative;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -244,6 +246,20 @@ header {
 
 /* center the SVG's */
 .widget svg { display: block; margin: 0 auto; }
+
+.widget .body { position: relative; height: 325px; }
+
+.widget .suspend {
+	position: absolute; 
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: #FFFFFF;
+	background: rgba(255, 255, 255, 0.9);
+}
+
+.widget .suspend .button { float: left; margin-left: 150px; width: auto; }
  
 
 /* Interactions ------------------------------------------------------------------------------- */

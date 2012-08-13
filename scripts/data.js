@@ -206,7 +206,7 @@ var Data = (function () {
 				// if it grows too large, remove it but only for strings
 				if (formattedData.string[name] && Object.keys(formattedData.string[name]).length > 500) {
 					blacklist.push(name);
-					delete(formattedData.string[name]);
+					//delete(formattedData.string[name]);
 					name = _name;
 					return;
 				}
@@ -265,6 +265,10 @@ var Data = (function () {
 
 		getTime: function () {
 			return timeData;
+		},
+
+		getBlacklist: function () {
+			return blacklist;
 		}
 	};
 })();

@@ -18,7 +18,8 @@ var Widget = (function () {
 		overlay		= false,
 		key			= false,
 		wrap		= false,
-		className	= '';
+		className	= '',
+		status		= false;
 
 	/*
 	* Create a new widget
@@ -33,7 +34,6 @@ var Widget = (function () {
 		title = new Element('h3'),
 		remove = new Element('div', {'class': 'remove'}),
 		body = new Element('div', {'class': 'body'}),
-		overlay = new Element('div', {'class': 'overlay'}),
 		widget = new Element('div', {
 			'class': 'widget ' + className
 		});
@@ -53,7 +53,6 @@ var Widget = (function () {
 		wrap.appendChild(header);
 		wrap.appendChild(body);
 		widget.appendChild(wrap);
-		body.appendChild(overlay);
 	};
 
 	return {
@@ -135,6 +134,36 @@ var Widget = (function () {
 			setTimeout(function () {
 				this.remove();
 			}.bind(widget), 2000);
+		},
+
+		getStatus: function () {
+			return status;
+		},
+
+		setStatus: function (_status) {
+			status = _status;
+		},
+
+		suspend: function (callback) {
+
+			if (status === 'suspended') {
+				return;
+			}
+
+			var overlay = new Element('div', {'class': 'suspend'}),
+				//remove = new Element('div', {'class': 'button'}),
+				p = new Element('p');
+
+			p.update('Unfortunatly this widget has exceeded the number of items it can store and was stopped.');
+			//remove.update('Remove');
+
+			overlay.appendChild(p);
+			//overlay.appendChild(remove);
+			body.appendChild(overlay);
+
+			remove.observe('click', callback);
+
+			status = 'suspended';
 		}
 	};
 });

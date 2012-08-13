@@ -6,7 +6,7 @@
   Thread:true, Widget:true, Pie:true, Map:true, Line:true, CSV:true, Interactions:true, console:true*/
 
 /**
- * VESPA
+ * ARROW
  *
  * A dashboard to visulise information from DataSift. This project allows you
  * to either use a live stream or an export (either JSON or CSV) and analyse 
@@ -22,7 +22,7 @@ var Dashboard = (function () {
 		width			= false,
 		interactions	= false,
 		total			= 0,
-		renderTime		= 100,
+		renderTime		= 50,
 		rendering		= false;
 
 	/**
@@ -51,11 +51,15 @@ var Dashboard = (function () {
 				return;
 			}
 
+			if ($('signin')) {
+				objects.signin.remove();
+			}
+
 			var data = Data.get();
 
 			if (Object.keys(data.string).length > 0 || Object.keys(data.latlong).length > 0 || Object.keys(data.number).length > 0) { 
 				Loading.update(100);
-				objects.signin.remove();
+				
 				build();
 				startStreaming();
 			} else {
@@ -252,7 +256,8 @@ var Dashboard = (function () {
 		var data			= Data.get(),
 			timeData		= Data.getTime(),
 			buffer			= [],
-			bufferLength	= 0;
+			bufferLength	= 0,
+			blacklist		= Data.getBlacklist();
 
 
 		// push the data into the buffer
@@ -277,30 +282,6 @@ var Dashboard = (function () {
 			}
 		}
 
-		// calculate which ones should be removed
-		widgets.each(function (wid, i) {
-
-			var found = false;
-
-			// do we have this widget
-			for (var type in data) {
-				if (data.hasOwnProperty(type)) {
-					for (var key in data[type]) {
-						if (data[type].hasOwnProperty(key)) {
-							if (wid.getKey() === key) {
-								found = true;
-							}
-						}
-					}
-				}
-			}
-
-			if (!found) {
-				wid.remove();
-				widgets.splice(i, 1);
-			}
-		});
-
 		rendering = true;
 
 		// render the buffer
@@ -318,6 +299,12 @@ var Dashboard = (function () {
 			} else {
 				// restart the streamer in 2 seconds
 				rendering = false;
+				// mark all the banned widgets
+				widgets.each(function (wid, i) {
+					if (blacklist.indexOf(wid.getKey()) !== -1) {
+						wid.suspend();
+					}
+				});
 			}
 		};
 
