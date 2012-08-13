@@ -97,59 +97,19 @@ var Interactions = (function () {
 			.attr('text-anchor', 'start');
 
 		var number = new Element('div', {'class': 'interactions-total'});
-		number.update(total + ' <span>total analyzed interactions</span>');
+		number.innerHTML = total + ' <span>total analyzed interactions</span>';
 		div.appendChild(number);
 
 	};
 
+	/**
+	 * Reformat the data
+	 * 
+	 * @param  {Object} _data The data object
+	 */
 	var timeframe = function (_data) {
 
-		var tempdata	= {},
-			dataHash	= new Hash(_data),
-			range		= 0,
-			wrap		= 0;
-
-		/*
-		// find the smallest time
-		var min = dataHash.min(function (pair) {
-			return parseInt(pair.key, 10);
-		});
-
-		// find the largest time
-		var max = dataHash.max(function (pair) {
-			return parseInt(pair.key, 10);
-		});
-
-		data = [];
-		range = (max - min) / 1000;
-
-		// work out the timeframe of the chart, we need at least 10
-		if (range >= 60 * 60 * 24 * 365 * 10) {
-			// years
-			wrap = 1000 * 60 * 60 * 60 * 24 * 365;
-			format = '%x';
-		} else if (range >= 60 * 60 * 24 * 7 * 10) {
-			// weeks
-			wrap = 1000 * 60 * 60 * 24 * 7;
-			format = '%d %b';
-		} else if (range >= 60 * 60 * 24 * 10) {
-			// days
-			wrap = 1000 * 60 * 60 * 24;
-			format = '%d %b';
-		} else if (range >= 60 * 60 * 10) {
-			// hours
-			wrap = 1000 * 60 * 60;
-			format = '%m/%d %H:%M';
-		} else if (range >= 60 * 3) {
-			// mins
-			wrap = 1000 * 60;
-			format = '%H:%M';
-		} else {
-			// seconds
-			wrap = 1000;
-			format = '%H:%M:%S';
-		}
-		 */
+		var dataHash	= new Hash(_data);
 
 		total = 0;
 		dataHash.each(function (pair) {
@@ -159,7 +119,6 @@ var Interactions = (function () {
 			});
 			total += pair.value.count;
 		});
-
 	};
 
 
@@ -181,7 +140,7 @@ var Interactions = (function () {
 
 		update: function (_data) {
 			timeframe(_data);
-			div.update('');
+			div.innerHTML = '';
 			render();
 		},
 
@@ -191,68 +150,3 @@ var Interactions = (function () {
 	};
 
 })();
-
-/*
-var liveInteractions = {
-
-
-	width: document.viewport.getWidth(),
-	height: 300,
-	currentTime: 0,
-	timeCount: 0,
-
-	init: function(div, options) {
-
-		this.div = div;
-		this.options = options;
-		this.interactions = [];
-
-		// how many bars can we fit in?
-		this.bars = Math.floor(this.width/80);
-
-		for (var i = 0; i < this.bars; i++) {
-			this.interactions.push(0);
-		}
-
-		this.render();
-
-		setInterval(this.update.bindAsEventListener(this), 1000);
-
-		// listen for events
-		$(document).observe('dashboard:message', this.onMessage.bindAsEventListener(this));
-	},
-
-	onMessage: function() {
-		var d = new Date();
-		var currentTime = Math.floor(d.getTime()/1000);
-
-		if (currentTime == this.currentTime) {
-			this.timeCount++;
-		} else {
-			this.currentTime = currentTime;
-			this.interactions.push(this.timeCount);
-			this.timeCount = 1;
-		}
-
-		if (this.interactions.length > this.bars) {
-			this.interactions.shift();
-		}
-	},
-
-	render: function() {
-
-
-
-	},
-
-	update: function() {
-		this.y = d3.scale.linear().domain([0, d3.max(this.interactions)]).range([0, this.height]);
-
-		this.rectangles.selectAll('rect')
-			.data(this.interactions)
-		.transition()
-			.duration(1000)
-			.attr('y', function(value) { return this.height - this.y(value); }.bind(this))
-			.attr('height', function(value) { return this.y(value); }.bind(this));
-	}
-}*/

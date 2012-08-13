@@ -64,7 +64,7 @@ var Map = (function () {
 	};
 
 	var formatData = function (_data) {
-		_data.each(function (latlong) {
+		_data.forEach(function (latlong) {
 			data.push({
 				lat: latlong.split(',')[0],
 				lon: latlong.split(',')[1]
