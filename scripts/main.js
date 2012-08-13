@@ -40,7 +40,8 @@ var Dashboard = (function () {
 		// start the stream
 		DataSift.connect(username, apikey);
 		DataSift.register(hash, {
-			'onMessage': onMessage
+			'onMessage': onMessage,
+			'onError': onError
 		});
 
 		var startStreaming = function () {
@@ -87,6 +88,25 @@ var Dashboard = (function () {
 		// update the total
 		total = total + 1;
 	};
+
+	/**
+	 * Recieved an error from DataSift
+	 * 
+	 * @param  {Object} data Interaction object from DataSift
+	 */
+	var onError = function (data) {
+		DataSift.stop();
+		Thread.stopAll();
+		Loading.cancel();
+		document.body.removeClassName('processing');
+		$('signin').show();
+		if (data.message === 'You did not send a valid hash to subscribe to') {
+			Login.update(['hash']);
+		} else if (data.message === 'Invalid API key given' || data.message === 'Authorization failed') {
+			Login.update(['username', 'apikey']);
+		}
+	};
+
 
 	/**
 	 * Load in and read a static file
@@ -416,7 +436,7 @@ var Dashboard = (function () {
 			// start the login
 			Login.init(function (apikey, username, hash, fileList) {
 				// finished logging in
-				objects.signin.remove();
+				objects.signin.hide();
 
 				document.body.addClassName('processing');
 

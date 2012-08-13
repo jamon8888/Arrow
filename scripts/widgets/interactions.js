@@ -108,17 +108,16 @@ var Interactions = (function () {
 	 * @param  {Object} _data The data object
 	 */
 	var timeframe = function (_data) {
-
-		var dataHash	= new Hash(_data);
-
 		total = 0;
-		dataHash.each(function (pair) {
-			data.push({
-				'time': new Date(parseInt(pair.key, 10)),
-				'count': pair.value.count
-			});
-			total += pair.value.count;
-		});
+		for (var key in _data) {
+			if (_data.hasOwnProperty(key)) {
+				data.push({
+					'time': new Date(parseInt(key, 10)),
+					'count': _data[key].count
+				});
+				total += _data[key].count;
+			}
+		}	
 	};
 
 

@@ -1,10 +1,11 @@
 var Thread = (function() {
-
+	"use strict";
 	var timeouts	= [],
-		messageName = '';
+		messageName = '',
+		scheduledTimeouts = [];
 
 	var handleMessage = function (event) {
-		if (event.source == window && event.data == messageName) {
+		if (event.source === window && event.data === messageName) {
 			event.stopPropagation();
 			if (timeouts.length > 0) {
 				var func = timeouts.shift();
@@ -21,13 +22,19 @@ var Thread = (function() {
 
 			if (time) {
 				// use setTimeout
-				setTimeout(func, time);
+				scheduledTimeouts.push(setTimeout(func, time));
 			} else {
 				messageName = _messageName;
 				timeouts.push(func);
 				window.postMessage(messageName, '*');
 			}
+		},
+
+		stopAll: function () {
+			scheduledTimeouts.forEach(function (timeout) {
+				window.clearTimeout(timeout);
+			});
 		}
-	}
+	};
 
 })();
