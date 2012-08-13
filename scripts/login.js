@@ -60,13 +60,23 @@ var Login = (function () {
 			$('signin').observe('submit', signin);
 
 			// watch for file uploads
-			$('upload').observe('change', function(event) {
+			$('upload').observe('change', function (event) {
 				fileList = event.target.files;
 				signin();
 			});
 
-			$('fileSelect').observe('click', function() {
+			$('fileSelect').observe('click', function () {
 				$('upload').click();
+			});
+		},
+
+		// adds some errors
+		update: function (errors) {
+			errors.forEach(function (field) {
+				$(field).addClassName('error');
+				$(field).observe('change', function (event) {
+					$(this).removeClassName('error');
+				});
 			});
 		}
 	};

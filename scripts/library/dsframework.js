@@ -28,7 +28,7 @@
 		username: null,
 		apikey: null,
 		host:null,
-		options: {},
+		options: {retry: true},
 		storage: {},
 		storageMax: 50,
 		googleLoadedState: 0, //0 -> not loaded, 1 -> loading, 2 -> loaded
@@ -106,7 +106,7 @@
 
 			// check to see if it already exsits
 			if (window.Datasift) {
-				return;
+				//return;
 			} else {
 				window.Datasift = {};
 			}
@@ -135,7 +135,7 @@
 		 *		onError(function): What to do when we error
 		 */
 		register: function(hash, options) {
-
+			this.options.retry = true;
 			// register the callback options
 			options.onOpen = options.onOpen ? options.onOpen : function() {};
 			options.onMessage = options.onMessage ? options.onMessage : function() {};
@@ -243,24 +243,35 @@
 					this.socket.close();
 				} catch (e) {}
 
+
+
+
 				//Clear timer
 				clearTimeout(this.wsTimeoutTimer);
 				this.wsTimeoutTimer = null;
 
-				//Check if we are over the limit
-				if (this.wsTimeoutCount > this.wsTimeoutMax) {
-					//Close and go to JSONP
-					console.log("WebSocket connection timed out " + this.wsTimeoutMax + " times. Falling back to JSONP");
-					//Call the callbacks telling them they have not got a ws connection
-					this.wsConnectCallbacks.each(function(cb){
-						cb(false);
-					}.bind(this));
-					this.jsonp();
-				} else {
-					//Reconnect
-					console.log("WebSocket connection timed out. Retrying WebSocket");
-					this.websocket(endpoint);
+
+
+				if (this.options.retry) {
+					//Check if we are over the limit
+					if (this.wsTimeoutCount > this.wsTimeoutMax) {
+						//Close and go to JSONP
+						console.log("WebSocket connection timed out " + this.wsTimeoutMax + " times. Falling back to JSONP");
+						//Call the callbacks telling them they have not got a ws connection
+						this.wsConnectCallbacks.each(function(cb){
+							cb(false);
+						}.bind(this));
+						this.jsonp();
+					} else {
+						//Reconnect
+						console.log("WebSocket connection timed out. Retrying WebSocket");
+						this.websocket(endpoint);
+					}
 				}
+
+
+
+
 
 			}.bind(this), 1000);
 
@@ -303,22 +314,23 @@
 				//If we have closed too many times then fallback to JSONP
 				//Start the timeout timer
 				this.wsCloseCount++;
-
-				//Check if we are over the limit
-				if (this.wsCloseCount > this.wsCloseMax) {
-					//Close and go to JSONP
-					console.log("WebSocket connection closed " + this.wsCloseMax + " times. Falling back to JSONP");
-					this.wsConnectCallbacks.forEach(function(cb){
-						cb(false);
-					}.bind(this));
-					this.jsonp();
-				} else {
-					//Reconnect
-					console.log("WebSocket connection closed. Retrying.");
-					//Wait a second before trying
-					setTimeout(function(){
-						this.websocket(endpoint);
-					}.bind(this), 500);
+				if (this.options.retry) {
+					//Check if we are over the limit
+					if (this.wsCloseCount > this.wsCloseMax) {
+						//Close and go to JSONP
+						console.log("WebSocket connection closed " + this.wsCloseMax + " times. Falling back to JSONP");
+						this.wsConnectCallbacks.forEach(function(cb){
+							cb(false);
+						}.bind(this));
+						this.jsonp();
+					} else {
+						//Reconnect
+						console.log("WebSocket connection closed. Retrying.");
+						//Wait a second before trying
+						setTimeout(function(){
+							this.websocket(endpoint);
+						}.bind(this), 500);
+					}
 				}
 
 				//Broadcast close
@@ -478,7 +490,7 @@
 		},
 
 		/**
-		 * Even if the subscribers call register we can't actually regiser them
+		 * Even if the subscribers call register we can't actually register them
 		 * with the datasift service until the onopen even occurs otherwise we'll
 		 * get an invalid state exception so this is invoked automatically after broadcasting
 		 * the onopen event
@@ -525,12 +537,13 @@
 					} else {
 						//Start JSONP if it isn't already
 						window.Datasift[hash] = null;
-						delete window.Datasift[hash];
+						window.Datasift.splice(window.Datasift.indexOf(hash), 1);
+						//delete window.Datasift[hash];
 					}
 				}
 
 			}.bind(this);
-
+			this.options.retry = false;
 			if (this.wsConnected) {
 				unsub(true);
 			} else if (this.jsonpStarted) {
