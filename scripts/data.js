@@ -185,7 +185,7 @@ var Data = (function () {
 		fixes(data);
 
 		// we only show a total count with time, so they have to be there
-		if ((data && data.interaction && data.interaction.created_at) || data.interaction_created_at) {
+		if (data && data.interaction && data.interaction.created_at) {
 			count(data);
 		}
 

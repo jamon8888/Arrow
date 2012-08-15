@@ -65,10 +65,26 @@ var Interactions = (function () {
 			.x(function (value) { return x(value.time); })
 			.y(function (value) { return y(value.count); });
 
+
+
+
+		chart.selectAll("rect")
+			.data(data)
+		.enter()
+			.append("svg:rect")
+			.attr("x", function (d, i) { return x(d.time); })
+			.attr('y', function (d) { return height - padding - y(d.count); })
+			.attr('width', width / data.length)
+			.attr('height', function (d) { return y(d.count); })
+			.attr('class', 'bar');
+
+		console.log(x.ticks());
+
+
 		// render the line
-		points.append('path')
+		/*points.append('path')
 			.attr('d', line(data))
-			.attr('class', 'line-points');
+			.attr('class', 'line-points');*/
 
 		// x axis function
 		var xAxis = d3.svg.axis()
@@ -108,16 +124,55 @@ var Interactions = (function () {
 	 * @param  {Object} _data The data object
 	 */
 	var timeframe = function (_data) {
-		total = 0;
+
+		var ticks	= 20,
+			max		= parseInt(d3.max(d3.keys(_data)), 10),
+			min		= parseInt(d3.min(d3.keys(_data)), 10),
+			range	= max - min,
+			times	= {};
+
+		// work out the range, the smallest number we want is 1
+		range = Math.ceil(range / ticks);
+
+		// populate our time object with our time buckets
+		for (var i = min; i < (min + (range * ticks)); i += range) {
+			times[i] = 0;
+		}
+
+		// go through the data and see if it belongs to a bucket
 		for (var key in _data) {
 			if (_data.hasOwnProperty(key)) {
-				data.push({
-					'time': new Date(parseInt(key, 10)),
-					'count': _data[key].count
-				});
-				total += _data[key].count;
+
+				var currentTime = parseInt(key, 10),
+					previous	= 0;
+
+				for (var time in times) {
+					if (times.hasOwnProperty(time)) {
+						time = parseInt(time, 10);
+						if (currentTime <= time && currentTime > previous) {
+							times[time] += parseInt(_data[key].count, 10);
+						}
+						previous = time;
+					}
+				}
 			}
-		}	
+		}
+
+		// reset the data
+		data = [];
+		// reset the total
+		total = 0;
+
+		// go through the data and convert to an array
+		for (var timestamp in times) {
+			if (times.hasOwnProperty(timestamp)) {
+				data.push({
+					'time': new Date(parseInt(timestamp, 10)),
+					'count': times[timestamp]
+				});
+				total += times[timestamp];
+			}
+		}
 	};
 
 

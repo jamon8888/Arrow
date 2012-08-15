@@ -271,7 +271,9 @@ header {
 .interactions { stroke: #fd9846; fill: none; }
 .interactions-area { fill: #EFEFEF; }
 
-.interactions-total { background: #EFEFEF; font-size: 80px; font-family: ff-din-round-web,Helvetica,Arial,sans-serif; position: absolute; top: 40px; left: 70px; line-height: 50px; }
+#interactions rect { fill: rgba(253, 152, 70, 0.5); }
+
+.interactions-total { background: rgba(255, 255, 255, 0.3); font-size: 80px; font-family: ff-din-round-web,Helvetica,Arial,sans-serif; position: absolute; top: 20px; left: 70px; padding: 20px; }
 .interactions-total span { font-size: 24px; }
 
 
