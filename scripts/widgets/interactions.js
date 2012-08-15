@@ -60,14 +60,6 @@ var Interactions = (function () {
 			.append('g')
 			.attr('id', 'points');
 
-		// create the line function
-		var line = d3.svg.line()
-			.x(function (value) { return x(value.time); })
-			.y(function (value) { return y(value.count); });
-
-
-
-
 		chart.selectAll("rect")
 			.data(data)
 		.enter()
@@ -77,14 +69,6 @@ var Interactions = (function () {
 			.attr('width', width / data.length)
 			.attr('height', function (d) { return y(d.count); })
 			.attr('class', 'bar');
-
-		console.log(x.ticks());
-
-
-		// render the line
-		/*points.append('path')
-			.attr('d', line(data))
-			.attr('class', 'line-points');*/
 
 		// x axis function
 		var xAxis = d3.svg.axis()

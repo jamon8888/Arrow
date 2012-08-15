@@ -22,7 +22,7 @@ var Dashboard = (function () {
 		width			= false,
 		interactions	= false,
 		total			= 0,
-		renderTime		= 50,
+		renderTime		= 20,
 		rendering		= false;
 
 	/**
@@ -59,7 +59,6 @@ var Dashboard = (function () {
 
 			if (Object.keys(data.string).length > 0 || Object.keys(data.latlong).length > 0 || Object.keys(data.number).length > 0) { 
 				Loading.update(100);
-				
 				build();
 				startStreaming();
 			} else {
