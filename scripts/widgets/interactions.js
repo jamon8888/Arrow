@@ -118,6 +118,11 @@ var Interactions = (function () {
 		// work out the range, the smallest number we want is 1
 		range = Math.ceil(range / ticks);
 
+		// compensate for really really slow streams
+		if (range === 0) {
+			range = 1000;
+		}
+
 		// populate our time object with our time buckets
 		for (var i = min; i < (min + (range * ticks)); i += range) {
 			times[i] = 0;
