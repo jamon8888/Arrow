@@ -1,6 +1,6 @@
 # Arrow
 
-Visualise data from DataSift
+Visualize data from DataSift
 
 ## About Arrow
 
