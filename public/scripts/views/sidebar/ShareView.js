@@ -3,9 +3,10 @@ define([
 	'underscore',
 	'backbone',
 	'collections/dashboard/DashboardCollection',
+	'collections/user/DataSourceUserCollection',
 	'views/popup/PopupView',
 	'text!templates/Share.html'
-], function ($, _, Backbone, DashboardCollection, PopupView, ShareTemplate) {
+], function ($, _, Backbone, DashboardCollection, DataSourceUserCollection, PopupView, ShareTemplate) {
 
 	'use strict';
 
@@ -22,7 +23,7 @@ define([
 				datasources = localStorage.getItem('DataSourceUserModel');
 
 			// we need to strip the sensitive parameters our of the datasources
-			for (var model in datasources) {
+			/*for (var model in datasources) {
 				if (datasources[model].datasources !== undefined) { 
 					for (var ds in datasources[model].datasources) {
 						for (var key in datasources[model].datasources[ds]) {
@@ -32,22 +33,13 @@ define([
 						}
 					}
 				}
-			}
-
-
+			}*/
 
 			var download = {};
 			// get everything in our localstorage
 			Object.keys(localStorage).forEach(function (key) {
-				download[key] = localStorage.get(key);
+				download[key] = localStorage.getItem(key);
 			});
-
-				
-			var download = {
-				'data': data,
-				'dashboards': dashboards,
-				'datasources': datasources
-			};
 
 			download = JSON.stringify(download);
 			download = escape(download);
@@ -79,30 +71,46 @@ define([
 				d = unescape(d);
 				d = JSON.parse(d);
 
-				// add all the datasources
-				var data = JSON.parse(localStorage.getItem('data')) || {},
-					dashboards = JSON.parse(localStorage.getItem('DashboardCollection')) || {},
-					datasources = JSON.parse(localStorage.getItem('DataSourceUserModel')) || {};
-
-
-				console.log(DashboardCollection);
-
-				DashboardCollection.update(d.dashboards);
-
-				return;
-
-				_.extend(data, d.data);
-				_.extend(dashboards, d.dashboards);
-				_.extend(datasources, d.datasources);
-
-
+				// data
+				var data = JSON.parse(localStorage.getItem('data')) || {};
+				d.data = JSON.parse(d.data);
+				for (var id in d.data) {
+					if (d.data.hasOwnProperty(id)) {
+						if (data[id] === undefined) {
+							data[id] = d.data[id];
+						} else {
+							// attempt to extend it
+							_.extend(data[id], d.data[id]);
+						}
+					}
+				}
 				localStorage.setItem('data', JSON.stringify(data));
-				localStorage.setItem('DashboardCollection', JSON.stringify(dashboards));
-				localStorage.setItem('DataSourceUserModel', JSON.stringify(datasources));
 
-				DashboardCollection.fetch();
+				// datasources
+				var datasources = d.DataSourceCollection.split(',');
+				_.each(datasources, function (ds) {
+					var item = JSON.parse(d['DataSourceCollection-' + ds]);
+					if (!DataSourceUserCollection.get(item.id)) {
+						DataSourceUserCollection.create(item);
+					} else {
+						console.log('Datasource already exists');
+					}
+				});
 
-			};
+				// dashboards
+				var dashboards = d.DashboardCollection.split(',');
+				_.each(dashboards, function (dashboard) {
+					var item = JSON.parse(d['DashboardCollection-' + dashboard]);
+					if (!DashboardCollection.get(item.id)) { 
+						DashboardCollection.create(item);
+					} else {
+						console.log('Dashboard already exists');
+					}
+				});
+
+				this.popup.remove();
+			}.bind(this);
+
 			reader.readAsDataURL(file);
 		}
 
