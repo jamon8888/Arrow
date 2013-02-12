@@ -18,27 +18,22 @@ define([
 
 		render: function () {
 
-			var data = JSON.parse(localStorage.getItem('data')),
-				dashboards = localStorage.getItem('DashboardCollection'),
-				datasources = localStorage.getItem('DataSourceUserModel');
-
-			// we need to strip the sensitive parameters our of the datasources
-			/*for (var model in datasources) {
-				if (datasources[model].datasources !== undefined) { 
-					for (var ds in datasources[model].datasources) {
-						for (var key in datasources[model].datasources[ds]) {
-							if (key !== 'name' && key !== 'niceName' && key !== 'id') {
-								delete(datasources[model].datasources[ds][key]);
-							}
-						}
-					}
-				}
-			}*/
-
 			var download = {};
 			// get everything in our localstorage
 			Object.keys(localStorage).forEach(function (key) {
 				download[key] = localStorage.getItem(key);
+			});
+
+			// we need to remove the sensitive information from the datasources
+			var datasources = download.DataSourceCollection.split(',');
+			_.each(datasources, function (datasource) {
+				var ds = JSON.parse(download['DataSourceCollection-' + datasource]);
+				for (var key in ds) {
+					if (key !== 'name' && key !== 'niceName' && key !== 'id') {
+						delete(ds[key]);
+					}
+				}
+				download['DataSourceCollection-' + datasources] = JSON.stringify(ds);
 			});
 
 			download = JSON.stringify(download);
