@@ -130,7 +130,7 @@ define([
 				xaxis = svg.append('g')
 					.attr('class', 'xaxis')
 					.attr('transform', 'translate(0,' + height + ')')
-					.call(d3.svg.axis().scale(this.xfunc).orient('bottom').ticks(5).tickFormat(d3.time.format("%H:%M:%S")));
+					.call(d3.svg.axis().scale(this.xfunc).orient('bottom').ticks(5));
 
 				svg.selectAll('.xaxis .tick')
 					.attr('y2', height)
