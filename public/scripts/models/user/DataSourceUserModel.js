@@ -32,7 +32,7 @@ define([
 		start: function () {
 
 			if (this.datasource === undefined) {
-				
+				this.datasource = this.getDataSource();
 			}
 
 			this.datasource.play();

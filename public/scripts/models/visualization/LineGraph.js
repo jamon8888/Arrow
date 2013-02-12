@@ -150,7 +150,6 @@ define([
 				lines[s] = this.lineCreator(this.get('x'), s);
 			}.bind(this));
 
-
 			/*
 			var splitData = [],
 				counter = 0;
