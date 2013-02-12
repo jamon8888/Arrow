@@ -1,0 +1,31 @@
+<div class="form linechart">
+	<input type="text" placeholder="X Axis, e.g. Time" class="axis element" name="x" value="<%= x %>" />
+
+	<% if (series.length > 0) { %>
+		<% _.each(series, function (y, count) { %>
+			<input type="text" placeholder="Series <%= count+1 %>" class="axis element series" name="y<%= count+1 %>" value="<%= y %>" />
+		<% }) %>
+	<% } else { %>
+		<input type="text" placeholder="Series 1" class="axis element series" name="y1" />
+	<% } %>
+
+	<div class="addone">
+		Add another series
+	</div>
+
+	<script type="text/javascript">
+		$('.linechart .addone').on('click', function () {
+
+			var series = $('.linechart .series');
+
+			var input = $('<input>', {
+				'placeholder': 'Series ' + (series.length + 1),
+				'class': 'axis element series',
+				'type': 'text',
+				'name': 'y' + (series.length + 1)
+			});
+
+			$(series[series.length-1]).after(input);
+		});
+	</script>
+</div>

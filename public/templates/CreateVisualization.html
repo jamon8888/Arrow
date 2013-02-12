@@ -1,0 +1,36 @@
+<div class="header">
+    <h1 class="glyph new-vis"></h1>
+    <div class="close"></div>
+</div>
+
+<div class="form">
+
+    <input type="text" class="element" name="userName" placeholder="Name" value="<%= userName %>" />
+
+    <div class="selector">
+        <ul class="visualization">
+            <li class="<%= visualization ? '' : 'selected' %>">Choose a visualization ...</li>
+            <% _.each(visualizations, function (v) { %>
+                <li data-name="<%= v.prototype.defaults.name %>" <%= visualization === v.prototype.defaults.name ? 'class="selected"' : '' %>>
+                    <%= v.prototype.defaults.niceName %>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+
+    <div class="selector">
+        <ul class="datasource">
+            <li class="<%= datasource ? '' : 'selected' %>">Choose a data source ...</li>
+            <% datasources.each(function (ds) { %>
+                <li data-id="<%= ds.attributes.id %>" <%= ds.attributes.id === datasource ? 'class="selected"' : '' %>>
+                    <%= ds.attributes.niceName %>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+
+    <div class="varea"></div>
+
+    <div class="btn blue">Add</div>
+
+</div>

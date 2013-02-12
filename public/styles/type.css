@@ -1,0 +1,10 @@
+body {
+	font-family: sans-serif;
+	font-size: 14px;
+	line-height: 1.5em;
+	color: #444;
+}
+
+a { color: #FF8A00; }
+
+.center { text-align: center; }

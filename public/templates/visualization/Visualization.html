@@ -1,0 +1,36 @@
+<div class="flipper" style="height:<%= height %>px; width:<%= width %>px;">
+	<!-- front -->
+	<div class="front pane" style="height:<%= height %>px; width:<%= width %>px;">
+		<div class="header">
+			<span class="title"><%= title %></span>
+			<div class="settings"></div>
+		</div>
+		<div class="chart">
+		</div>
+	</div>
+
+	<!-- back -->
+	<div class="back pane" style="height:<%= height %>px; width:<%= width %>px;">
+
+		<!-- basic -->
+		<div class="header">
+			<span>Basic Settings</span>
+			<div class="return"></div>
+		</div>
+		<div class="body">
+			<input type="text" class="element" name="name" value="<%= title %>" />
+			<div class="left" style="width: 50%; -webkit-box-sizing: border-box; padding-right: 20px;">
+				<div class="btn save blue">
+					Save
+				</div>
+			</div>
+			<div class="btn grey advanced right" style="width: 50%">
+				Advanced
+			</div>
+		</div>
+
+		<div class="delete">Delete</div>
+
+		<div class="drag"></div>
+	</div>
+</div>

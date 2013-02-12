@@ -1,0 +1,34 @@
+!!!5
+html
+
+    title Arrow - the next generation
+
+    script(data-main="scripts/arrow", src="/scripts/libraries/require/require.js")
+    
+    // styles
+    link(href='http://fonts.googleapis.com/css?family=Open+Sans:400,600', rel='stylesheet', type='text/css')
+    link(href="/styles/style.css", rel="stylesheet", type="text/css")
+
+
+
+body
+    #arrow
+
+        header
+            h1 Arrow
+            
+        aside
+            ul#dashboardlist
+
+            div#newdashboard(style="display:none")
+                input(type="text", placeholder="Name your dashboard") 
+
+
+            div#createdashboard.btn.blue New
+
+            div#share(data-tip="Share") Share
+
+            div#settings
+                div#preferences(data-tip="Settings")
+
+        content

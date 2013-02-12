@@ -1,0 +1,56 @@
+<div class="header">
+    <h1 class="glyph data-source"></h1>
+    <div class="close"></div>
+</div>
+
+<div class="manageDataSource">
+
+    <ul class="datasource currentlist">
+        <% if (UserDataSources && UserDataSources.length > 0) { %>
+            <% UserDataSources.each(function (ds) {  console.log(ds) %>
+                <li>
+                    <div class="name"><%= ds.get('niceName') %></div>
+                    <div class="glyph toggle <%= ds.get('running') ? 'stop' : 'start' %>" data-id="<%= ds.get('id') %>" data-tip="Toggle"></div>
+                    <div class="glyph edit" data-id="<%= ds.get('id') %>" data-tip="Edit"></div>
+                    <div class="glyph delete" data-id="<%= ds.get('id') %>" data-tip="Delete"></div>
+                </li>
+            <% }) %>
+        <% } else { %>
+            <li>You haven't added any datasources</li>
+        <% } %>
+    </ul>
+    <div class="btn blue add">Add Data Source</div>
+</div>
+
+<div class="editDataSource" style="display: none;">
+
+    <div class="form">
+    
+        <select id="choosetype">
+            <option>Choose Type</option>
+            <% _.each(datasources, function (ds) { %>
+                <option value="<%= ds.prototype.defaults.name %>">
+                    <%= ds.prototype.defaults.name %>
+                </option>
+            <% }); %>
+        </select>
+
+        <% _.each(datasources, function (ds) { %>
+            <div class="type <%= ds.prototype.defaults.name %>" style="display:none;">
+                <%
+                    for (field in ds.prototype.defaults) { 
+                        if (ds.prototype.defaults.hasOwnProperty(field)) {
+                            if (field !== 'name') {
+                                %>
+                                    <input type="text" class="element" placeholder="<% print(field.slice(0, 1).toUpperCase() + field.slice(1)) %>" name="<%= field %>" />
+                                <%
+                            }
+                        }
+                    }
+                %>
+            </div>
+        <% }) %>
+
+        <div class="btn blue save">Save</div>
+    </div>
+</div>

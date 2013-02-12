@@ -1,0 +1,112 @@
+
+body { background: #FFFFFF; margin: 0; padding: 0; }
+
+aside { 
+	background: #556270;
+	bottom: 0;
+	left: 0;
+	position: fixed;
+	top: 0;
+	width: 170px;
+}
+
+header {
+	background: url('/images/arrow.png') no-repeat center center;
+	height: 170px;
+	width: 170px;
+}
+
+
+#dashboardlist {
+	border-top: 1px solid #828e9b;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+#dashboardlist li {
+	border-bottom: 1px solid #828e9b;
+	color: #FFFFFF;
+	cursor: pointer;
+	font-size: 14px;
+	padding: 10px 20px;
+	position: relative;
+}
+
+#dashboardlist li.selected {
+	background: #828e9b;
+}
+
+#dashboardlist li:hover:not(.selected) span.edit {dr
+	background: rgba(0,0,0,0.05) url('/images/edit.png') no-repeat center center;
+	display: block;
+	position: absolute;
+	bottom: -1px;
+	top: -1px;
+	left: 170px;
+	width: 50px;
+}
+
+#createdashboard {
+	background: url('/images/add.png') no-repeat center 0;
+	cursor: pointer;
+	height: 25px;
+	margin: 20px 0;
+}
+
+#createdashboard:hover, #createdashboard:focus {
+	background-position: center -25px;
+}
+
+content { float: left; margin-left: 170px; padding: 20px; }
+
+
+
+#settings {
+	border-top: 1px solid #828e9b;
+	margin-top: 20px;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	position: absolute;
+	padding: 10px;
+}
+
+#settings #preferences {
+	background: url('/images/settings.png') no-repeat;
+	height: 20px;
+	width: 20px;
+	cursor: pointer;
+}
+
+#settings #preferences:hover { 
+	background-position: 0 -20px;
+}
+
+
+
+.addDataSource {
+
+}
+
+path { fill: none; stroke: red; }
+svg text { font-size: 12px; }
+
+#autocomplete { position: absolute; z-index: 99; width: 200px; background: red; color: #FFFFFF; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
