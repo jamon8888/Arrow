@@ -3,9 +3,8 @@ define([
 	'underscore',
 	'backbone',
 	'models/datasource/DataSourceModel',
-	'models/datasource/DataSiftDataSourceModel',
-	'models/datasource/GraphiteDataSourceModel'
-], function ($, _, Backbone, DataSourceModel, DataSiftDataSourceModel, GraphiteDataSourceModel) {
+	'models/datasource/DataSiftDataSourceModel'
+], function ($, _, Backbone, DataSourceModel, DataSiftDataSourceModel) {
 
 	'use strict';
 
