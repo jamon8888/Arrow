@@ -24,17 +24,19 @@ define([
 				download[key] = localStorage.getItem(key);
 			});
 
-			// we need to remove the sensitive information from the datasources
-			var datasources = download.DataSourceCollection.split(',');
-			_.each(datasources, function (datasource) {
-				var ds = JSON.parse(download['DataSourceCollection-' + datasource]);
-				for (var key in ds) {
-					if (key !== 'name' && key !== 'niceName' && key !== 'id') {
-						delete(ds[key]);
+			if (download.DataSourceCollection) {
+				// we need to remove the sensitive information from the datasources
+				var datasources = download.DataSourceCollection.split(',');
+				_.each(datasources, function (datasource) {
+					var ds = JSON.parse(download['DataSourceCollection-' + datasource]);
+					for (var key in ds) {
+						if (key !== 'name' && key !== 'niceName' && key !== 'id') {
+							delete(ds[key]);
+						}
 					}
-				}
-				download['DataSourceCollection-' + datasources] = JSON.stringify(ds);
-			});
+					download['DataSourceCollection-' + datasources] = JSON.stringify(ds);
+				});
+			}
 
 			download = JSON.stringify(download);
 			download = escape(download);
