@@ -2,11 +2,10 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
-	'collections/dashboard/DashboardCollection',
-	'collections/user/DataSourceUserCollection',
+	'models/sync/SyncModel',
 	'views/popup/PopupView',
 	'text!templates/Share.html'
-], function ($, _, Backbone, DashboardCollection, DataSourceUserCollection, PopupView, ShareTemplate) {
+], function ($, _, Backbone, SyncModel, PopupView, ShareTemplate) {
 
 	'use strict';
 
@@ -18,34 +17,13 @@ define([
 		},
 
 		exportData: function () {
-			var download = {};
-			// get everything in our localstorage
-			Object.keys(localStorage).forEach(function (key) {
-				download[key] = localStorage.getItem(key);
-			});
 
-			if (download.DataSourceCollection) {
-				// we need to remove the sensitive information from the datasources
-				var datasources = download.DataSourceCollection.split(',');
-				_.each(datasources, function (datasource) {
-					var ds = JSON.parse(download['DataSourceCollection-' + datasource]);
-					for (var key in ds) {
-						if (key !== 'name' && key !== 'niceName' && key !== 'id') {
-							delete(ds[key]);
-						}
-					}
-					download['DataSourceCollection-' + datasources] = JSON.stringify(ds);
-				});
-			}
-
-			download = JSON.stringify(download);
-			return download;
 		},
 
 		render: function () {
 
-			var download = this.exportData();
-			download = escape(download);
+			var download = SyncModel.exportData();
+			download = escape(JSON.stringify(download));
 
 			// encode into base64
 			var base64 = 'data:application/octet-stream;base64,' + window.btoa(download);
@@ -74,42 +52,8 @@ define([
 				d = unescape(d);
 				d = JSON.parse(d);
 
-				// data
-				var data = JSON.parse(localStorage.getItem('data')) || {};
-				d.data = JSON.parse(d.data);
-				for (var id in d.data) {
-					if (d.data.hasOwnProperty(id)) {
-						if (data[id] === undefined) {
-							data[id] = d.data[id];
-						} else {
-							// attempt to extend it
-							_.extend(data[id], d.data[id]);
-						}
-					}
-				}
-				localStorage.setItem('data', JSON.stringify(data));
-
-				// datasources
-				var datasources = d.DataSourceCollection.split(',');
-				_.each(datasources, function (ds) {
-					var item = JSON.parse(d['DataSourceCollection-' + ds]);
-					if (!DataSourceUserCollection.get(item.id)) {
-						DataSourceUserCollection.create(item);
-					} else {
-						console.log('Datasource already exists');
-					}
-				});
-
-				// dashboards
-				var dashboards = d.DashboardCollection.split(',');
-				_.each(dashboards, function (dashboard) {
-					var item = JSON.parse(d['DashboardCollection-' + dashboard]);
-					if (!DashboardCollection.get(item.id)) { 
-						DashboardCollection.create(item);
-					} else {
-						console.log('Dashboard already exists');
-					}
-				});
+				SyncModel.importData(d);
+				
 
 				this.popup.remove();
 			}.bind(this);
@@ -124,7 +68,10 @@ define([
 
 			var ws = new WebSocket('ws://' + host);
 			ws.onopen = function (event) {
-				ws.send(this.exportData());
+				ws.send(JSON.stringify({
+					'method': 'sync',
+					'payload': SyncModel.exportData()
+				}));
 			}.bind(this);
 		}
 

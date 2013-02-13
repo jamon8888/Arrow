@@ -16,17 +16,23 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(express.static(__dirname + '/public', { /*maxAge: 3600000*/ }));
 
-app.get('/', function(reg, res) {
+app.get('/', function(req, res) {
 	res.render('index.jade');
 });
 
-var sync = function (res) {
+app.get('/dashboard/:key?', function (req, res) {
+	res.render('index.jade');
+});
 
-	// recieve the stream of data
-	console.log(res);
-	// generate a key
-	// save to redis
-	// return the key
+var sync = function (data, client) {
+
+	var redisClient = redis.createClient(),
+		key = Date.now();
+
+	console.log(data);
+
+	redisClient.set(key, JSON.stringify(data), redis.print);
+	client.socket.send('' + key + '');
 };
 
 ws.on('connection', function (socket) {
@@ -36,7 +42,20 @@ ws.on('connection', function (socket) {
 		'socket': socket
 	};
 
-	socket.on('message', sync);
+	var redisClient = redis.createClient();
+
+	socket.on('message', function (res) {
+
+		res = JSON.parse(res);
+
+		if (res.method === 'sync') {
+			sync(res.payload, client);
+		} else {
+			redisClient.get(res.key, function (err, data) {
+				socket.send(data);
+			});
+		}
+	});
 
 	clients.push(client);
 });
