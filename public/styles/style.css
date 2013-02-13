@@ -8,13 +8,19 @@ body { font-family: 'Open Sans', sans-serif; font-size: 12px; }
 h1 {font-size:1.5em;font-weight:100;}
 
 /* Header */
-header { background: #273139; height: 80px; position: absolute; width: 100%; z-index: 2; }
+header { background: #273139; height: 60px; position: absolute; width: 100%; z-index: 2; }
 header h1 { display: none; }
 
-/* Sidebar */
-aside { background: #F4F4F4; bottom: 0; left: 0; padding-top: 80px; position: fixed; top: 0; width: 200px; z-index: 1; }
+header .inner {position:relative;overflow:hidden;height:60px;}
+header .inner .options {position:absolute;right:10px;top:10px;}
+header .options .btn {float:left;padding:0 10px;}
+header .options #share {margin-left:10px;}
+header .btn {font-size:12px;}
 
-aside .btn { margin-left: 20px; width: 160px; margin-top: 20px; }
+/* Sidebar */
+aside { background: #F4F4F4; bottom: 0; left: 0; padding-top: 60px; position: fixed; top: 0; width: 200px; z-index: 1; }
+
+aside .btn { margin-left: 20px; width: 160px; margin-top:20px; }
 
 #dashboardlist { list-style: none; margin: 0; padding: 0; }
 #dashboardlist li { background: #515f6f; color: #FFFFFF; cursor: pointer; padding: 20px; font-weight: 600; margin-bottom:1px; position: relative; -webkit-transition:all 300ms ease; }
@@ -32,7 +38,7 @@ aside .btn { margin-left: 20px; width: 160px; margin-top: 20px; }
 #newdashboard input { border: none; background: #747f8c; color: #FFF; margin: 0; width: 100% font-family: inherit; font-size:inherit; padding:0; width: 100%; }
 
 /* Content */
-content { float: left; margin: 80px 0 0 200px; padding: 10px; }
+content { float: left; margin: 60px 0 0 200px; padding: 10px; }
 
 /* Charts */
 .vis { height: 300px; float: left; margin: 10px; width: 300px; }
@@ -75,11 +81,14 @@ input[type="text"].error { border-color: #895099; }
 
 .select { height: 30px; }
 
-.btn { border: 1px solid #1a2127; border-radius: 3px; color: #FFFFFF; height: 40px;  -webkit-box-sizing: border-box; -webkit-box-shadow: inset 0 1px 0px rgba(255,255,255,0.2); text-align: center; line-height: 40px; font-size: 14px; font-weight: 600; cursor: pointer; }
-.btn.blue { background: #00afd4; }
-.btn.grey { background: #515f6f; }
-.btn.red {background:#f04747;}
-	.deleteTile {padding:0 20px;}
+/*.btn { border: 1px solid #1a2127; border-radius: 3px; color: #FFFFFF; height: 40px;  -webkit-box-sizing: border-box; -webkit-box-shadow: inset 0 1px 0px rgba(255,255,255,0.2); text-align: center; line-height: 40px; font-size: 14px; font-weight: 600; cursor: pointer; }*/
+.btn {position: relative; border-radius: 4px; color: #FFFFFF; height: 40px;  -webkit-box-sizing: border-box; text-align: center; line-height: 40px; font-size: 14px; font-weight: 600; cursor: pointer; }
+.btn.blue { background: #00afd4; -webkit-box-shadow:  0 4px 0 0 #009abb;}
+	.btn.blue:active {-webkit-box-shadow:  0 2px 0 0 #009abb;top:2px;}
+.btn.grey { background: #515f6f; -webkit-box-shadow:0 4px 0 0 #394756;}
+	.btn.grey:active {-webkit-box-shadow:0 2px 0 0 #394756;top:2px;}
+.btn.red {background:#f04747;-webkit-box-shadow:0 4px 0 0 #d03030;}
+	.btn.red:active {-webkit-box-shadow:0 2px 0 0 #d03030;top:2px;}
 
 aside .btn.blue { border-color:#00a5c8;}
 
@@ -108,7 +117,7 @@ aside .btn.blue { border-color:#00a5c8;}
 #popup .header { position: relative; overflow: hidden; text-align: center;}
 #popup .close { background: url('/images/sprite.png') no-repeat 0 -432px; cursor: pointer; float: right; display:block; height: 20px; width: 20px; position:absolute; top:10px; right: 10px; }
 #popup .close:hover { background: url('/images/sprite.png') no-repeat 0 -452px; }
-#popup .form { padding: 0 20px 20px 20px; font-size: 12px; color: white;}
+#popup .form { padding: 20px; font-size: 12px; color: white;}
 #popup .form.linechart { padding: 0; }
 
 #popup .btn.grey {margin-bottom:10px;}
@@ -138,6 +147,7 @@ aside .btn.blue { border-color:#00a5c8;}
 #popup .datasource li .delete:hover { background: url(/images/sprite.png) no-repeat -20px -532px; right:0; }
 
 .deleteTile {position:absolute;bottom:10px;left:10px;}
+	.deleteTile .btn {padding:0 10px;}
 
 /* LineGraph */
 .linegraph .yaxis path { stroke-width: 1px; stroke: #2f3941; fill: none; shape-rendering: crispEdges; }
