@@ -51,7 +51,7 @@ content { float: left; margin: 60px 0 0 200px; padding: 10px; }
 .vis .header .settings:hover { background-position: 0 -20px; }
 .vis .header .return { background-position: 0 -80px; }
 .vis .header .return:hover { background-position: 0 -100px; }
-.vis .body { padding: 10px; }
+.vis .body { padding: 20px; }
 
 /* flipping effect - horizontal flip */
 .vis { -webkit-perspective: 1000; }
@@ -152,7 +152,7 @@ aside .btn.blue { border-color:#00a5c8;}
 #popup .datasource li .delete { background: url(/images/sprite.png) no-repeat 0 -532px; right:0; }
 #popup .datasource li .delete:hover { background: url(/images/sprite.png) no-repeat -20px -532px; right:0; }
 
-.deleteTile {position:absolute;bottom:14px;left:10px;}
+.deleteTile {position:absolute;bottom:24px;left:20px;}
 	.deleteTile .btn {padding:0 20px;}
 
 /* LineGraph */
