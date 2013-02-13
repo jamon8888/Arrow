@@ -13,11 +13,11 @@ define([
 	var ShareView = Backbone.View.extend({
 
 		events: {
-			'change #upload': 'upload'
+			'change #upload': 'upload',
+			'click #sync': 'sync'
 		},
 
-		render: function () {
-
+		exportData: function () {
 			var download = {};
 			// get everything in our localstorage
 			Object.keys(localStorage).forEach(function (key) {
@@ -39,6 +39,12 @@ define([
 			}
 
 			download = JSON.stringify(download);
+			return download;
+		},
+
+		render: function () {
+
+			var download = this.exportData();
 			download = escape(download);
 
 			// encode into base64
@@ -109,6 +115,17 @@ define([
 			}.bind(this);
 
 			reader.readAsDataURL(file);
+		},
+
+		sync: function () {
+
+			var location = window.location,
+				host = location.host;
+
+			var ws = new WebSocket('ws://' + host);
+			ws.onopen = function (event) {
+				ws.send(this.exportData());
+			}.bind(this);
 		}
 
 	});
