@@ -23,7 +23,7 @@ define([
 		events: {
 			'click #createdashboard': 'showDialog',
 			'click #preferences': 'openDataSources',
-			'click #share': 'share',
+			'click #importExport': 'share',
 			'keyup #newdashboard input': 'createDashboard'
 		},
 

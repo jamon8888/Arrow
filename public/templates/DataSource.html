@@ -1,5 +1,6 @@
 <div class="header">
-    <h1 class="glyph data-source"></h1>
+    <!-- <h1 class="glyph data-source"></h1> -->
+    <h1>Data Sources</h1>
     <div class="close"></div>
 </div>
 
@@ -25,7 +26,7 @@
 <div class="editDataSource" style="display: none;">
 
     <div class="form">
-    
+
         <select id="choosetype">
             <option>Choose Type</option>
             <% _.each(datasources, function (ds) { %>
@@ -38,7 +39,7 @@
         <% _.each(datasources, function (ds) { %>
             <div class="type <%= ds.prototype.defaults.name %>" style="display:none;">
                 <%
-                    for (field in ds.prototype.defaults) { 
+                    for (field in ds.prototype.defaults) {
                         if (ds.prototype.defaults.hasOwnProperty(field)) {
                             if (field !== 'name') {
                                 %>
