@@ -16,14 +16,11 @@ define([
 			'click #sync': 'sync'
 		},
 
-		exportData: function () {
-
-		},
-
 		render: function () {
 
 			var download = SyncModel.exportData();
-			download = escape(JSON.stringify(download));
+			download = JSON.stringify(download);
+			download = escape(download);
 
 			// encode into base64
 			var base64 = 'data:application/octet-stream;base64,' + window.btoa(download);
@@ -54,7 +51,6 @@ define([
 
 				SyncModel.importData(d);
 				
-
 				this.popup.remove();
 			}.bind(this);
 

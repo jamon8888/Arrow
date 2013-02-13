@@ -29,8 +29,6 @@ var sync = function (data, client) {
 	var redisClient = redis.createClient(),
 		key = Date.now();
 
-	console.log(data);
-
 	redisClient.set(key, JSON.stringify(data), redis.print);
 	client.socket.send('' + key + '');
 };

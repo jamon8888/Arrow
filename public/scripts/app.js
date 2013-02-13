@@ -41,7 +41,7 @@ define([
 					'key': path[2]
 				}));
 				ws.onmessage = function (data) {
-					data = JSON.parse(data);
+					data = JSON.parse(data.data);
 					SyncModel.importData(data);
 					load();
 				};
