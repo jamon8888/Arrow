@@ -19,7 +19,7 @@ define([
 			'click .del': 'del'
 		},
 
-		template: _.template('<div class="del" data-tip="Delete"></div><%= title %>'),
+		template: _.template('<div class="del"></div><%= title %>'),
 
 		/**
 		 * Watch for change events
@@ -38,8 +38,8 @@ define([
 
 			// is this dashboard selected
 			if (this.model.get('hidden')){
-				this.$el.removeClass('selected'); 
-			} else { 
+				this.$el.removeClass('selected');
+			} else {
 				this.$el.addClass('selected');
 			}
 
