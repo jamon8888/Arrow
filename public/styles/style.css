@@ -10,7 +10,7 @@ p {margin:0 0 20px 0;}
 input {margin-top:0;}
 /* Header */
 header { background: #313841; height: 60px; position: absolute; width: 100%; z-index: 2; }
-header h1 { display:block;width: 210px;height: 43px;background:url(/images/logo.png) no-repeat; position: absolute;left:50%;margin-left:-105px;overflow:hidden;text-indent: -100%;}
+header h1 { display:block;width: 160px;height: 40px;background:url(/images/logo.png) no-repeat; position: absolute;left:50%;margin-left:-80px;overflow:hidden;text-indent: -100%;}
 
 header .inner {position:relative;overflow:hidden;height:60px;}
 header .inner .options {position:absolute;right:10px;top:8px;}
