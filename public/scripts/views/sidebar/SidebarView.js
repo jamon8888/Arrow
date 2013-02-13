@@ -5,11 +5,10 @@ define([
 	'views/sidebar/DashboardListView',
 	'views/popup/PopupView',
 	'views/sidebar/DataSourceView',
-	'views/sidebar/ShareView',
 	'collections/dashboard/DashboardCollection',
 	'models/datasource/DataSourceManagerModel',
 	'models/user/DataSourceUserModel'
-], function ($, _, Backbone, DashboardListView, PopupView, DataSourceView, ShareView, DashboardCollection, DataSourceManagerModel, DataSourceUserModel) {
+], function ($, _, Backbone, DashboardListView, PopupView, DataSourceView, DashboardCollection, DataSourceManagerModel, DataSourceUserModel) {
 
 	'use strict';
 
@@ -23,7 +22,6 @@ define([
 		events: {
 			'click #createdashboard': 'showDialog',
 			'click #preferences': 'openDataSources',
-			'click #importExport': 'share',
 			'keyup #newdashboard input': 'createDashboard'
 		},
 
@@ -64,11 +62,6 @@ define([
 		openDataSources: function () {
 			var dv = new DataSourceView({model: DataSourceManagerModel});
 			dv.render();
-		},
-
-		share: function () {
-			var sv = new ShareView();
-			sv.render();
 		}
 	});
 
