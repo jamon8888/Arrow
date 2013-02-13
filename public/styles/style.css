@@ -6,6 +6,7 @@ body { padding: 0; margin: 0; }
 /* Typography */
 body { font-family: 'Open Sans', sans-serif; font-size: 12px; }
 h1 {font-size:14px;font-weight:600;}
+p {margin:0 0 20px 0;}
 input {margin-top:0;}
 /* Header */
 header { background: #313841; height: 60px; position: absolute; width: 100%; z-index: 2; }
@@ -183,3 +184,7 @@ aside .btn.blue { border-color:#00a5c8;}
 #share {background-image:url(/images/share.png);background-position:10px;background-repeat:no-repeat;padding-left:40px;}
 #importExport {background-image:url(/images/transfer.png);background-position:10px;background-repeat:no-repeat;padding-left:40px;}
 .deleteTile .btn {background-image:url(/images/delete.png);background-position:10px;background-repeat:no-repeat;padding-left:40px;}
+
+input#url {border:0;padding:10px;margin-top:24px;background:#515f6f;color:white;-webkit-box-sizing: border-box;width:100%;}
+
+.exportOption {margin-bottom:20px;}
