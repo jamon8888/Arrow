@@ -8,9 +8,10 @@ body { font-family: 'Open Sans', sans-serif; font-size: 12px; }
 h1 {font-size:14px;font-weight:600;}
 p {margin:0 0 20px 0;}
 input {margin-top:0;}
+
 /* Header */
 header { background: #313841; height: 60px; position: absolute; width: 100%; z-index: 2; }
-header h1 { display:block;width: 80px;height: 20px;background:url(/images/logo.png) no-repeat; position: absolute;left:50%;margin-left:-40px;overflow:hidden;text-indent: -100%;top:50%;margin-top:-10px;}
+header h1 { display:block;width: 62px;height: 40px;background: url(/images/logo.png) no-repeat center; position: absolute;left:69px;overflow:hidden;text-indent: -100%;top:50%;margin-top:-20px;border-radius:4px;}
 
 header .inner {position:relative;overflow:hidden;height:60px;}
 header .inner .options {position:absolute;right:10px;top:8px;}
@@ -31,10 +32,6 @@ aside .btn { margin-left: 20px; width: 160px; margin-top:20px; }
 #dashboardlist li .del:hover { background: url(/images/dashboard-list-del.png) no-repeat bottom; }
 #dashboardlist li.selected .del { display: block; left:10px; }
 #settings {position:absolute;bottom:14px;}
-/*#settings { background: #313841; bottom: 0; height: 60px; left: 0; position: absolute; right: 0; }*/
-/*#settings #preferences { background: url('/images/sprite.png') no-repeat -80px 0; height: 20px; margin: 20px 90px; width: 20px; }*/
-/*#settings #preferences:hover { background-position: -80px -20px; cursor: pointer; }*/
-/*#settings #preferences { background: url('/images/sprite.png') no-repeat -80px 0; height: 20px; margin: 20px 90px; width: 20px; }*/
 
 #newdashboard { background: #747f8c; padding: 20px; }
 #newdashboard input { border: none; background: #747f8c; color: #FFF; margin: 0; width: 100% font-family: inherit; font-size:inherit; padding:0; width: 100%; }
@@ -74,16 +71,19 @@ content { float: left; margin: 60px 0 0 200px; padding: 10px; }
 .add:hover.vis span { background-position: 0 -160px; }
 
 /* Form */
-.element { border: 2px solid #515f6f; border-radius: 2px; box-sizing: border-box; color: #FFFFFF; width: 100%; padding: 0 10px 0 30px; line-height: 28px; font-size: 12px; font-weight: 600; margin-bottom: 10px; }
+.element { border: 2px solid #515f6f; border-radius: 2px; box-sizing: border-box; color: #FFFFFF; width: 100%; padding: 5px 10px; line-height: 28px; font-size: 12px; font-weight: 600; margin-bottom: 10px; }
 .element:focus { border: 2px solid #8091a3; }
 
-input[type="text"] { background: #313841 url('/images/sprite.png') no-repeat 5px -46px; outline: none; }
-input[type="text"]::-webkit-input-placeholder { font-style: italic; font-weight: 300; }
+/*input[type="text"] { background: #313841 url('/images/sprite.png') no-repeat 5px -46px; outline: none; }
+input[type="text"]::-webkit-input-placeholder { font-style: italic; font-weight: 300; }*/
+input[type="text"]{outline:none;background:#313841;font-weight:400;}
 input[type="text"].error { border-color: #895099; }
+
+/* Form labels */
+label {display:block;margin-bottom:10px;color:#8091a3;font-weight:600;}
 
 .select { height: 30px; }
 
-/*.btn { border: 1px solid #1a2127; border-radius: 3px; color: #FFFFFF; height: 40px;  -webkit-box-sizing: border-box; -webkit-box-shadow: inset 0 1px 0px rgba(255,255,255,0.2); text-align: center; line-height: 40px; font-size: 14px; font-weight: 600; cursor: pointer; }*/
 .btn {position: relative; border-radius: 4px; color: #FFFFFF; height: 40px;  -webkit-box-sizing: border-box; text-align: center; line-height: 40px; font-weight: 600; cursor: pointer;-webkit-transition:background 300ms ease; }
 .btn:hover {cursor:pointer;}
 .btn.blue { background-color: #00afd4; -webkit-box-shadow:  0 4px 0 0 #009abb;}
@@ -176,9 +176,6 @@ aside .btn.blue { border-color:#00a5c8;}
 
 /* Pie Tooltip */
 #tooltip { background: #1a1a1a; color: #FFFFFF; padding: 5px 8px; position: absolute; z-index: 99; font-size:14px; height:18px; line-height:18px; -webkit-border-radius: 3px; white-space:nowrap; word-wrap:normal; }
-
-
-
 
 /* Specific glyphs */
 #share {background-image:url(/images/share.png);background-position:10px;background-repeat:no-repeat;padding-left:40px;}

@@ -6,7 +6,21 @@
 
 <div class="form">
 
-    <input type="text" class="element" name="userName" placeholder="Name" value="<%= userName %>" />
+    <div class="field">
+        <label for="userName">Name</label>
+        <input type="text" class="element" name="userName" value="<%= userName %>" />
+    </div><!--/.field-->
+
+    <!-- template for each select - wrap in the 'field' markup for spacing consistency -->
+    <div class="field">
+        <label for="">Visualisation method</label>
+        <select>
+                <option value="something">
+                    something
+                </option>
+        </select>
+    </div><!--/.field-->
+
 
     <div class="selector">
         <ul class="visualization">
@@ -20,7 +34,7 @@
     </div>
 
     <div class="selector">
-        <ul class="datasource">
+        <ul class="visualization">
             <li class="<%= datasource ? '' : 'selected' %>">Choose a data source ...</li>
             <% datasources.each(function (ds) { %>
                 <li data-id="<%= ds.attributes.id %>" <%= ds.attributes.id === datasource ? 'class="selected"' : '' %>>
