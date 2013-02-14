@@ -217,7 +217,40 @@ define([
 		},
 
 		save: function () {
-			localStorage.setItem('data', JSON.stringify(this.data));
+
+			try {
+				localStorage.setItem('data', JSON.stringify(this.data));
+			} catch (exception) {
+
+				if (exception.name === "QUOTA_EXCEEDED_ERR") {
+
+					console.log('Quota exceeded, removing data');
+
+					for (var i = 0; i < 6; i++) {
+						var min = 100000000000000000000000000000,
+							prefix = '';
+						// need to find the oldest key .........
+						for (var key in this.data) {
+							for (var bucket in this.data[key]) {
+								var bucketInt = parseInt(bucket, 10);
+								if (bucketInt < min) {
+									prefix = key;
+									min = bucketInt;
+								}
+							}
+						}
+						console.log('Deleting:' + prefix + '[' + min + ']');
+						delete(this.data[prefix][min]);
+					}
+
+					console.log('Removed 60 seconds worth of data');
+					this.save();
+					return;
+				} else {
+					console.log(exception);
+				}
+
+			}
 		},
 
 		getData: function () {
