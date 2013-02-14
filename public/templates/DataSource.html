@@ -27,23 +27,23 @@
 
     <div class="form">
 
-        <select id="choosetype">
-            <option>Choose Type</option>
+        <select id="choosetype" data-placeholder="Choose DataSource Type ...." style="width:150px;">
+            <option></option>
             <% _.each(datasources, function (ds) { %>
-                <option value="<%= ds.prototype.defaults.name %>">
+                <option value="<%= ds.prototype.defaults.name %>" <%= datasource && ds.prototype.defaults.name === datasource.get('name') ? 'selected="selected"' : '' %>>
                     <%= ds.prototype.defaults.name %>
                 </option>
             <% }); %>
         </select>
 
         <% _.each(datasources, function (ds) { %>
-            <div class="type <%= ds.prototype.defaults.name %>" style="display:none;">
+            <div class="type <%= ds.prototype.defaults.name %>" <%= datasource && ds.prototype.defaults.name === datasource.get('name') ? '' : 'style="display:none"' %>>
                 <%
                     for (field in ds.prototype.defaults) {
                         if (ds.prototype.defaults.hasOwnProperty(field)) {
                             if (field !== 'name') {
                                 %>
-                                    <input type="text" class="element" placeholder="<% print(field.slice(0, 1).toUpperCase() + field.slice(1)) %>" name="<%= field %>" />
+                                    <input type="text" class="element" value="<%= datasource ? datasource.get(field) : '' %>" placeholder="<% print(field.slice(0, 1).toUpperCase() + field.slice(1)) %>" name="<%= field %>" />
                                 <%
                             }
                         }
@@ -51,6 +51,8 @@
                 %>
             </div>
         <% }) %>
+
+        <input type="hidden" value="<%= datasource ? datasource.get('id') : '' %>" name="id" />
 
         <div class="btn blue save">Save</div>
     </div>

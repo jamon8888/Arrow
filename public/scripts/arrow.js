@@ -17,10 +17,11 @@ require.config({
 		'd3': {
 			exports: 'd3'
 		},
-		'masonry': {
+		'chosen': {
 			deps: [
 				'jquery'
-			]
+			],
+			exports: 'chosen'
 		}
 	},
 
@@ -31,7 +32,8 @@ require.config({
 		localstorage: 'libraries/backbone-localstorage',
 		templates: '../templates',
 		datasift: 'libraries/ds',
-		d3: 'libraries/d3'
+		d3: 'libraries/d3',
+		chosen: 'libraries/chosen/chosen.jquery'
 	}
 });
 

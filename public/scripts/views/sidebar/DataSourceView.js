@@ -2,10 +2,11 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
+	'chosen',
 	'collections/user/DataSourceUserCollection',
 	'views/popup/PopupView',
 	'text!templates/DataSource.html'
-], function ($, _, Backbone, DataSourceUserCollection, PopupView, DataSourceTemplate) {
+], function ($, _, Backbone, Chosen, DataSourceUserCollection, PopupView, DataSourceTemplate) {
 
 	'use strict';
 
@@ -17,9 +18,9 @@ define([
 		events: {
 			'click .btn.add': 'toggleAdd',
 			'click .btn.save': 'saveDataSource',
-			'change #choosetype': 'showForm',
 			'click .toggle': 'toggleRunning',
-			'click .delete': 'remove'
+			'click .delete': 'remove',
+			'click .edit': 'edit'
 		},
 
 		render: function () {
@@ -33,11 +34,25 @@ define([
 			});
 		},
 
+		rerender: function (datasource) {
+			var form = _.template(DataSourceTemplate, {
+				'UserDataSources': DataSourceUserCollection,
+				'datasources': this.model.get('datasources'),
+				'datasource': datasource || false
+			});
+
+			$('.body', this.$el).html(form);
+			this.delegateEvents();
+			// bind the chosen form
+			this.$el.find('#choosetype').chosen().change(this.showForm);
+		},
+
 		showPopup: function () {
 
 			var form = _.template(DataSourceTemplate, {
 				'UserDataSources': DataSourceUserCollection,
-				'datasources': this.model.get('datasources')
+				'datasources': this.model.get('datasources'),
+				'datasource': false
 			});
 
 			// render the popup
@@ -47,6 +62,8 @@ define([
 			this.$el = $(this.el);
 			// rebind the events
 			this.delegateEvents();
+			// bind the chosen form
+			this.$el.find('#choosetype').chosen().change(this.showForm);
 		},
 
 		toggleAdd: function () {
@@ -69,7 +86,8 @@ define([
 			var select = $('select', '#popup'),
 				form = $('.type.' + select.val()),
 				fields = $('input', form),
-				attributes = {};
+				attributes = {},
+				id = this.$el.find('input[name="id"]').val();
 
 			// iterate each of the fields and all the values
 			_.each(fields, function (field) {
@@ -79,17 +97,17 @@ define([
 
 			attributes.name = select.val();
 
-			// save to the collection
-			DataSourceUserCollection.create(attributes);
+			if (id) {
+				var model = DataSourceUserCollection.get(id);
+				model.set(attributes);
+				model.save();
+			} else {
+				// save to the collection
+				DataSourceUserCollection.create(attributes);
+			}
 
 			// rerender the list
-			var form = _.template(DataSourceTemplate, {
-				'UserDataSources': DataSourceUserCollection,
-				'datasources': this.model.get('datasources')
-			});
-
-			$('.body', this.$el).html(form);
-			this.delegateEvents();
+			this.rerender();
 		},
 
 		toggleRunning: function (e) {
@@ -114,6 +132,12 @@ define([
 
 			var model = DataSourceUserCollection.get(id);
 			model.destroy();
+		},
+
+		edit: function (e) {
+			var id = $(e.target).attr('data-id');
+			this.rerender(DataSourceUserCollection.get(id));
+			this.toggleAdd();
 		}
 
 	});
