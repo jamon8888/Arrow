@@ -17,6 +17,8 @@ define([
 			path = location.pathname,
 			host = location.host;
 
+		path = path.split('/');
+
 		/**
 		 * Load up all the views
 		 * @return {[type]} [description]
