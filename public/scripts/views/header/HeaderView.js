@@ -12,8 +12,8 @@ define([
 		el: $('header'),
 
 		events: {
-			'click #importExport': 'importExport',
-			'click #share': 'share'
+			'mousedown #importExport': 'importExport',
+			'mousedown #share': 'share'
 		},
 
 		importExport: function () {

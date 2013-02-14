@@ -34,7 +34,7 @@ define([
 		 * Watch for the events
 		 */
 		events: {
-			'click .btn': 'addVisualization',
+			'mousedown .btn': 'addVisualization',
 			'keyup .axis': 'autoComplete'
 		},
 
@@ -142,7 +142,6 @@ define([
 			var Model = this.findVisualization(this.visualization),
 				instance = false,
 				fields = $('.varea input'),
-				datasource = $('.datasource .selected', this.$el),
 				attributes = {};
 
 			_.each(fields, function (field) {
@@ -153,7 +152,7 @@ define([
 			attributes.userName = $('input[name="userName"]').val();
 
 			instance = new Model(attributes);
-			instance.set('datasource', datasource.attr('data-id'));
+			instance.set('datasource', this.datasource);
 			this.model.addVisualization(instance);
 			this.model.save();
 

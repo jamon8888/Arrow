@@ -16,11 +16,11 @@ define([
 	var DataSourceView = Backbone.View.extend({
 
 		events: {
-			'click .btn.add': 'toggleAdd',
-			'click .btn.save': 'saveDataSource',
-			'click .toggle': 'toggleRunning',
-			'click .delete': 'remove',
-			'click .edit': 'edit'
+			'mousedown .btn.add': 'toggleAdd',
+			'mousedown .btn.save': 'saveDataSource',
+			'mousedown .toggle': 'toggleRunning',
+			'mousedown .delete': 'remove',
+			'mousedown .edit': 'edit'
 		},
 
 		render: function () {

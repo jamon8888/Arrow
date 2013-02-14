@@ -15,7 +15,7 @@ define([
 		tagName: 'li',
 
 		events: {
-			'click': 'click',
+			'mousedown': 'click',
 			'click .del': 'del'
 		},
 

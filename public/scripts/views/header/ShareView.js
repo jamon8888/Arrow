@@ -12,7 +12,7 @@ define([
 	var ShareView = Backbone.View.extend({
 
 		events: {
-			'click #sync': 'sync'
+			'mousedown #sync': 'sync'
 		},
 
 		render: function () {	
