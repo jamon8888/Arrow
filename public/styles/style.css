@@ -41,7 +41,7 @@ content { float: left; margin: 60px 0 0 200px; padding: 10px; }
 
 /* Charts */
 .vis { height: 300px; float: left; margin: 10px; width: 300px; }
-.vis .header { height: 30px; padding: 5px 0 5px 10px; line-height: 30px; position: relative;background:#1c242b;}
+.vis .header { height: 30px; padding: 5px 0 5px 10px; line-height: 30px; position: relative;background:#1c242b;-webkit-border-top-left-radius: 5px;-webkit-border-top-right-radius: 5px;-moz-border-radius-topleft: 5px;-moz-border-radius-topright: 5px;border-top-left-radius: 5px;border-top-right-radius: 5px;}
 .vis .header span { color: #FFFFFF; font-size: 14px; font-weight: 600; }
 .vis .header .settings,
 .vis .header .return { background: url('/images/sprite.png') no-repeat 0 0; cursor: pointer; float: right; display:block; height: 20px; width: 20px; position:absolute; top:10px; right: 10px; }
@@ -66,7 +66,8 @@ content { float: left; margin: 60px 0 0 200px; padding: 10px; }
 .vis.landscape.flipped .flipper { -webkit-transform: rotateX(180deg); }
 
 /* Add Vis */
-.add.vis { background: #e5f7fb; border: 2px dashed #313841; border-radius: 5px; cursor: pointer; }
+/*.add.vis { background: #e5f7fb; border: 2px dashed #313841; border-radius: 5px; cursor: pointer; }*/
+.add.vis { border: 2px dashed #515f6f; border-radius: 5px; cursor: pointer;position:relative; }
 .add.vis span { background: url('/images/sprite.png') no-repeat 0 -120px; display: block; height: 40px; margin: 130px 0 0 130px; width: 40px; }
 .add:hover.vis span { background-position: 0 -160px; }
 
@@ -119,7 +120,7 @@ aside .btn.blue { border-color:#00a5c8;}
 /* Overlay */
 #overlay { background: rgba(0,0,0,0.85); bottom: 0; left: 0; position: absolute; right: 0; top: 0; z-index: 99; }
 #popup { background: #313841; border-radius: 5px; color:white; left: 50%; margin-left: -200px; position: absolute; top: 50px; width: 360px;}
-#popup .header { position: relative; overflow: hidden;background:#1c242b;height:30px;padding:5px 0 5px 10px;}
+#popup .header { position: relative; overflow: hidden;background:#1c242b;height:30px;padding:5px 0 5px 10px;-webkit-border-top-left-radius: 5px;-webkit-border-top-right-radius: 5px;-moz-border-radius-topleft: 5px;-moz-border-radius-topright: 5px;border-top-left-radius: 5px;border-top-right-radius: 5px;}
 	#popup .header h1 {line-height:30px;margin:0;}
 #popup .close { background: url('/images/sprite.png') no-repeat 0 -432px; cursor: pointer; float: right; display:block; height: 20px; width: 20px; position:absolute; top:10px; right: 10px; }
 #popup .close:hover { background: url('/images/sprite.png') no-repeat 0 -452px; }
@@ -137,20 +138,20 @@ aside .btn.blue { border-color:#00a5c8;}
 #popup .datasource { list-style: none; margin: 0; padding: 0;}
 #popup .datasource li { position: relative; padding:5px 5px 5px 35px;}
 #popup .datasource.currentlist { margin-bottom: 20px; }
-#popup .datasource.currentlist li { padding:5px;}
+#popup .datasource.currentlist li { padding:10px;}
 #popup .datasource.currentlist li:nth-child(odd) { background: #212930; }
 #popup .datasource.currentlist li:hover { background:#515f6f; }
 #popup .datasource li .name { }
-#popup .datasource li .glyph { display:block; width:20px; height:20px; background:red;float:left; position:absolute; top:3px;}
+#popup .datasource li .glyph { display:block; width:20px; height:20px; background:red;float:left; position:absolute; top:8px;}
 #popup .datasource li .glyph:hover { cursor: pointer; }
-#popup .datasource li .toggle.start { background: url(/images/sprite.png) no-repeat 0 -472px; right:60px; }
-#popup .datasource li .toggle.start:hover { background: url(/images/sprite.png) no-repeat -20px -472px; right:60px; }
-#popup .datasource li .toggle.stop { background: url(/images/sprite.png) no-repeat 0 -492px; right:60px; }
-#popup .datasource li .toggle.stop:hover { background: url(/images/sprite.png) no-repeat -20px -492px; right:60px; }
-#popup .datasource li .edit { background: url(/images/sprite.png) no-repeat 0 -512px; right:30px; }
-#popup .datasource li .edit:hover { background: url(/images/sprite.png) no-repeat -20px -512px; right:30px; }
-#popup .datasource li .delete { background: url(/images/sprite.png) no-repeat 0 -532px; right:0; }
-#popup .datasource li .delete:hover { background: url(/images/sprite.png) no-repeat -20px -532px; right:0; }
+#popup .datasource li .toggle.start { background: url(/images/sprite.png) no-repeat 0 -472px; right:70px; }
+#popup .datasource li .toggle.start:hover { background: url(/images/sprite.png) no-repeat -20px -472px; right:70px; }
+#popup .datasource li .toggle.stop { background: url(/images/sprite.png) no-repeat 0 -492px; right:70px; }
+#popup .datasource li .toggle.stop:hover { background: url(/images/sprite.png) no-repeat -20px -492px; right:70px; }
+#popup .datasource li .edit { background: url(/images/sprite.png) no-repeat 0 -512px; right:40px; }
+#popup .datasource li .edit:hover { background: url(/images/sprite.png) no-repeat -20px -512px; right:40px; }
+#popup .datasource li .delete { background: url(/images/sprite.png) no-repeat 0 -532px; right:10px; }
+#popup .datasource li .delete:hover { background: url(/images/sprite.png) no-repeat -20px -532px; right:10px; }
 
 .deleteTile {position:absolute;bottom:24px;left:20px;}
 	.deleteTile .btn {padding:0 20px;}
@@ -197,7 +198,7 @@ input#url {border:0;padding:10px;margin-top:24px;background:#515f6f;color:white;
 
 
 
-
+.field {margin-bottom:10px;}
 
 
 
