@@ -14,7 +14,7 @@
     <!-- template for each select - wrap in the 'field' markup for spacing consistency -->
     <div class="field">
         <label for="">Visualisation method</label>
-        <select class="chosen" data-placeholder="Choose Visualization" name="visualization" style="width: 200px;">
+        <select class="chosen" data-placeholder="Choose Visualization" name="visualization" style="width: 320px;">
             <option></option>
             <% _.each(visualizations, function (v) { %>
                 <option value="<%= v.prototype.defaults.name %>" <%= visualization === v.prototype.defaults.name ? 'selected="selected"' : '' %>>
@@ -26,7 +26,7 @@
 
     <div class="field">
         <label for="">Data Source</label>
-        <select class="chosen" data-placeholder="Choose DataSource" name="datasource" style="width: 200px;">
+        <select class="chosen" data-placeholder="Choose DataSource" name="datasource" style="width: 320px;">
             <option></option>
             <% datasources.each(function (ds) { %>
                 <option value="<%= ds.attributes.id %>" <%= ds.attributes.id === datasource ? 'selected="selected"' : '' %>>
@@ -37,5 +37,5 @@
     </div><!--/.field-->
 
     <div class="varea"></div>
-    <div class="btn blue">Create visualisation</div>
+    <div class="btn blue" style="margin-top:10px;">Create visualisation</div>
 </div>
