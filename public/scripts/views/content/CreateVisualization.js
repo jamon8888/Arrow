@@ -34,7 +34,7 @@ define([
 		 * Watch for the events
 		 */
 		events: {
-			'mousedown .btn': 'addVisualization',
+			'mousedown .btn.blue': 'addVisualization',
 			'keyup .axis': 'autoComplete'
 		},
 
@@ -170,13 +170,6 @@ define([
 			var datasource = DataSourceUserCollection.get(this.datasource);
 			datasource = datasource.getDataSource();
 
-			if (datasource === undefined) {
-				element.addClass('error');
-				return;
-			} else {
-				element.removeClass('error');
-			}
-
 			if ($('#autocomplete')) {
 				$('#autocomplete').remove();
 			}
@@ -195,6 +188,10 @@ define([
 						element.val(li.innerHTML);
 						$('#autocomplete').remove();
 					});
+				});
+
+				this.$el.one('click', function () {
+					$('#autocomplete').remove();
 				});
 			} 
 		}
