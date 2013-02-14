@@ -2,13 +2,14 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
+	'chosen',
 	'collections/visualization/VisualizationCollection',
 	'collections/user/DataSourceUserCollection',
 	'models/visualization/VisualizationManagerModel',
 	'views/popup/PopupView',
 	'text!templates/CreateVisualization.html',
 	'text!templates/AutoComplete.html'
-], function ($, _, Backbone, VisualizationCollection, DataSourceUserCollection, VisualizationManagerModel, PopupView, CreateVisualizationTemplate, AutoCompleteTemplate) {
+], function ($, _, Backbone, Chosen, VisualizationCollection, DataSourceUserCollection, VisualizationManagerModel, PopupView, CreateVisualizationTemplate, AutoCompleteTemplate) {
 
 	'use strict';
 
@@ -33,8 +34,6 @@ define([
 		 * Watch for the events
 		 */
 		events: {
-			'click .visualization li': 'chooseVisualization',
-			'click .datasource li': 'chooseDataSource',
 			'click .btn': 'addVisualization',
 			'keyup .axis': 'autoComplete'
 		},
@@ -75,6 +74,9 @@ define([
 			// have to redefine the JQuery version of el (YUK!)
 			this.$el = $(this.el);
 			this.delegateEvents();
+
+			this.$el.find('select[name="datasource"]').chosen().change(_.bind(this.chooseDataSource, this));
+			this.$el.find('select[name="visualization"]').chosen().change(_.bind(this.chooseVisualization, this));
 		},
 
 		error: function (collection, response, options) {
@@ -118,13 +120,8 @@ define([
 		 * @param  {Object} e Event object
 		 */
 		chooseVisualization: function (e) {		
-
 			var target = $(e.target);
-
-			this.visualization = target.attr('data-name');
-
-			$(target.parent().children('li')).removeClass('selected');
-			target.addClass('selected');
+			this.visualization = target.val();
 
 			var	Model = this.findVisualization(this.visualization),
 				vis = new Model();
@@ -134,9 +131,7 @@ define([
 
 		chooseDataSource: function (e) {
 			var target = $(e.target);
-			$(target.parent().children('li')).removeClass('selected');
-			target.addClass('selected');
-			this.datasource = target.attr('data-id');
+			this.datasource = target.val();
 		},
 
 		/**
@@ -167,10 +162,13 @@ define([
 
 		autoComplete: function (e) {
 
-			var element = $(e.target),
-				datasource = $('.datasource .selected').attr('data-id');
+			var element = $(e.target);
 
-			datasource = DataSourceUserCollection.get(datasource);
+			if (!this.datasource) {
+				return;
+			}
+
+			var datasource = DataSourceUserCollection.get(this.datasource);
 			datasource = datasource.getDataSource();
 
 			if (datasource === undefined) {

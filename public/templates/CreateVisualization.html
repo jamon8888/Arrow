@@ -14,38 +14,28 @@
     <!-- template for each select - wrap in the 'field' markup for spacing consistency -->
     <div class="field">
         <label for="">Visualisation method</label>
-        <select>
-                <option value="something">
-                    something
+        <select class="chosen" data-placeholder="Choose Visualization" name="visualization" style="width: 200px;">
+            <option></option>
+            <% _.each(visualizations, function (v) { %>
+                <option value="<%= v.prototype.defaults.name %>" <%= visualization === v.prototype.defaults.name ? 'selected="selected"' : '' %>>
+                    <%= v.prototype.defaults.niceName %>
                 </option>
+            <% }) %>
         </select>
     </div><!--/.field-->
 
-
-    <div class="selector">
-        <ul class="visualization">
-            <li class="<%= visualization ? '' : 'selected' %>">Choose a visualization ...</li>
-            <% _.each(visualizations, function (v) { %>
-                <li data-name="<%= v.prototype.defaults.name %>" <%= visualization === v.prototype.defaults.name ? 'class="selected"' : '' %>>
-                    <%= v.prototype.defaults.niceName %>
-                </li>
-            <% }) %>
-        </ul>
-    </div>
-
-    <div class="selector">
-        <ul class="visualization">
-            <li class="<%= datasource ? '' : 'selected' %>">Choose a data source ...</li>
+    <div class="field">
+        <label for="">Data Source</label>
+        <select class="chosen" data-placeholder="Choose DataSource" name="datasource" style="width: 200px;">
+            <option></option>
             <% datasources.each(function (ds) { %>
-                <li data-id="<%= ds.attributes.id %>" <%= ds.attributes.id === datasource ? 'class="selected"' : '' %>>
+                <option value="<%= ds.attributes.id %>" <%= ds.attributes.id === datasource ? 'selected="selected"' : '' %>>
                     <%= ds.attributes.niceName %>
-                </li>
+                </option>
             <% }) %>
-        </ul>
-    </div>
+        </select>
+    </div><!--/.field-->
 
     <div class="varea"></div>
-
     <div class="btn blue">Create visualisation</div>
-
 </div>

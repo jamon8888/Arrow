@@ -1,12 +1,21 @@
-<div class="form linechart">
-	<input type="text" placeholder="X Axis, e.g. Time" class="axis element" name="x" value="<%= x %>" />
+<div class="linechart">
+	<div class="field">
+		<label for="x">X Axis</label>
+		<input type="text" placeholder="X Axis, e.g. Time" class="axis element" name="x" value="<%= x %>" />
+	</div>
 
 	<% if (series.length > 0) { %>
 		<% _.each(series, function (y, count) { %>
-			<input type="text" placeholder="Series <%= count+1 %>" class="axis element series" name="y<%= count+1 %>" value="<%= y %>" />
+			<div class="field">
+				<label for="y(<%= count+1 %>">Y Axis (<%= count+1 %>)</label>
+				<input type="text" placeholder="Series <%= count+1 %>" class="axis element series" name="y<%= count+1 %>" value="<%= y %>" />
+			</div>
 		<% }) %>
 	<% } else { %>
-		<input type="text" placeholder="Series 1" class="axis element series" name="y1" />
+		<div class="field">
+			<label for="y1">Y Axis (1)</label>
+			<input type="text" placeholder="Series 1" class="axis element series" name="y1" />
+		</div>
 	<% } %>
 
 	<div class="addone btn grey">Add another series</div>
@@ -14,16 +23,20 @@
 	<script type="text/javascript">
 		$('.linechart .addone').on('click', function () {
 
-			var series = $('.linechart .series');
+			var series = $('.linechart .series'),
+				field = $('<div>', {'class':'field'}),
+				label = $('<label>', { 'for': 'y' + (series.length + 1)}).html('Y Axis (' + (series.length + 1) + ')'),
+				input = $('<input>', {
+					'placeholder': 'Series ' + (series.length + 1),
+					'class': 'axis element series',
+					'type': 'text',
+					'name': 'y' + (series.length + 1)
+				});
 
-			var input = $('<input>', {
-				'placeholder': 'Series ' + (series.length + 1),
-				'class': 'axis element series',
-				'type': 'text',
-				'name': 'y' + (series.length + 1)
-			});
+			field.append(label);
+			field.append(input);
 
-			$(series[series.length-1]).after(input);
+			$(series[series.length-1]).after(field);
 		});
 	</script>
 </div>
