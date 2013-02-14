@@ -139,7 +139,7 @@ aside .btn.blue { border-color:#00a5c8;}
 #popup .datasource li { position: relative; padding:5px 5px 5px 35px;}
 #popup .datasource.currentlist { margin-bottom: 20px; }
 #popup .datasource.currentlist li { padding:10px;}
-#popup .datasource.currentlist li:nth-child(odd) { background: #212930; }
+#popup .datasource.currentlist li:nth-child(odd) { background: #212930;}
 #popup .datasource.currentlist li:hover { background:#515f6f; }
 #popup .datasource li .name { }
 #popup .datasource li .glyph { display:block; width:20px; height:20px; background:red;float:left; position:absolute; top:8px;}
