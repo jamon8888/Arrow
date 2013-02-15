@@ -149,7 +149,6 @@ define([
 
 			// if the key is in the black list, shift an item off
 			if (_.indexOf(this.blacklist, key) !== -1) {
-				console.log(key + ' is in the blacklist so not storing');
 				return;
 			}
 
