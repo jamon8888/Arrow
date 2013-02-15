@@ -15,7 +15,7 @@ define([
 			'mousedown #sync': 'sync'
 		},
 
-		render: function () {	
+		render: function () {
 			// render the popup
 			this.popup = new PopupView();
 			this.el = this.popup.render(ShareTemplate);
@@ -37,10 +37,15 @@ define([
 					'payload': SyncModel.exportData()
 				}));
 
+				this.$el.find('.btn').addClass('loading');
+
 				ws.onmessage = function (res) {
 					var url = this.$el.find('#url');
 					url.val('/dashboard/' + res.data);
 					url.show();
+
+					this.$el.find('.btn').text('Success!');
+
 				}.bind(this);
 			}.bind(this);
 		}
@@ -49,4 +54,4 @@ define([
 
 	return ShareView;
 
-});		
+});
