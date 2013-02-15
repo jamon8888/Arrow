@@ -10,11 +10,12 @@
             <% UserDataSources.each(function (ds) {  console.log(ds) %>
                 <li>
                     <div class="name"><%= ds.get('niceName') %></div>
-                    <div class="glyph toggle <%= ds.get('running') ? 'stop' : 'start' %>" data-id="<%= ds.get('id') %>" data-tip="Toggle"></div>
-                    <div class="glyph edit" data-id="<%= ds.get('id') %>" data-tip="Edit"></div>
-                    <div class="glyph delete" data-id="<%= ds.get('id') %>" data-tip="Delete"></div>
+                    <div class="glyph toggle <%= ds.get('running') ? 'stop' : 'start' %>" data-id="<%= ds.get('id') %>" data-tip="Play / Pause source"></div>
+                    <div class="glyph edit" data-id="<%= ds.get('id') %>" data-tip="Edit source"></div>
+                    <div class="glyph delete" data-id="<%= ds.get('id') %>" data-tip="Delete source"></div>
                 </li>
             <% }) %>
+            <li class="note">Remember to enable your data source by clicking the <span class="play-icon"></span> icon.To pause streaming, click the <span class="pause-icon"></span> icon.</li>
         <% } else { %>
             <li>You haven't added any datasources</li>
         <% } %>
