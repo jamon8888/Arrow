@@ -32,7 +32,7 @@ define([
 			width: 300,
 			showx: false,
 			showy: false,
-			showlegend: false,
+			legend: false,
 			padding: 10
 		},
 
@@ -111,8 +111,8 @@ define([
 				height = this.get('height') - padding - 40,
 				width = this.get('width') - padding,
 				paths = this.paths,
-				legend = this.legend,
 				data = this.data,
+				legend = [],
 				xaxis = false,
 				yaxis = false,
 				lines = {};
@@ -189,11 +189,13 @@ define([
 						title: l,
 						color: color
 					});
+
+					console.log(legend);
 				}
 			}
 
-			if (this.get('showlegend')) {
-				svg.append('div')
+			if (this.get('legend') === 'on') {
+				d3.select(this.div).append('div')
 					.attr('class', 'legend')
 					.selectAll('div.label')
 					.data(legend)
