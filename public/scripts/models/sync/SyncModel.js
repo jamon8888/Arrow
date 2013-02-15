@@ -27,7 +27,7 @@ define([
 				_.each(datasources, function (datasource) {
 					var ds = JSON.parse(download['DataSourceCollection-' + datasource]);
 					for (var key in ds) {
-						if (key !== 'name' && key !== 'niceName' && key !== 'id') {
+						if (key !== 'name' && key !== 'niceName' && key !== 'id' && key !== 'hash') {
 							delete(ds[key]);
 						}
 					}

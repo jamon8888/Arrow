@@ -22,6 +22,12 @@ require.config({
 				'jquery'
 			],
 			exports: 'chosen'
+		},
+		'cloud': {
+			deps: [
+				'd3'
+			],
+			exports: 'cloud'
 		}
 	},
 
@@ -33,6 +39,7 @@ require.config({
 		templates: '../templates',
 		datasift: 'libraries/ds',
 		d3: 'libraries/d3',
+		cloud: 'libraries/d3.layout.cloud',
 		chosen: 'libraries/chosen/chosen.jquery'
 	}
 });
