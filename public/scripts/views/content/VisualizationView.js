@@ -19,10 +19,10 @@ define([
 		tagName: 'div',
 
 		events: {
-			'mousedown .settings': 'settings',
-			'mousedown .return': 'settings',
-			'mousedown .btn.save': 'saveSettings',
-			'mousedown .btn.advanced': 'advancedSettings',
+			'click .settings': 'settings',
+			'click .return': 'settings',
+			'click .btn.save': 'saveSettings',
+			'click .btn.advanced': 'advancedSettings',
 			'mousedown .delete': 'del',
 			'mousedown .drag': 'dragging'
 		},

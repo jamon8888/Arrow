@@ -12,7 +12,6 @@ define([
 
 		// events to apply
 		events: {
-			'click': 'removePopup',
 			'click .close': 'removePopup'
 		},
 

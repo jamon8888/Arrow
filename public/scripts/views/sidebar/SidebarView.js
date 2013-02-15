@@ -20,7 +20,7 @@ define([
 		el: $('aside'),
 
 		events: {
-			'mousedown #createdashboard': 'showDialog',
+			'click #createdashboard': 'showDialog',
 			'mousedown #preferences': 'openDataSources',
 			'keyup #newdashboard input': 'createDashboard'
 		},
