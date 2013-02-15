@@ -62,17 +62,12 @@ define([
 		},
 
 		render: function (data) {
-
 			this.data = this.process(data, this.get('field'));
-
 			this.div = document.createElement('div');
 			this.div.className = 'PieChart';
-			this.calculate();
-
 			this.$div = $(this.div);
-
 			this.$div.addClass('loading');
-
+			this.calculate();
 			return this.div;
 		},
 
