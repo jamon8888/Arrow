@@ -150,34 +150,12 @@ define([
 				lines[s] = this.lineCreator(this.get('x'), s);
 			}.bind(this));
 
-			/*
-			var splitData = [],
-				counter = 0;
-
-			// split the array by 0's
-			while (_.indexOf(data, 0) !== -1) {
-
-				var i = _.indexOf(data, 0);
-
-				if (counter !== i) {
-					splitData.push(data.slice(counter, i));
-					data.splice(i, 1);
-				}
-
-				counter++;
-			}
-
-			console.log(splitData);*/
-
-
 			var colors = _.clone(this.colors);
 
 			// draw each of the lines
 			for (var l in lines) {
 				if (lines.hasOwnProperty(l)) {
-
 					var color = colors.shift();
-
 					paths[l] = svg.append('path')
 						.attr('d', lines[l](data))
 						.attr('class', l)
@@ -189,8 +167,6 @@ define([
 						title: l,
 						color: color
 					});
-
-					console.log(legend);
 				}
 			}
 
