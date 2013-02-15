@@ -6,15 +6,10 @@
   *display: inline;
 }
 .chzn-container .chzn-drop {
-  /*background: #fff;*/
-  /*border: 1px solid #aaa;*/
   border-top: 0;
   position: absolute;
   top: 29px;
   left: 0;
-/*  -webkit-box-shadow: 0 4px 5px rgba(0,0,0,.15);
-  -moz-box-shadow   : 0 4px 5px rgba(0,0,0,.15);
-  box-shadow        : 0 4px 5px rgba(0,0,0,.15);*/
   z-index: 1010;
 }
 /* @end */
@@ -25,7 +20,7 @@
   overflow: hidden;
   white-space: nowrap;
   position: relative;
-  color:#fff;
+  color:#2b323b;
   text-decoration: none;
 }
 .chzn-container-single .chzn-default {
@@ -65,7 +60,6 @@
   width: 16px;
 }
 .chzn-container-single .chzn-single div b {
-  /*background: url('chosen-sprite.png') no-repeat 0px 2px;*/
   background: url('dropdown-arrows.png') no-repeat 0 0;
   display: block;
   width: 100%;
@@ -211,7 +205,7 @@
 
 /* @group Results */
 .chzn-container .chzn-results {
-  margin: 21px 0 0 0;
+  margin: 20px 0 0 0;
   padding:0;
   max-height: 240px;
   position: relative;
@@ -234,8 +228,7 @@
   display: list-item;
 }
 .chzn-container .chzn-results .highlighted {
-  background-color: #414a55;
-  color: #fff;
+background: rgba(255, 255, 255, 0.5);
 }
 .chzn-container .chzn-results li em {
   background: #feffde;

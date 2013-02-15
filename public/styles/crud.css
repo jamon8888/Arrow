@@ -1,7 +1,7 @@
 
 body { background: #FFFFFF; margin: 0; padding: 0; }
 
-aside { 
+aside {
 	background: #556270;
 	bottom: 0;
 	left: 0;
@@ -79,7 +79,7 @@ content { float: left; margin-left: 170px; padding: 20px; }
 	cursor: pointer;
 }
 
-#settings #preferences:hover { 
+#settings #preferences:hover {
 	background-position: 0 -20px;
 }
 
@@ -91,8 +91,6 @@ content { float: left; margin-left: 170px; padding: 20px; }
 
 path { fill: none; stroke: red; }
 svg text { font-size: 12px; }
-
-#autocomplete { position: absolute; z-index: 99; width: 200px; background: red; color: #FFFFFF; }
 
 
 
