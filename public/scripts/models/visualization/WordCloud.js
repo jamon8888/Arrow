@@ -50,7 +50,7 @@ define([
 				.data(this.data)
 				.enter().append('text')
 					.style("font-size", function (d) { return this.fontSize(d.value) + 'px'; }.bind(this))
-					.style("font-family", "Impact")
+					.style("font-family", "Open Sans")
 					.style("fill", function(d, i) { return this.fill(i); }.bind(this))
 					.attr("text-anchor", "middle")
 					.attr("transform", function(d) {

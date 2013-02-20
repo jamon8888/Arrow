@@ -228,7 +228,7 @@
   display: list-item;
 }
 .chzn-container .chzn-results .highlighted {
-background: rgba(255, 255, 255, 0.5);
+background:#f9fac8;
 }
 .chzn-container .chzn-results li em {
   background: #feffde;
