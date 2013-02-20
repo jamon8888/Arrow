@@ -2,13 +2,11 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
-	'views/sidebar/DashboardListView',
-	'views/popup/PopupView',
-	'views/sidebar/DataSourceView',
+	'collections/user/DataSourceUserCollection',
 	'collections/dashboard/DashboardCollection',
-	'models/datasource/DataSourceManagerModel',
-	'models/user/DataSourceUserModel'
-], function ($, _, Backbone, DashboardListView, PopupView, DataSourceView, DashboardCollection, DataSourceManagerModel, DataSourceUserModel) {
+	'views/sidebar/DataSourceListView',
+	'views/sidebar/DashboardListView'
+], function ($, _, Backbone, DataSourceUserCollection, DashboardCollection, DataSourceListView, DashboardListView) {
 
 	'use strict';
 
@@ -20,30 +18,49 @@ define([
 		el: $('aside'),
 
 		events: {
-			'click #createdashboard': 'showDialog',
-			'mousedown #preferences': 'openDataSources',
+			'click #createdashboard': 'showCreateDashboard',
 			'keyup #newdashboard input': 'createDashboard'
 		},
 
-		/**
-		 * Render the properties into the sidebar
-		 */
-		render: function (collection) {
+		render: function () {
+			// loading spinner
+			this.$el.addClass('loading');
+
+			// fetch the datasource
+			DataSourceUserCollection.fetch({
+				success: _.bind(this.renderDataSources, this),
+				error: function () {}
+			});
+
+			// fetch the dashboards
+			DashboardCollection.fetch({
+				success: _.bind(this.renderDashboards, this)
+			});
+		},
+
+		renderDataSources: function (collection) {
+			var dsv = new DataSourceListView();
+			dsv.render(collection);
+		},
+
+		renderDashboards: function (collection) {
 			var dlv = new DashboardListView();
 			dlv.render(collection);
 		},
 
+		
 		/**
 		 * Create a new Dashboard
-		 *
-		 * This will open up a dialog box
 		 */
-		showDialog: function () {
+		showCreateDashboard: function () {
 			$('#newdashboard').show();
 			$('#newdashboard input').val('');
 			$('#newdashboard input').focus();
 		},
 
+		/**
+		 * When the user presses enter create a new Dashboard
+		 */
 		createDashboard: function (e) {
 			if (e.keyCode === 13) {
 
@@ -57,11 +74,6 @@ define([
 				});
 				$('#newdashboard').hide();
 			}
-		},
-
-		openDataSources: function () {
-			var dv = new DataSourceView({model: DataSourceManagerModel});
-			dv.render();
 		}
 	});
 
