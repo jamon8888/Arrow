@@ -34,7 +34,7 @@ define([
 		 * Watch for the events
 		 */
 		events: {
-			'mousedown .btn.blue': 'addVisualization',
+			'click .btn.blue': 'addVisualization',
 			'keyup .axis': 'autoComplete'
 		},
 
