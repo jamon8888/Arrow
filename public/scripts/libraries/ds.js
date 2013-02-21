@@ -34,7 +34,7 @@
 		wsTimeoutCount:0,
 		wsTimeoutMax: 2,
 		wsCloseCount:0,
-		wsCloseMax: 1,
+		wsCloseMax: 0,
 		wsConnected: false,
 		wsConnectCallbacks: [],
 
