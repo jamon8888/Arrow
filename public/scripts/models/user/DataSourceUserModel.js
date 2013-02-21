@@ -9,6 +9,7 @@ define([
 
 	var DataSourceUserModel = Backbone.Model.extend({
 
+		running: false,
 
 		createDataSource: function () {
 			_.each(DataSourceManagerModel.get('datasources'), function (DataSource) {
@@ -30,12 +31,11 @@ define([
 		 * @return {[type]} [description]
 		 */
 		start: function () {
-
 			if (this.datasource === undefined) {
 				this.datasource = this.getDataSource();
 			}
-
 			this.datasource.play();
+			this.running = true;
 		},
 
 		/**
@@ -45,6 +45,16 @@ define([
 		 */
 		stop: function () {
 			this.datasource.pause();
+			this.running = false;
+		},
+
+		/**
+		 * Get whether the current datasource is running
+		 * 
+		 * @return {String} running | paused
+		 */
+		getActivityStatus: function () {
+			return this.running ? 'running' : 'paused';
 		}
 	});
 

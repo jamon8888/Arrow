@@ -23,7 +23,7 @@ define([
 			'click .return': 'settings',
 			'click .btn.save': 'saveSettings',
 			'click .btn.advanced': 'advancedSettings',
-			'mousedown .delete': 'del',
+			'click .delete': 'del',
 			'mousedown .drag': 'dragging'
 		},
 

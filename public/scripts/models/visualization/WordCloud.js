@@ -30,7 +30,7 @@ define([
 			var layout = d3.layout.cloud()
 				.words(this.data)
 				.size([this.get('width'), this.get('height') - 50])
-				.rotate(function(d) { return ~~(Math.random() * 5) * 30 - 60; })
+				.rotate(function(d) { return (Math.random() * 5) * 30 - 60; })
 				.timeInterval(10)
 				.font('Impact')
 				.fontSize(function (d) { return this.fontSize(d.value) ;}.bind(this))
