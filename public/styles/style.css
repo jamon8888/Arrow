@@ -25,28 +25,33 @@ aside h1 {margin:20px;}
 aside .btn { margin-left: 20px; width: 220px; margin-top:20px; }
 
 /* Sidebar Data Sources */
-#datasources {list-style:none;padding:0;margin:0;}
-#datasources li {padding:5px 5px 5px 20px;overflow:hidden;line-height:20px;position:relative;cursor: pointer;}
-#datasources li:hover {background:red;}
-#datasources .status {display: block;width:20px;height:20px;background:red;float:left;margin-right:10px;}
-#datasources .status.activity-paused{background:url(/images/activity-paused.png);}
-#datasources .status.activity-running{background:url(/images/activity-running.gif);}
+#datasourcelist {list-style:none;padding:0;margin:0;}
+#datasourcelist li {padding:5px 5px 5px 20px;overflow:hidden;line-height:20px;position:relative;cursor: pointer;}
+#datasourcelist .status {display: block;width:20px;height:20px;background:red;float:left;margin-right:10px;}
+#datasourcelist .status.activity-paused{background:url(/images/activity-paused.png);}
+#datasourcelist .status.activity-running{background:url(/images/activity-running.gif);}
 
 /* Sidebar Dashboard list */
 
 #dashboardlist { list-style: none; margin: 0; padding: 0; }
-/*#dashboardlist li { background: #515f6f; color: #FFFFFF; cursor: pointer; padding: 20px; font-weight: 600; margin-bottom:1px; position: relative; -webkit-transition:all 300ms ease; }*/
-#dashboardlist li {padding:5px 5px 5px 20px;overflow:hidden;line-height:20px;position:relative;cursor: pointer;}
-#dashboardlist li.selected { background: #FFF; color: #515f6f; padding-left: 36px; }
-/*#dashboardlist li:hover { background: #626f7d; }*/
+#dashboardlist li {padding:5px 62px 5px 20px;overflow:hidden;line-height:20px;position:relative;cursor: pointer;width:178px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#dashboardlist li.selected { background: #FFF; color: #515f6f;}
 #dashboardlist li.selected:hover { background: #FFF; }
-#dashboardlist li .del { display:none; width: 16px; height: 16px; background: url(/images/dashboard-list-del.png) no-repeat top; position: absolute; left: -10px; top:50%; margin-top: -8px; text-indent: 100%; }
+
+#dashboardlist li .del { display:none; width: 16px; height: 16px; background: url(/images/dashboard-list-del.png) no-repeat top; position: absolute; right: 36px; top:50%; margin-top: -8px; text-indent: 100%; }
 #dashboardlist li .del:hover { background: url(/images/dashboard-list-del.png) no-repeat bottom; }
-#dashboardlist li.selected .del { display: block; left:10px; }
+#dashboardlist li.selected .del { display: block;}
+
+#dashboardlist li .set { display:none; width: 16px; height: 16px; background: url(/images/dashboard-list-set.png) no-repeat top; position: absolute;right: 10px; top:50%; margin-top: -8px; text-indent: 100%; }
+#dashboardlist li .set:hover { background: url(/images/dashboard-list-set.png) no-repeat bottom; }
+#dashboardlist li.selected .set { display: block;}
+
 #settings {position:absolute;bottom:14px;}
 
-#newdashboard { background: #747f8c; padding: 20px; }
-#newdashboard input { border: none; background: #747f8c; color: #FFF; margin: 0; width: 100% font-family: inherit; font-size:inherit; padding:0; width: 100%; }
+#newdashboard {padding:5px 5px 5px 20px;}
+#newdashboard input { border: none;margin: 0; width: 100% font-family: inherit; font-size:inherit; padding:0; width: 100%;height:20px;background:#F4F4F4; }
+
+#addDataSource,#createdashboard {background:red;}
 
 /* Content */
 content { float: left; margin: 60px 0 0 260px; padding: 10px; }
