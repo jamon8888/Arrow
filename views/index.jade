@@ -28,15 +28,16 @@ body
         aside
             h1 Data Sources
             ul#datasourcelist
-            div#addDataSource Add data source
+            div#addDataSource
+                span
+                | Add datasource
 
             h1 Dashboards
             ul#dashboardlist
             div#newdashboard(style="display:none")
                 input(type="text", placeholder="Name your dashboard")
-            div#createdashboard New dashboard
-
-            div#settings
-                div#preferences.btn.grey Data sources
+            div#createdashboard
+                span
+                | New dashboard
 
         content
