@@ -18,6 +18,9 @@ define([
 			'hash': ''
 		},
 
+		success: function () {},
+		error: function () {},
+
 		initialize: function (attributes) {
 
 			if (!DataSift) {
@@ -31,27 +34,29 @@ define([
 			// connect to datasift
 			DataSift.connect(username, apikey);
 			DataSift.register(hash, {
-				onOpen: this.onOpen,
+				onOpen: _.bind(this.success, this),
 				onMessage: _.bind(this.onMessage, this),
-				onClose: this.onClose,
-				onError: this.onError
+				onClose: _.bind(this.success, this),
+				onError: _.bind(this.error, this)
 			});
 
 			DataSiftDataSourceModel.__super__.initialize.apply(this);
 		},
 
-		play: function () {
+		start: function (error, success) {
 			this.set('running', true);
 			DataSift.start(this.get('hash'));
+
+			this.error = error;
+			this.success = success;
 		},
 
-		pause: function () {
+		stop: function (error, success) {
 			this.set('running', false);
 			DataSift.stop(this.get('hash'));
-		},
 
-		onOpen: function () {
-
+			this.error = error;
+			this.success = success;
 		},
 
 		onMessage: function (interaction) {
@@ -61,10 +66,6 @@ define([
 			}
 			this.traverse(interaction.data);
 		},
-
-		onClose: function () {},
-
-		onError: function () {},
 
 		traverse: function (obj, name) {
 

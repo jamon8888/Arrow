@@ -27,24 +27,26 @@ define([
 
 		/**
 		 * Start the datasource
-		 * 
-		 * @return {[type]} [description]
+		 *
+		 * @param Object error		What happens if we get an error
+		 * @param Object success	What happens on success
 		 */
-		start: function () {
+		start: function (error, success) {
 			if (this.datasource === undefined) {
 				this.datasource = this.getDataSource();
 			}
-			this.datasource.play();
+			this.datasource.start(error, success);
 			this.running = true;
 		},
 
 		/**
 		 * Stop the datasource
-		 * 
-		 * @return {[type]} [description]
+		 *
+		 * @param Object error		What happens if we get an error
+		 * @param Object success	What happens on success
 		 */
-		stop: function () {
-			this.datasource.pause();
+		stop: function (error, success) {
+			this.datasource.stop(error, success);
 			this.running = false;
 		},
 

@@ -14,6 +14,10 @@ define([
 
 		tagName: 'li',
 
+		events: {
+			'click': 'toggle'
+		},
+
 		template: _.template('<span class="status"></span><%= niceName %></li>'),
 
 		/**
@@ -30,8 +34,6 @@ define([
 			var body = this.template(this.model.toJSON());
 			this.$el.html(body);
 
-			console.log(this.model);
-
 			if (this.model.getActivityStatus() === 'running') {
 				this.$el.find('span').addClass('activity-running');
 			} else {
@@ -39,7 +41,26 @@ define([
 			}
 
 			return this;
+		},
+
+		/**
+		 * Toggle the state of the datasource e.g. running or paused
+		 */
+		toggle: function () {
+			if (this.model.getActivityStatus() === 'running') {
+				this.model.stop(this.failedToChangeStatus);
+				this.$el.find('span').addClass('activity-paused');
+			} else {
+				this.model.start(this.failedToChangeStatus);
+				this.$el.find('span').addClass('activity-running');
+			}
+		},
+
+		failedToChangeStatus: function (msg) {
+			console.log(msg);
+			alert(msg);
 		}
+
 	});
 
 	return DataSourceListItemView;

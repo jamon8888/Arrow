@@ -204,7 +204,7 @@ define([
 		 * This method should be available on all datasources, in certain situations with non-live datasources
 		 * will be pointless, in that case it should just return true
 		 */
-		pause: function () {
+		stop: function () {
 			throw 'Your DataSource doesn\'t have a pause method';
 		},
 
@@ -212,7 +212,7 @@ define([
 		 * This method should be available on all datasources, in certain situations with non-live datasources
 		 * will be pointless, in that case it should just return true
 		 */
-		play: function () {
+		start: function () {
 			throw 'Your DataSource doesn\'t have a play method';
 		},
 

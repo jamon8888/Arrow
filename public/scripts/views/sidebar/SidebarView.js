@@ -5,8 +5,9 @@ define([
 	'collections/user/DataSourceUserCollection',
 	'collections/dashboard/DashboardCollection',
 	'views/sidebar/DataSourceListView',
-	'views/sidebar/DashboardListView'
-], function ($, _, Backbone, DataSourceUserCollection, DashboardCollection, DataSourceListView, DashboardListView) {
+	'views/sidebar/DashboardListView',
+	'views/sidebar/CreateDataSourceView'
+], function ($, _, Backbone, DataSourceUserCollection, DashboardCollection, DataSourceListView, DashboardListView, CreateDataSourceView) {
 
 	'use strict';
 
@@ -18,6 +19,7 @@ define([
 		el: $('aside'),
 
 		events: {
+			'click #addDataSource': 'addDataSource',
 			'click #createdashboard': 'showCreateDashboard',
 			'keyup #newdashboard input': 'createDashboard'
 		},
@@ -48,7 +50,11 @@ define([
 			dlv.render(collection);
 		},
 
-		
+		addDataSource: function () {
+			var cdsv = new CreateDataSourceView();
+			cdsv.render();
+		},
+
 		/**
 		 * Create a new Dashboard
 		 */
