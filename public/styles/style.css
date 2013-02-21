@@ -11,7 +11,7 @@ input {margin-top:0;}
 
 /* Header */
 header { background: #313841; height: 60px; position: absolute; width: 100%; z-index: 2; }
-header h1 { display:block;width: 62px;height: 40px;background: url(/images/logo.png) no-repeat center; position: absolute;left:69px;overflow:hidden;text-indent: -100%;top:50%;margin-top:-20px;border-radius:4px;}
+header h1 { display:block;width: 62px;height: 40px;background: url(/images/logo.png) no-repeat center; position: absolute;left:99px;overflow:hidden;text-indent: -100%;top:50%;margin-top:-20px;border-radius:4px;}
 
 header .inner {position:relative;overflow:hidden;height:60px;}
 header .inner .options {position:absolute;right:10px;top:8px;}
@@ -19,14 +19,26 @@ header .options .btn {float:left;padding:0 20px;}
 header .options #share {margin-left:10px;}
 
 /* Sidebar */
-aside { background: #F4F4F4; bottom: 0; left: 0; padding-top: 60px; position: fixed; top: 0; width: 200px; z-index: 1; }
+aside { background: #F4F4F4; bottom: 0; left: 0; padding-top: 60px; position: fixed; top: 0; width: 260px; z-index: 1; }
+aside h1 {margin:20px;}
 
-aside .btn { margin-left: 20px; width: 160px; margin-top:20px; }
+aside .btn { margin-left: 20px; width: 220px; margin-top:20px; }
+
+/* Sidebar Data Sources */
+#datasources {list-style:none;padding:0;margin:0;}
+#datasources li {padding:5px 5px 5px 20px;overflow:hidden;line-height:20px;position:relative;cursor: pointer;}
+#datasources li:hover {background:red;}
+#datasources .status {display: block;width:20px;height:20px;background:red;float:left;margin-right:10px;}
+#datasources .status.activity-paused{background:url(/images/activity-paused.png);}
+#datasources .status.activity-running{background:url(/images/activity-running.gif);}
+
+/* Sidebar Dashboard list */
 
 #dashboardlist { list-style: none; margin: 0; padding: 0; }
-#dashboardlist li { background: #515f6f; color: #FFFFFF; cursor: pointer; padding: 20px; font-weight: 600; margin-bottom:1px; position: relative; -webkit-transition:all 300ms ease; }
+/*#dashboardlist li { background: #515f6f; color: #FFFFFF; cursor: pointer; padding: 20px; font-weight: 600; margin-bottom:1px; position: relative; -webkit-transition:all 300ms ease; }*/
+#dashboardlist li {padding:5px 5px 5px 20px;overflow:hidden;line-height:20px;position:relative;cursor: pointer;}
 #dashboardlist li.selected { background: #FFF; color: #515f6f; padding-left: 36px; }
-#dashboardlist li:hover { background: #626f7d; }
+/*#dashboardlist li:hover { background: #626f7d; }*/
 #dashboardlist li.selected:hover { background: #FFF; }
 #dashboardlist li .del { display:none; width: 16px; height: 16px; background: url(/images/dashboard-list-del.png) no-repeat top; position: absolute; left: -10px; top:50%; margin-top: -8px; text-indent: 100%; }
 #dashboardlist li .del:hover { background: url(/images/dashboard-list-del.png) no-repeat bottom; }
@@ -37,7 +49,7 @@ aside .btn { margin-left: 20px; width: 160px; margin-top:20px; }
 #newdashboard input { border: none; background: #747f8c; color: #FFF; margin: 0; width: 100% font-family: inherit; font-size:inherit; padding:0; width: 100%; }
 
 /* Content */
-content { float: left; margin: 60px 0 0 200px; padding: 10px; }
+content { float: left; margin: 60px 0 0 260px; padding: 10px; }
 
 /* Charts */
 .vis { height: 300px; float: left; margin: 10px; width: 300px; }
