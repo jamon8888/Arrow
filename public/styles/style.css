@@ -26,7 +26,7 @@ aside .btn { margin-left: 20px; width: 220px; margin-top:20px; }
 
 /* Sidebar Data Sources */
 #datasourcelist {list-style:none;padding:0;margin:0;}
-#datasourcelist li {padding:5px 20px 5px 50px;overflow:hidden;line-height:20px;position:relative;cursor: pointer;width:190px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#datasourcelist li {padding:5px 20px 5px 50px;overflow:hidden;line-height:20px;position:relative;cursor: pointer;width:190px;white-space:nowrap;text-overflow:ellipsis;}
 #datasourcelist .status {display:block; width: 20px; height: 20px;position: absolute; left:20px; top:50%; margin-top: -10px; text-indent: 100%;background:url(/images/activity.gif)no-repeat top;}
 #datasourcelist li:hover .status {background-position:0 -20px;}
 #datasourcelist .status.activity-running{background-position:0 -40px;}
@@ -37,7 +37,7 @@ aside .btn { margin-left: 20px; width: 220px; margin-top:20px; }
 /* Sidebar Dashboard list */
 
 #dashboardlist { list-style: none; margin: 0; padding: 0; }
-#dashboardlist li {padding:5px 20px 5px 50px;overflow:hidden;line-height:20px;position:relative;cursor: pointer;width:190px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#dashboardlist li {padding:5px 20px 5px 50px;overflow:hidden;line-height:20px;position:relative;cursor: pointer;width:190px;white-space:nowrap;text-overflow:ellipsis;}
 #dashboardlist li.selected { background: #FFF; color: #515f6f;}
 #dashboardlist li.selected:hover { background: #FFF; }
 
@@ -47,6 +47,8 @@ aside .btn { margin-left: 20px; width: 220px; margin-top:20px; }
 
 #dashboardlist li .set { display:block; width: 20px; height: 20px; background: url(/images/dashboard-list-set.png) no-repeat top; position: absolute;left:20px; top:50%; margin-top: -10px; text-indent: 100%; }
 #dashboardlist li .set:hover { background: url(/images/dashboard-list-set.png) no-repeat bottom; }
+#dashboardlist li:hover .set {background-position:0 -20px;}
+
 #dashboardlist li.selected .set { display: block;background-position:bottom;}
 
 #settings {position:absolute;bottom:14px;}
@@ -54,7 +56,7 @@ aside .btn { margin-left: 20px; width: 220px; margin-top:20px; }
 #newdashboard {padding:5px 5px 5px 20px;}
 #newdashboard input { border: none;margin: 0; width: 100% font-family: inherit; font-size:inherit; padding:0; width: 100%;height:20px;background:#F4F4F4; }
 
-#addDataSource,#createdashboard {background:url(/images/dashboard-list-add.png) no-repeat 20px;color:#747f8c;padding:0px 5px 0px 50px;height:32px;line-height:32px;font-style:italic;margin-top:10px;}
+#addDataSource,#createdashboard {background:url(/images/dashboard-list-add.png) no-repeat 20px;color:#747f8c;padding:0px 5px 0px 50px;height:32px;line-height:32px;font-style:italic;margin-top:15px;}
 
 /* Content */
 content { float: left; margin: 60px 0 0 260px; padding: 10px; }
