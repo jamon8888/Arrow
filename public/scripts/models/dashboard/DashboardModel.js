@@ -14,17 +14,17 @@ define([
 			title: '',
 			hidden: true,
 			visualizations: new VisualizationCollection(),
-			allColors: ['red', 'blue', 'green', 'purple'],
-			color: 'red'
+			allColors: ['#e9662c', '#ebaf3c', '#00ac65', '#068894', '#e9e9e9'],
+			color: '#e9e9e9'
 		},
 
 		set: function(attributes, options) {
 		    if (attributes.visualizations !== undefined && !(attributes.visualizations instanceof VisualizationCollection)) {
 				var visualizationCollection = new VisualizationCollection();
-				
+
 				_.each(attributes.visualizations, function (vis) {
 					var Visulation = VisualizationManagerModel.findVisualization(vis.name);
-					
+
 					if (vis.id === undefined) {
 						vis.id = _.uniqueId('v');
 					}
