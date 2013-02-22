@@ -1,0 +1,24 @@
+<div class="header">
+    <h1>Edit Dashboard</h1>
+    <div class="close"></div>
+</div>
+
+<div class="form">
+
+	<% console.log(color) %>
+
+	<div class="field">
+		<label for="name">Name</label>
+		<input type="text" name="name" value="<%= title %>" />
+	</div>
+
+	<div class="field">
+		<ul class="colors">
+			<% _.each(colors, function (col) { %>
+				<li class="<%= color === col ? 'selected': '' %>" data-color="<%= col %>" style="background-color: <%= col %>"></li>
+			<% }) %>
+		</ul>
+	</div>
+
+	<div class="btn blue">Save Dashboard</div>
+</div>
