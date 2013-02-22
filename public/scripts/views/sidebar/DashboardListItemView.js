@@ -2,8 +2,9 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
-	'vent'
-], function ($, _, Backbone, vent) {
+	'vent',
+	'views/sidebar/DashboardSettingsView'
+], function ($, _, Backbone, vent, DashboardSettingsView) {
 
 	'use strict';
 
@@ -15,11 +16,12 @@ define([
 		tagName: 'li',
 
 		events: {
-			'mousedown': 'click',
-			'click .del': 'del'
+			'click': 'click',
+			'click .del': 'del',
+			'click .set': 'settings'
 		},
 
-		template: _.template('<div class="colour"><span></span></div><span class="label-clip"><%= title %></span><div class="del"></div><div class="set"></div>'),
+		template: _.template('<div class="colour" style="background-color: <%= color %>"><span></span></div><span class="label-clip"><%= title %></span><div class="del"></div><div class="set"></div>'),
 
 		/**
 		 * Watch for change events
@@ -82,6 +84,11 @@ define([
 			// remove this element
 			this.remove();
 			this.model.destroy();
+		},
+
+		settings: function () {
+			var dsv = new DashboardSettingsView({model: this.model});
+			dsv.render();
 		}
 	});
 

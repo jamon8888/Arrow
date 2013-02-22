@@ -13,7 +13,9 @@ define([
 		defaults: {
 			title: '',
 			hidden: true,
-			visualizations: new VisualizationCollection()
+			visualizations: new VisualizationCollection(),
+			allColors: ['red', 'blue', 'green', 'purple'],
+			color: 'red'
 		},
 
 		set: function(attributes, options) {
