@@ -2,9 +2,8 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
-	'datasift',
 	'models/datasource/DataSourceModel'
-], function ($, _, Backbone, DataSift, DataSourceModel) {
+], function ($, _, Backbone, DataSourceModel) {
 
 	'use strict';
 
@@ -18,53 +17,109 @@ define([
 			'hash': ''
 		},
 
-		success: function () {},
-		error: function () {},
+		username: false,
+		apikey: false, 
+		hash: false,
+		closed: true,
 
 		initialize: function (attributes) {
 
-			if (!DataSift) {
-				throw 'DataSift is required';
-			}
-
-			var username = attributes.username,
-				apikey = attributes.apikey,
-				hash = attributes.hash;
-
-			// connect to datasift
-			DataSift.connect(username, apikey);
-			DataSift.register(hash, {
-				onOpen: _.bind(this.success, this),
-				onMessage: _.bind(this.onMessage, this),
-				onClose: _.bind(this.success, this),
-				onError: _.bind(this.error, this)
-			});
+			this.username = attributes.username;
+			this.apikey = attributes.apikey;
+			this.hash = attributes.hash;
 
 			DataSiftDataSourceModel.__super__.initialize.apply(this);
 		},
 
-		start: function (error, success) {
-			this.set('running', true);
-			DataSift.start(this.get('hash'));
+		/**
+		 * Connect to DataSift using a websocket connection
+		 * 
+		 * @param  Function openEvent What to run once the onOpen event has fired
+		 */
+		connect: function (openEvent) {
+			var url = 'ws://websocket.datasift.com';
+			if (this.username && this.apikey) {
+				url += '/?username=' + this.username + '&api_key=' + this.apikey;
+			}
 
-			this.error = error;
-			this.success = success;
+			this.socket = new WebSocket(url);
+			this.socket.onopen = _.bind(openEvent || function () {}, this);
+			this.socket.onmessage = _.bind(this.onMessage, this);
+			this.socket.onclose = _.bind(this.onClose, this);
+			this.socket.onerror = _.bind(this.onError, this);
 		},
 
-		stop: function (error, success) {
-			this.set('running', false);
-			DataSift.stop(this.get('hash'));
-
-			this.error = error;
-			this.success = success;
-		},
-
-		onMessage: function (interaction) {
-			// The DataSift library will only make one connection to DS, so we need to check the data we want is for this hash
-			if (this.get('hash') !== interaction.hash) {
+		/**
+		 * When we recieve a message through the WS connection
+		 * 
+		 * @param  String msg
+		 */
+		onMessage: function (msg) {
+			msg = JSON.parse(msg.data);
+			if (msg.status === 'failure') {
+				this.onError(msg);
 				return;
 			}
-			this.traverse(interaction.data);
+			this.traverse(msg.data);
+		},
+
+		/**
+		 * When we have an error
+		 * 
+		 * @param  String msg
+		 */
+		onError: function (msg) { 
+			if (this.error) {
+				this.error(msg);
+			}
+		},
+
+		/**
+		 * When the connection is closed store a flag
+		 */
+		onClose: function (msg) {
+			this.closed = true;
+		},
+
+		/**
+		 * Start the connection by sending the hash, you can only
+		 * do this once the connection is open
+		 * 
+		 * @param  Function error
+		 * @param  Function success
+		 */
+		start: function (error, success) {
+			var start = function () {
+				var msg = '{ "action":"subscribe", "hash":"' + this.hash + '", "token":"d39j2vyur9832"}';
+				this.socket.send(msg);
+				this.set('running', true);
+				this.success();
+			}.bind(this);
+
+			if (this.closed) {
+				this.connect(start);
+			} else {
+				start();
+			}
+
+			this.error = error;
+			this.success = success;
+		},
+
+		/**
+		 * Stop the connection
+		 * 
+		 * @param  Function error
+		 * @param  Function success
+		 */
+		stop: function (error, success) {
+			this.set('running', false);
+			var msg = '{ "action":"unsubscribe", "hash":"' + this.hash + '", "token":"d39j2vyur9832"}';
+			this.socket.send(msg);
+			this.set('running', false);
+			this.error = error;
+			this.success = success;
+			this.success();
 		},
 
 		traverse: function (obj, name) {

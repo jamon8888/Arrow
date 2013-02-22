@@ -24,6 +24,7 @@ define([
 		 * Watch for change events
 		 */
 		initialize: function () {
+			this.errorMessage = false;
 			this.model.on('change', this.render, this);
 		},
 
@@ -33,13 +34,6 @@ define([
 		render: function () {
 			var body = this.template(this.model.toJSON());
 			this.$el.html(body);
-
-			if (this.model.getActivityStatus() === 'running') {
-				this.$el.find('span').addClass('activity-running');
-			} else {
-				this.$el.find('span').addClass('activity-paused');
-			}
-
 			return this;
 		},
 
@@ -48,17 +42,46 @@ define([
 		 */
 		toggle: function () {
 			if (this.model.getActivityStatus() === 'running') {
-				this.model.stop(this.failedToChangeStatus);
-				this.$el.find('span').addClass('activity-paused');
+				this.model.stop(
+					_.bind(this.failedToChangeStatus, this),
+					_.bind(this.succeededToChangeStatus, this)
+				);
 			} else {
-				this.model.start(this.failedToChangeStatus);
-				this.$el.find('span').addClass('activity-running');
+				this.model.start(
+					_.bind(this.failedToChangeStatus, this),
+					_.bind(this.succeededToChangeStatus, this)
+				);
+			}
+		},
+
+		succeededToChangeStatus: function () {
+			var span = this.$el.find('span');
+
+			if (this.errorMessage) {
+				this.errorMessage.remove();
+				this.$el.removeClass('error');
+			}
+
+			if (span.hasClass('activity-running')) {
+				span.removeClass('activity-running');
+				span.addClass('activity-paused');
+			} else {
+				span.removeClass('activity-paused');
+				span.addClass('activity-running');
 			}
 		},
 
 		failedToChangeStatus: function (msg) {
-			console.log(msg);
-			alert(msg);
+
+			if (this.errorMessage) {
+				this.errorMessage.remove();
+			}
+
+			msg = msg.message ? msg.message : 'An unknown error occured, please try again';
+
+			this.errorMessage = $('<div class="error-popup">' + msg + '</div>');
+			this.$el.addClass('error');
+			this.$el.append(this.errorMessage);
 		}
 
 	});
