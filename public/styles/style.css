@@ -26,22 +26,38 @@ aside .btn { margin-left: 20px; width: 220px; margin-top:20px; }
 
 /* Sidebar Data Sources */
 #datasourcelist {list-style:none;padding:0;margin:0;}
-#datasourcelist li {padding:5px 20px 5px 50px;overflow:hidden;line-height:20px;position:relative;cursor: pointer;width:190px;white-space:nowrap;text-overflow:ellipsis;}
-#datasourcelist .status {display:block; width: 20px; height: 20px;position: absolute; left:20px; top:50%; margin-top: -10px; text-indent: 100%;background:url(/images/activity.gif)no-repeat top;}
+#datasourcelist li {padding:5px 40px 5px 50px;line-height:20px;position:relative;cursor: pointer;}
+#datasourcelist li span.label-clip {width:170px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;display:block;}
+#datasourcelist .status {display:block; width: 20px; height: 20px;position: absolute; left:18px; top:50%; margin-top: -10px; text-indent: 100%;background:url(/images/activity.gif)no-repeat top;}
 #datasourcelist li:hover .status {background-position:0 -20px;}
-#datasourcelist .status.activity-running{background-position:0 -40px;}
-#datasourcelist .status.activity-running:hover {background-position:0 -60px;}
+/* to play */
+#datasourcelist li.activity-running {color:#299462;}
+#datasourcelist li.activity-running .status {background-position:0 -40px;}
+/* to pause */
+#datasourcelist li.activity-running:hover {color:#f47900;}
+#datasourcelist li.activity-running:hover .status {background-position: 0 -60px;}
+/* oops */
+#datasourcelist li.error {color:#a6381f;}
+#datasourcelist li.error:hover {color:#a6381f;}
+#datasourcelist li.error .status {background-position:0 -80px;}
+#datasourcelist li.error:hover .status {background-position:0 -80px;}
+#datasourcelist .error-popup {position:absolute;left:0;margin-left:240px;top:0;height:30px;line-height:30px;padding:0 0 0 20px;overflow:hidden;width:30px;}
+#datasourcelist .error-popup span.error-details {display:block;background:#f04747 url(/images/error.png) no-repeat 5px;color:white;position:relative;padding:0 10px 0 30px;}
+#datasourcelist .error-popup span.error-details:before {content:'';display:block;width:0;height:0;line-height:0;position:absolute;left:-12px;top:9px;border:6px solid #f04747;border-top-color:transparent;border-bottom-color:transparent;border-left-color:transparent;}
+#datasourcelist  li.error:hover .error-popup {width:auto;}
 
-#datasourcelist .status.activity-error{background-position:0 -80px;}
+#datasourcelist li .set {display:block; width: 20px; height: 20px; background: url(/images/dashboard-list-set.gif) no-repeat top; position: absolute;right:10px; top:50%; margin-top: -10px; text-indent: 100%;}
+
 
 /* Sidebar Dashboard list */
 #dashboardlist {list-style:none;padding:0;margin:0;}
-#dashboardlist li {padding:5px 40px 5px 50px;overflow:hidden;line-height:20px;position:relative;cursor: pointer;white-space:nowrap;text-overflow:ellipsis;}
+#dashboardlist li {padding:5px 40px 5px 50px;overflow:hidden;line-height:20px;position:relative;cursor: pointer;}
+#dashboardlist li span.label-clip {width:170px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;display:block;}
 #dashboardlist li.selected { background: #FFF; color: #515f6f;}
 #dashboardlist li.selected:hover { background: #FFF; }
 
-#dashboardlist li .colour {display:block; width: 20px; height: 20px; background:#cdd1d5; position: absolute;left:20px; top:50%; margin-top: -10px; text-indent: 100%;border-radius:20px;overflow:hidden;}
-#dashboardlist li .colour span {display:block;background:rgba(255,255,255,.3);height:20px;width:10px;}
+#dashboardlist li .colour {display:block; width: 16px; height: 16px; background:#cdd1d5; position: absolute;left:20px; top:50%; margin-top: -8px; text-indent: 100%;border-radius:20px;overflow:hidden;}
+#dashboardlist li .colour span {display:block;background:rgba(255,255,255,.3);height:100%;width:50%;}
 
 #dashboardlist li .set {display:block; width: 20px; height: 20px; background: url(/images/dashboard-list-set.gif) no-repeat top; position: absolute;right:10px; top:50%; margin-top: -10px; text-indent: 100%;}
 #dashboardlist li.selected .set{background-position:0 -20px;}
@@ -52,7 +68,7 @@ aside .btn { margin-left: 20px; width: 220px; margin-top:20px; }
 #newdashboard input { border: none;margin: 0; width: 100% font-family: inherit; font-size:inherit; padding:0; width: 100%;height:20px;background:#F4F4F4; }
 
 #addDataSource,#createdashboard {padding:0px 5px 0px 50px;height:32px;line-height:32px;font-style:italic;margin-top:15px;position:relative;cursor:pointer;}
-#addDataSource span, #createdashboard span {display:block; width: 20px; height: 20px; background: url(/images/dashboard-list-add.png) no-repeat top; position: absolute;left:20px; top:50%; margin-top: -10px; text-indent: 100%;}
+#addDataSource span, #createdashboard span {display:block; width: 20px; height: 20px; background: url(/images/dashboard-list-add.png) no-repeat top; position: absolute;left:18px; top:50%; margin-top: -10px; text-indent: 100%;}
 #addDataSource:hover, #createdashboard:hover {color:#299462;}
 #addDataSource:hover span, #createdashboard:hover span {background-position:0 -20px;}
 
@@ -198,8 +214,6 @@ aside .btn.blue { border-color:#00a5c8;}
 input#url {border:0;padding:10px;margin-top:24px;background:#515f6f;color:white;-webkit-box-sizing: border-box;width:100%;}
 
 .exportOption {margin-bottom:20px;}
-
-
 
 /* Chosen styles */
 .chzn-search {display:none;} /* hides inline search box in dropdowns */

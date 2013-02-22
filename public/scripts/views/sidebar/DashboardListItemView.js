@@ -21,7 +21,7 @@ define([
 			'click .set': 'settings'
 		},
 
-		template: _.template('<div class="colour" style="background-color: <%= color %>"><span></span></div><%= title %><div class="del"></div><div class="set"></div>'),
+		template: _.template('<div class="colour" style="background-color: <%= color %>"><span></span></div><span class="label-clip"><%= title %></span><div class="del"></div><div class="set"></div>'),
 
 		/**
 		 * Watch for change events
