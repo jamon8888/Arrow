@@ -18,9 +18,6 @@ define([
 
 		render: function () {
 
-
-			console.log(this.model.toJSON());
-
 			var form = _.template(DashboardSettingsTemplate, {
 				'title': this.model.get('title'),
 				'colors': this.model.get('allColors'),
