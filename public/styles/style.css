@@ -236,3 +236,10 @@ input#url {border:0;padding:10px;margin-top:24px;background:#515f6f;color:white;
 .note {color:#33b679;margin-top:20px;background:none !important;border:2px dashed #33b679;border-radius: 5px;font-weight:bold;}
 .play-icon,.pause-icon{display:inline-block;width:16px;height:16px;background-image:url(/images/toggles.png);background-repeat:no-repeat;position:relative;top:4px;}
 .pause-icon{background-position:0 -16px;}
+
+/* Colour selection options */
+.colors {list-style:none;margin:0;padding:0;overflow:hidden;}
+.colors li {display:block; width: 16px; height: 16px;border-radius:20px;overflow:hidden;float:left;margin-right:10px;cursor:pointer;border:5px solid #313841;}
+.colors li span {display:block;background:rgba(255,255,255,.4);height:100%;width:50%;}
+.colors li:hover {border:5px solid #1c242b;}
+.colors li.selected {border:5px solid #747f8c;}
