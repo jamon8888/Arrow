@@ -42,11 +42,12 @@ aside .btn { margin-left: 20px; width: 220px; margin-top:20px; }
 #datasourcelist li.error .status {background-position:0 -80px;}
 #datasourcelist li.error:hover .status {background-position:0 -80px;}
 #datasourcelist .error-popup {position:absolute;left:0;margin-left:240px;top:0;height:30px;line-height:30px;padding:0 0 0 20px;overflow:hidden;width:30px;}
-#datasourcelist .error-popup span.error-details {display:block;background:#f04747 url(/images/error.png) no-repeat 5px;color:white;position:relative;padding:0 10px 0 30px;}
+#datasourcelist .error-popup span.error-details {display:block;background:#f04747 url(/images/error.png) no-repeat 5px 5px;color:white;position:relative;padding:0 10px 0 30px;}
 #datasourcelist .error-popup span.error-details:before {content:'';display:block;width:0;height:0;line-height:0;position:absolute;left:-12px;top:9px;border:6px solid #f04747;border-top-color:transparent;border-bottom-color:transparent;border-left-color:transparent;}
 #datasourcelist  li.error:hover .error-popup {width:auto;}
 
 #datasourcelist li .set {display:block; width: 20px; height: 20px; background: url(/images/dashboard-list-set.gif) no-repeat top; position: absolute;right:10px; top:50%; margin-top: -10px; text-indent: 100%;}
+#datasourcelist li .set:hover {background-position:0}
 
 
 /* Sidebar Dashboard list */
@@ -108,7 +109,7 @@ content { float: left; margin: 60px 0 0 260px; padding: 10px; }
 
 /* Form */
 input[type="text"],.element{outline:none;background:#e9eef4;border:0; border-radius: 2px; box-sizing: border-box; width: 100%; padding:10px;font-size: 12px;  margin-bottom: 10px;}
-input[type="text"].element:focus {background:#fcfce2;}
+input[type="text"]:focus,.element:focus {background:#fcfce2;}
 input[type="text"].error { border-color: #895099; }
 
 /* Form labels */
