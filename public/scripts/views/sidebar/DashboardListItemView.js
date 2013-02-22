@@ -19,7 +19,7 @@ define([
 			'click .del': 'del'
 		},
 
-		template: _.template('<div class="colour"><span></span></div><%= title %><div class="del"></div><div class="set"></div>'),
+		template: _.template('<div class="colour"><span></span></div><span class="label-clip"><%= title %></span><div class="del"></div><div class="set"></div>'),
 
 		/**
 		 * Watch for change events

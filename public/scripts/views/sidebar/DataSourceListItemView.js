@@ -18,7 +18,7 @@ define([
 			'click': 'toggle'
 		},
 
-		template: _.template('<span class="status"></span><%= niceName %></li>'),
+		template: _.template('<span class="status"></span><span class="label-clip"><%= niceName %></span><div class="set"></div></li>'),
 
 		/**
 		 * Watch for change events
@@ -62,12 +62,12 @@ define([
 				this.$el.removeClass('error');
 			}
 
-			if (span.hasClass('activity-running')) {
-				span.removeClass('activity-running');
-				span.addClass('activity-paused');
+			if (this.$el.hasClass('activity-running')) {
+				this.$el.removeClass('activity-running');
+				this.$el.addClass('activity-paused');
 			} else {
-				span.removeClass('activity-paused');
-				span.addClass('activity-running');
+				this.$el.removeClass('activity-paused');
+				this.$el.addClass('activity-running');
 			}
 		},
 
@@ -79,7 +79,7 @@ define([
 
 			msg = msg.message ? msg.message : 'An unknown error occured, please try again';
 
-			this.errorMessage = $('<div class="error-popup">' + msg + '</div>');
+			this.errorMessage = $('<div class="error-popup"><span class="error-details">' + msg + '</span></div>');
 			this.$el.addClass('error');
 			this.$el.append(this.errorMessage);
 		}
