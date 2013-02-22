@@ -47,7 +47,7 @@ aside .btn { margin-left: 20px; width: 220px; margin-top:20px; }
 #datasourcelist  li.error:hover .error-popup {width:auto;}
 
 #datasourcelist li .set {display:block; width: 20px; height: 20px; background: url(/images/dashboard-list-set.gif) no-repeat top; position: absolute;right:10px; top:50%; margin-top: -10px; text-indent: 100%;}
-#datasourcelist li .set:hover {background-position:0}
+#datasourcelist li .set:hover {background-position:0 -40px;z-index:9999;}
 
 
 /* Sidebar Dashboard list */
