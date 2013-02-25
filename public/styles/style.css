@@ -42,7 +42,7 @@ aside .btn { margin-left: 20px; width: 220px; margin-top:20px; }
 #datasourcelist li.error .status {background-position:0 -80px;}
 #datasourcelist li.error:hover .status {background-position:0 -80px;}
 #datasourcelist .error-popup {position:absolute;left:0;margin-left:240px;top:0;height:30px;line-height:30px;padding:0 0 0 20px;overflow:hidden;width:30px;}
-#datasourcelist .error-popup span.error-details {display:block;background:#f04747 url(/images/error.png) no-repeat 5px 5px;color:white;position:relative;padding:0 10px 0 30px;}
+#datasourcelist .error-popup span.error-details {display:block;background:#f04747 url(/images/error.png) no-repeat 5px 5px;color:white;position:relative;padding:0 10px 0 30px;border-top:1px solid white;border-bottom:1px solid white;white-space: nowrap;}
 #datasourcelist .error-popup span.error-details:before,
 #datasourcelist .error-popup span.error-details:after {content:'';display:block;width:0;height:0;line-height:0;position:absolute;left:-12px;top:9px;border:6px solid #f04747;border-top-color:transparent;border-bottom-color:transparent;border-left-color:transparent;}
 #datasourcelist .error-popup span.error-details:before {top:7px;left:-16px;border:8px solid white;border-top-color:transparent;border-bottom-color:transparent;border-left-color:transparent;}
