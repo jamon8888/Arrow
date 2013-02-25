@@ -122,12 +122,16 @@ define([
 			this.success();
 		},
 
+		/**
+		 * Break up the data and store the individual key
+		 * 
+		 * @param  {[type]} obj  [description]
+		 * @param  {[type]} name [description]
+		 * @return {[type]}      [description]
+		 */
 		traverse: function (obj, name) {
-
 			name = name ? name + '.' : '';
-
 			for (var key in obj) {
-
 				if (obj.hasOwnProperty(key)) {
 					if (_.isArray(obj[key])) {
 						this.store(this.get('id'), name + key, obj[key]);
@@ -138,6 +142,8 @@ define([
 					}
 				}
 			}
+			// increment the bucket counter
+			this.store(this.get('id'), 'Total', 1);
 		}
 
 	});

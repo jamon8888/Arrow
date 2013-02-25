@@ -115,7 +115,6 @@ define([
 
 			if (this.bucket[prefix] !== bucket) {
 				vent.trigger('arrow:data:' + prefix, this.data[prefix]);
-
 				console.log('triggering: arrow:data:' + prefix);
 
 				this.save();
@@ -154,6 +153,12 @@ define([
 
 			// store the value
 			if (_.isString(value)) {
+
+				// stop the string from taking too much space
+				if (value.length > 100) {
+					value = value.slice(0, 100);
+				}
+
 				this.storeString(data[prefix][bucket][key], value);
 			} else if (_.isNumber(value)) {
 				this.storeNumber(data[prefix][bucket][key], value);
