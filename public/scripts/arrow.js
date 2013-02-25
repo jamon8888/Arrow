@@ -33,6 +33,7 @@ require.config({
 
 	paths: {
 		jquery: 'libraries/jquery',
+		jqueryui: 'libraries/jquery-ui',
 		underscore: 'libraries/underscore',
 		backbone: 'libraries/backbone',
 		localstorage: 'libraries/backbone-localstorage',

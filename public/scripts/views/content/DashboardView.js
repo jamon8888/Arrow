@@ -23,9 +23,12 @@ define([
 			this.model.get('visualizations').on('change', this.saveVisualizations, this);
 			this.model.get('visualizations').on('remove', this.saveVisualizations, this);
 			this.model.on('change', this.update, this);
+			this.model.on('change:startTime', this.render, this);
+			this.model.on('change:endTime', this.render, this);
 		},
 
 		render: function () {
+			this.$el.html('');
 			this.update();
 			// add all the visulizations
 			this.addAllCharts(this.model.get('visualizations'));
@@ -38,7 +41,10 @@ define([
 		},
 
 		addChart: function (chart) {
-			var view = new VisualizationView({model:chart}),
+			var view = new VisualizationView({
+					model: this.model,
+					chart: chart
+				}),
 				data = chart.getDataSource().getData(),
 				addNew = $('.add.vis', this.$el),
 				html = view.render(data[chart.get('datasource')]).el;

@@ -28,33 +28,45 @@ define([
 		},
 
 		initialize: function () {
-			vent.on('arrow:data:' + this.model.prefix(), this.render, this);
-			this.model.on('change', this.save);
+			vent.on('arrow:data:' + this.options.chart.prefix(), this.render, this);
+			this.options.chart.on('change', this.save);
 		},
 
 		render: function (data, options) {
 
+			var startTime = this.model.get('startTime'),
+				endTime = this.model.get('endTime');
+
 			this.$el.html('');
+			// we have to deep copy the data object
+			this.data = $.extend(true, {}, data);
 
-			this.data = data;
+			// remove all the buckets which are outside the time range
+			if (startTime || endTime) {
+				for (var bucket in this.data) {
+					if ((startTime && startTime > bucket) || (endTime && endTime < bucket)) {
+						delete(this.data[bucket]);
+					}
+				}
+			}
 
-			this.options = {
-				'height': this.model.get('height'),
-				'width': this.model.get('width'),
-				'showx': this.model.get('showx'),
-				'showy': this.model.get('showy'),
-				'padding': this.model.get('padding')
+			this.properties = {
+				'height': this.options.chart.get('height'),
+				'width': this.options.chart.get('width'),
+				'showx': this.options.chart.get('showx'),
+				'showy': this.options.chart.get('showy'),
+				'padding': this.options.chart.get('padding')
 			};
 
-			_.extend(this.options, options);
-			this.model.set(this.options);
+			_.extend(this.properties, options);
+			this.options.chart.set(this.properties);
 
-			var element = this.model.render(data);
+			var element = this.options.chart.render(this.data);
 
 			var body = _.template(VisulizationTemplate, {
-				'title': this.model.get('userName'),
-				'width': this.options.width,
-				'height': this.options.height
+				'title': this.options.chart.get('userName'),
+				'width': this.properties.width,
+				'height': this.properties.height
 			});
 
 			this.$el.html(body);
@@ -64,11 +76,11 @@ define([
 			$('.chart', this.$el).append(element);
 
 			this.$el.css({
-				'height': this.options.height,
-				'width': this.options.width
+				'height': this.properties.height,
+				'width': this.properties.width
 			});
 
-			if (this.options.width > this.options.height) {
+			if (this.properties.width > this.properties.height) {
 				this.$el.addClass('landscape');
 			} else {
 				this.$el.removeClass('landscape');
@@ -83,18 +95,18 @@ define([
 
 		del: function () {
 			this.remove();
-			this.model.collection.remove(this.model);
+			this.options.chart.collection.remove(this.options.chart);
 		},
 
 		advancedSettings: function () {
 			var body = _.template(EditVisualizationTemplate, {
-				'userName': this.model.get('userName')
+				'userName': this.options.chart.get('userName')
 			});
 
 			var pv = new PopupView(),
 				pvElement = pv.render(body);
 
-			$('#popup .varea').append(this.model.form());
+			$('#popup .varea').append(this.options.chart.form());
 
 			$('.btn.blue', pvElement).click(function () {
 
@@ -102,13 +114,13 @@ define([
 
 				_.each(fields, function (field) {
 					if ($(field).val() !== '') {
-						this.model.set($(field).attr('name'), $(field).val());
+						this.options.chart.set($(field).attr('name'), $(field).val());
 					} else { 
-						this.model.unset($(field).attr('name'));
+						this.options.chart.unset($(field).attr('name'));
 					}
 				}.bind(this));
 
-				this.render(this.data, this.options);
+				this.render(this.data, this.properties);
 
 				pv.remove();
 				this.$el.toggleClass('flipped');
@@ -117,7 +129,7 @@ define([
 		},
 
 		saveSettings: function () {
-			this.model.set('userName', $('input[name="name"]', this.$el).val());
+			this.options.chart.set('userName', $('input[name="name"]', this.$el).val());
 			this.render(this.data);
 			this.$el.removeClass('flipped');
 		},
@@ -182,19 +194,19 @@ define([
 					$(document).unbind('mousemove');
 					dragging = false;
 
-					this.options.width = width;
-					this.options.height = height;
-					this.options.padding = 10;
-					this.options.showx = false;
-					this.options.showy = false;
+					this.properties.width = width;
+					this.properties.height = height;
+					this.properties.padding = 10;
+					this.properties.showx = false;
+					this.properties.showy = false;
 
 					if (width > 300) {
-						this.options.padding = 40;
-						this.options.showx = true;
-						this.options.showy = true;
+						this.properties.padding = 40;
+						this.properties.showx = true;
+						this.properties.showy = true;
 					}
 
-					this.render(this.data, this.options);
+					this.render(this.data, this.properties);
 				}
 			}.bind(this));
 		}

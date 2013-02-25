@@ -1,11 +1,14 @@
 define([
 	'jquery',
+	'jqueryui',
 	'underscore',
 	'backbone',
 	'chosen',
+	'd3',
+	'models/datasource/DataSourceModel',
 	'views/popup/PopupView',
 	'text!templates/sidebar/DashboardSettingsView.html'
-], function ($, _, Backbone, Chosen, PopupView, DashboardSettingsTemplate) {
+], function ($, $ui, _, Backbone, Chosen, d3, DataSourceModel, PopupView, DashboardSettingsTemplate) {
 
 	'use strict';
 
@@ -31,6 +34,76 @@ define([
 			this.$el = $(this.el);
 			// rebind the events
 			this.delegateEvents();
+
+			// build a little chart
+			this.buildAvailabilityData();
+			this.buildAvailabilityChart();
+
+			// bind the slider
+			this.$el.find('#slider').slider({
+				range: true,
+				min: this.min,
+				max: this.max,
+				values: [
+					this.model.get('startTime') ? this.model.get('startTime') : this.min, 
+					this.model.get('endTime') ? this.model.get('endTime') : this.max
+				],
+				step: 1000 * 10
+			});
+		},
+
+		buildAvailabilityData: function () {
+
+			var avail = {},
+				dsm = new DataSourceModel(),
+				data = dsm.getData();
+
+			this.availGraph = [];
+
+			// fetch all the totals in each bucket
+			for (var datasource in data) {
+				for (var time in data[datasource]) {
+					avail[time] = data[datasource][time].Total.sum;
+				}
+			}
+
+			// add them to an array
+			for (var time in avail) {
+				this.availGraph.push({
+					'time': time,
+					'value': avail[time]
+				});
+			}
+
+			this.min = parseInt(d3.min(this.availGraph, function (d) { return d.time; }), 10);
+			this.max = parseInt(d3.max(this.availGraph, function (d) { return d.time; }), 10);
+		},
+
+		buildAvailabilityChart: function () {
+
+			var width = 300,
+				height = 50;
+
+
+			var max = d3.max(this.availGraph, function (d) { return d.value; });
+			var min = d3.min(this.availGraph, function (d) { return d.value; });
+
+			var y = d3.scale.linear().domain([0, max]).rangeRound([0, height]);
+			var x = d3.scale.linear().domain([this.min, this.max]).range([0, width]);
+
+			var chart = d3.select('#barchart')
+				.append('svg')
+				.attr('width', width)
+				.attr('height', height);
+
+			chart.selectAll('rect')
+				.data(this.availGraph)
+			.enter()
+				.append('rect')
+				.attr('x', function (d, i) { return x(d.time); })
+				.attr('y', function (d) { return height - y(d.value); })
+				.attr('width', function (d, i) { return (width / ((this.max - this.min) / 10000)); }.bind(this))
+				.attr('height', function (d) { return y(d.value); });
 		},
 
 		changeColor: function (evt) {
@@ -45,6 +118,20 @@ define([
 			var name = this.$el.find('input[name="name"]').val();
 			// get the color
 			var color = this.$el.find('.colors li.selected').attr('data-color');
+			// get the time range
+			var timeframe = this.$el.find('#slider').slider('values');
+
+			if (this.min !== timeframe[0]) {
+				this.model.set('startTime', timeframe[0]);
+			} else {
+				this.model.set('startTime', false);
+			}
+
+			if (this.max !== timeframe[1]) {
+				this.model.set('endTime', timeframe[1]);
+			} else {
+				this.model.set('endTime', false);
+			}
 
 			this.model.set('title', name);
 			this.model.set('color', color);
