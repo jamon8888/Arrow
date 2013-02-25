@@ -1,5 +1,5 @@
 <div class="header">
-    <h1>Edit Dashboard</h1>
+    <h1>Dashboard settings</h1>
     <div class="close"></div>
 </div>
 
@@ -17,7 +17,7 @@
 	</div>
 
 	<div class="field">
-		<label for="colors">Dashboard Colour</label>
+		<label for="colors">Colour</label>
 		<ul class="colors">
 			<% _.each(colors, function (col) { %>
 				<li class="<%= color === col ? 'selected': '' %>" data-color="<%= col %>" style="background-color: <%= col %>"><span></span></li>
@@ -25,5 +25,8 @@
 		</ul>
 	</div>
 
-	<div class="btn blue">Save Dashboard</div>
+	<div class="btn blue" style="margin-top:20px;margin-bottom:70px;">Update settings</div>
+	<div class="deleteTile">
+		<div class="btn red delete">Delete</div>
+	</div>
 </div>
