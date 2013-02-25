@@ -107,6 +107,7 @@ content { float: left; margin: 60px 0 0 260px; padding: 10px; }
 /* Add Vis */
 .add.vis { border: 2px dashed #92979b; border-radius: 5px; cursor: pointer;position:relative; }
 .add.vis span { background: url('/images/sprite.png') no-repeat 0 -160px; display: block; height: 40px; margin: 130px 0 0 130px; width: 40px; }
+.add.vis:hover {border-color:#273139;background:#f4f4f4;}
 .add:hover.vis span { background-position: 0 -120px; }
 
 /* Form */
