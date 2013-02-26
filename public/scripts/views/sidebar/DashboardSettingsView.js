@@ -82,8 +82,8 @@ define([
 
 		buildAvailabilityChart: function () {
 
-			var width = 300,
-				height = 50;
+			var width = 320,
+				height = 54;
 
 
 			var max = d3.max(this.availGraph, function (d) { return d.value; });

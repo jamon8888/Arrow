@@ -96,7 +96,7 @@ define([
 		del: function (evt) {
 
 			var $target = $(evt.target),
-				confirmText = 'Are you sure you want to delete?';
+				confirmText = 'Are you sure?';
 
 			if ($target.html() !== confirmText) {
 				$target.html(confirmText);
@@ -124,7 +124,7 @@ define([
 				_.each(fields, function (field) {
 					if ($(field).val() !== '') {
 						this.options.chart.set($(field).attr('name'), $(field).val());
-					} else { 
+					} else {
 						this.options.chart.unset($(field).attr('name'));
 					}
 				}.bind(this));
@@ -161,7 +161,7 @@ define([
 			});
 
 			$('body').append(div);
-			
+
 			// watch for mouse movement
 			$(document).mousemove(function (e) {
 
@@ -190,12 +190,12 @@ define([
 				if (dragging) {
 
 					this.$el.css({
-						'width': width, 
+						'width': width,
 						'height': height
 					});
 
 					$('.pane', this.$el).css({
-						'width': width, 
+						'width': width,
 						'height': height
 					});
 
