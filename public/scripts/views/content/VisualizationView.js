@@ -93,7 +93,16 @@ define([
 			this.$el.toggleClass('flipped');
 		},
 
-		del: function () {
+		del: function (evt) {
+
+			var $target = $(evt.target),
+				confirmText = 'Are you sure you want to delete?';
+
+			if ($target.html() !== confirmText) {
+				$target.html(confirmText);
+				return;
+			}
+
 			this.remove();
 			this.options.chart.collection.remove(this.options.chart);
 		},

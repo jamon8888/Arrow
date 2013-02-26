@@ -12,13 +12,7 @@ define([
 		el: $('header'),
 
 		events: {
-			'mousedown #importExport': 'importExport',
 			'mousedown #share': 'share'
-		},
-
-		importExport: function () {
-			var iev = new ImportExportView();
-			iev.render();
 		},
 
 		share: function () {
