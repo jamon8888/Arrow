@@ -18,9 +18,11 @@ define([
 		 * Render the li
 		 */
 		render: function (collection) {
-			this.addAllDashboards(collection);
+			this.collection = collection;
+			this.addAllDashboards(this.collection);
 			// watch for new dashboards to be added
 			collection.on('add', this.addDashboard, this);
+			collection.on('remove', this.removeDashboard, this);
 		},
 
 		/**
@@ -41,6 +43,10 @@ define([
 		addAllDashboards: function (dashboards) {
 			this.$el.html('');
 			dashboards.each(this.addDashboard, this);
+		},
+
+		removeDashboard: function () {
+			this.addAllDashboards(this.collection);
 		}
 	});
 

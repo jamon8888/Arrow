@@ -16,7 +16,8 @@ define([
 
 		events: {
 			'click .colors li': 'changeColor',
-			'click .btn.blue': 'save'
+			'click .btn.blue': 'save',
+			'click .btn.delete': 'del'
 		},
 
 		render: function () {
@@ -139,6 +140,31 @@ define([
 			this.model.save();
 
 			this.popup.remove();
+		},
+
+		del: function () {
+
+			var index = null;
+
+			// find the current index
+			this.model.collection.each(function (d, i) {
+				if (d === this.model) {
+					index = i;
+				}
+			}.bind(this));
+
+			// do we have an element after
+			if (this.model.collection.at(index + 1)) {
+				this.model.collection.at(index + 1).show();
+			} else if (this.model.collection.at(index - 1)) {
+				this.model.collection.at(index - 1).show();
+			} else {
+				// do nothing
+			}
+
+			// remove the popup
+			this.popup.remove();
+			this.model.destroy();
 		}
 	});
 
