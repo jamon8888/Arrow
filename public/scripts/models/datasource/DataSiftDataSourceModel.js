@@ -152,7 +152,7 @@ define([
 				}
 			}
 			// increment the bucket counter
-			this.store(this.get('id'), 'Total', 1);
+			this.store(this.get('id'), 'Total', 1, time);
 		}
 
 	});
