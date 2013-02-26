@@ -309,14 +309,28 @@ input#url {border:0;padding:10px;margin-top:24px;background:#515f6f;color:white;
 
 
 /* Time range slider styles */
-.ui-slider {background:#1c242b !important;margin-top:10px;border-radius:30px !important;height:16px !important;border:4px solid #1c242b !important;}
+/*.ui-slider {background:#1c242b !important;margin-top:10px;border-radius:30px !important;height:16px !important;border:4px solid #1c242b !important;}
 .ui-slider-range {border-radius:30px !important;height:6px !important; top:5px !important;background:#747f8c !important;position:relative !important;}
+.ui-slider-range:after {content:'';display:block;position:absolute;top:-77px;background:rgba(0,0,0,.2);height:46px;width:100%;border:4px solid transparent;left:-4px;}*/
+/* handles */
+/*.ui-slider-handle {background:#38b87c !important;border-radius:100% !important;width:16px !important;height:16px !important;top:0 !important;margin:0 !important;border:none !important;}
+.ui-slider-handle:focus{outline:none;}
+.ui-state-active{background:white !important;}
+.ui-slider-handle:nth-of-type(2) {margin-left:-16px !important;}*/
+
+
+/* Time range slider styles */
+.ui-slider {background:#f04747 !important;margin-top:10px;border-radius:30px !important;height:16px !important;border:none !important;border:4px solid #1c242b !important;}
+.ui-slider-range {border-radius:30px !important;background:#38b87c !important;position:relative !important;}
 .ui-slider-range:after {content:'';display:block;position:absolute;top:-77px;background:rgba(0,0,0,.2);height:46px;width:100%;border:4px solid transparent;left:-4px;}
 /* handles */
-.ui-slider-handle {background:#38b87c !important;border-radius:100% !important;width:16px !important;height:16px !important;top:0 !important;margin:0 !important;border:none !important;}
+.ui-slider-handle {background:white !important;border-radius:100% !important;width:16px !important;height:16px !important;top:0 !important;margin:0 !important;border:none !important;}
 .ui-slider-handle:focus{outline:none;}
 .ui-state-active{background:white !important;}
 .ui-slider-handle:nth-of-type(2) {margin-left:-16px !important;}
+
+
+
 
 #barchat {z-index:9999;}
 #barchart rect {fill:#38b87c;stroke:#313841;}
