@@ -46,7 +46,7 @@ define([
 				min: this.min,
 				max: this.max,
 				values: [
-					this.model.get('startTime') ? this.model.get('startTime') : this.min, 
+					this.model.get('startTime') ? this.model.get('startTime') : this.min,
 					this.model.get('endTime') ? this.model.get('endTime') : this.max
 				],
 				step: 1000 * 10
@@ -145,7 +145,7 @@ define([
 		del: function (evt) {
 
 			var $target = $(evt.target),
-				confirmText = 'Are you sure you want to delete?',
+				confirmText = 'Are you sure?',
 				index = null;
 
 			if ($target.html() !== confirmText) {
