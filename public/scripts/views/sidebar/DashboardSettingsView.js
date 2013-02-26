@@ -142,9 +142,16 @@ define([
 			this.popup.remove();
 		},
 
-		del: function () {
+		del: function (evt) {
 
-			var index = null;
+			var $target = $(evt.target),
+				confirmText = 'Are you sure you want to delete?',
+				index = null;
+
+			if ($target.html() !== confirmText) {
+				$target.html(confirmText);
+				return;
+			}
 
 			// find the current index
 			this.model.collection.each(function (d, i) {

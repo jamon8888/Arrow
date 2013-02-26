@@ -17,7 +17,6 @@ define([
 
 		events: {
 			'click': 'click',
-			'click .del': 'del',
 			'click .set': 'settings'
 		},
 
@@ -59,31 +58,6 @@ define([
 			});
 			this.model.show();
 			this.model.save();
-		},
-
-		del: function (e) {
-
-			var index = null;
-
-			// find the current index
-			this.model.collection.each(function (d, i) {
-				if (d === this.model) {
-					index = i;
-				}
-			}.bind(this));
-
-			// do we have an element after
-			if (this.model.collection.at(index + 1)) {
-				this.model.collection.at(index + 1).show();
-			} else if (this.model.collection.at(index - 1)) {
-				this.model.collection.at(index - 1).show();
-			} else {
-				// do nothing
-			}
-
-			// remove this element
-			this.remove();
-			this.model.destroy();
 		},
 
 		settings: function () {
