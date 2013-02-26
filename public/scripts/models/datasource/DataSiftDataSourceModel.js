@@ -23,12 +23,14 @@ define([
 		closed: true,
 
 		initialize: function (attributes) {
+			this.refreshAttributes(attributes);
+			DataSiftDataSourceModel.__super__.initialize.apply(this);
+		},
 
+		refreshAttributes: function (attributes) {
 			this.username = attributes.username;
 			this.apikey = attributes.apikey;
 			this.hash = attributes.hash;
-
-			DataSiftDataSourceModel.__super__.initialize.apply(this);
 		},
 
 		/**
@@ -60,7 +62,14 @@ define([
 				this.onError(msg);
 				return;
 			}
-			this.traverse(msg.data);
+
+			// get the time for this interaction
+			var time = msg.data.interaction.created_at;
+			if (msg.data[msg.data.interaction.type].created_at) {
+				time = msg.data[msg.data.interaction.type].created_at;
+			}
+
+			this.traverse(msg.data, '', time);
 		},
 
 		/**
@@ -129,16 +138,16 @@ define([
 		 * @param  {[type]} name [description]
 		 * @return {[type]}      [description]
 		 */
-		traverse: function (obj, name) {
+		traverse: function (obj, name, time) {
 			name = name ? name + '.' : '';
 			for (var key in obj) {
 				if (obj.hasOwnProperty(key)) {
 					if (_.isArray(obj[key])) {
-						this.store(this.get('id'), name + key, obj[key]);
+						this.store(this.get('id'), name + key, obj[key], time);
 					} else if (_.isObject(obj[key])) {
-						this.traverse(obj[key], name + key);
+						this.traverse(obj[key], name + key, time);
 					} else {
-						this.store(this.get('id'), name + key, obj[key]);
+						this.store(this.get('id'), name + key, obj[key], time);
 					}
 				}
 			}

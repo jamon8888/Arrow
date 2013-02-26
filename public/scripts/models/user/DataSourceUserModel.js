@@ -35,6 +35,7 @@ define([
 			if (this.datasource === undefined) {
 				this.datasource = this.getDataSource();
 			}
+			this.datasource.refreshAttributes(this.toJSON());
 			this.datasource.start(error, function () {
 				this.running = true;
 				success();

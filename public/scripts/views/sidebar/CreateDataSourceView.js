@@ -17,16 +17,13 @@ define([
 	var DataSourceView = Backbone.View.extend({
 
 		events: {
-			'click .btn.save': 'saveDataSource',
-			//'mousedown .toggle': 'toggleRunning',
-			//'mousedown .delete': 'remove',
-			//'mousedown .edit': 'edit'
+			'click .btn.save': 'saveDataSource'
 		},
 
-		render: function () {
+		render: function (datasource) {
 			var form = _.template(DataSourceTemplate, {
 				'datasources': DataSourceManagerModel.get('datasources'),
-				'datasource': false
+				'datasource': datasource
 			});
 
 			// render the popup
@@ -35,18 +32,6 @@ define([
 			// override the Jquery extended el element
 			this.$el = $(this.el);
 			// rebind the events
-			this.delegateEvents();
-			// bind the chosen form
-			this.$el.find('#choosetype').chosen().change(this.showForm);
-		},
-
-		rerender: function (datasource) {
-			var form = _.template(DataSourceTemplate, {
-				'datasources': DataSourceManagerModel.get('datasources'),
-				'datasource': false
-			});
-
-			$('.body', this.$el).html(form);
 			this.delegateEvents();
 			// bind the chosen form
 			this.$el.find('#choosetype').chosen().change(this.showForm);
@@ -89,12 +74,6 @@ define([
 
 			// rerender the list
 			this.popup.remove();
-		},
-
-		edit: function (e) {
-			var id = $(e.target).attr('data-id');
-			this.rerender(DataSourceUserCollection.get(id));
-			this.toggleAdd();
 		}
 
 	});

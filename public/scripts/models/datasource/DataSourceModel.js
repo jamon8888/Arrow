@@ -32,6 +32,15 @@ define([
 		},
 
 		/**
+		 * When we edit our datasource and we want to restart it, we need to refresh all the attributes
+		 * 
+		 * @param  {[type]} attributes [description]
+		 */
+		refreshAttributes: function (attributes) {
+			throw 'Your DataSource doesnt support refreshing of attributes';
+		},
+
+		/**
 		 * We store a string as a count of the number of times it's appeared in a bucket
 		 * 
 		 * @param  {Object} bucket

@@ -2,8 +2,9 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
-	'vent'
-], function ($, _, Backbone, vent) {
+	'vent',
+	'views/sidebar/CreateDataSourceView'
+], function ($, _, Backbone, vent, CreateDataSourceView) {
 
 	'use strict';
 
@@ -15,7 +16,8 @@ define([
 		tagName: 'li',
 
 		events: {
-			'click': 'toggle'
+			'click': 'toggle',
+			'click .set': 'settings'
 		},
 
 		template: _.template('<span class="status"></span><span class="label-clip"><%= niceName %></span><div class="set"></div></li>'),
@@ -82,8 +84,13 @@ define([
 			this.errorMessage = $('<div class="error-popup"><span class="error-details">' + msg + '</span></div>');
 			this.$el.addClass('error');
 			this.$el.append(this.errorMessage);
-		}
+		},
 
+		settings: function (evt) {
+			evt.stopPropagation();
+			var dsv = new CreateDataSourceView();
+			dsv.render(this.model);
+		}
 	});
 
 	return DataSourceListItemView;
