@@ -4,8 +4,9 @@ define([
 	'backbone',
 	'models/visualization/LineGraph',
 	'models/visualization/PieChart',
-	'models/visualization/WordCloud'
-], function ($, _, Backbone, LineGraph, PieChart, WordCloud) {
+	'models/visualization/WordCloud',
+	'models/visualization/BarChart'
+], function ($, _, Backbone, LineGraph, PieChart, WordCloud, BarChart) {
 
 	'use strict';
 
@@ -22,6 +23,7 @@ define([
 			visualizations.push(LineGraph);
 			visualizations.push(PieChart);
 			visualizations.push(WordCloud);
+			visualizations.push(BarChart);
 			// another model
 			// visualizations.push(blah);
 

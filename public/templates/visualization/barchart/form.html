@@ -1,0 +1,19 @@
+<div class="barchart">
+	<div class="field">
+		<label for="x">X Axis</label>
+		<input type="text" class="axis element" name="x" value="<%= x %>" />
+	</div>
+
+	<div class="field">
+		<label for="y">Y Axis</label>
+		<input type="text" placeholder="" class="axis element series" name="y" value="<%= y %>" />
+	</div>
+
+	<div class="checkbox">
+		<div class="roundedCheckbox">
+			<input type="checkbox" name="legend" id="roundedCheckbox" <%= legend ? 'checked="checked"' : '' %> />
+			<label for="roundedCheckbox"></label>
+		</div>
+		<span>Show graph legend</span>
+	</div><!--/.checkbox-->
+</div>
