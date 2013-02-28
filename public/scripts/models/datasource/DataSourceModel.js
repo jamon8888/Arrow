@@ -18,7 +18,7 @@ define([
 		// how large is the bucket (milliseconds)
 		bucketSize: 10000,
 		// current bucket
-		bucket: {},
+		currentTime: {},
 		// an array of all the keys
 		keys: {},
 		// is this ds running
@@ -117,65 +117,78 @@ define([
 		 */
 		store: function (prefix, key, value, time) {
 
-			// work out the bucket we are in
-			var current = Date.now(),
-				bucket = Math.round(current / this.bucketSize) * this.bucketSize,
-				data = this.data;
+			var currentTime = Date.now(),
+				suggestedTime = time ? new Date(time) : false,
+				timestamp = Math.round((suggestedTime ? suggestedTime.getTime() : currentTime) / this.bucketSize) * this.bucketSize,
+				timebucket = Math.round(currentTime / this.bucketSize) * this.bucketSize,
+				bucket = {
+					'timestamp': timestamp,
+					'keys': {}
+				};
 
-			if (this.bucket[prefix] !== bucket) {
-				vent.trigger('arrow:data:' + prefix, this.data[prefix]);
-				console.log('triggering: arrow:data:' + prefix);
-
-				this.save();
-				this.bucket[prefix] = bucket;
-			}
-
-			if (time) {
-				var d = new Date(time);
-				bucket = d.getTime();
-			}
-
-			if (data[prefix] === undefined) {
-				data[prefix] = {};
+			// add the datasource prefix
+			if (this.data[prefix] === undefined) {
+				this.data[prefix] = [];
 				this.keys[prefix] = [];
 			}
 
-			// create the bucket
-			if (data[prefix][bucket] === undefined) {
-				data[prefix][bucket] = {}; 
+			// have we changed buckets
+			if (this.currentTime[prefix] !== timebucket) {
+
+				// sort the data
+				this.data[prefix] = this.data[prefix].sort(function (a, b) {
+					return a.timestamp - b.timestamp;
+				});
+
+				vent.trigger('arrow:data:' + prefix, this.data[prefix]);
+				console.log('triggering: arrow:data:' + prefix);
+				this.save();
+				this.currentTime[prefix] = timebucket;
 			}
 
-			if (data[prefix][bucket][key] === undefined) {
-				data[prefix][bucket][key] = {};
+
+			// look through the data to see if the bucket exists, we use a map to pull out the
+			// correct attribute - slow!
+			var bucketExist = _.indexOf(this.data[prefix].map(function (i) { 
+				return i.timestamp; 
+			}), timestamp);
+
+			if (bucketExist !== -1) {
+				bucket = this.data[prefix][bucketExist];
+			}
+
+			if (bucket.keys[key] === undefined) {
+				bucket.keys[key] = {};
 			}
 
 			// if the buffer grows to big, add to the blacklist
-			if (_.keys(data[prefix][bucket][key]).length > this.bufferSize) {
-				// this is currently across all prefixes
+			if (_.keys(bucket.keys[key]).length > this.bufferSize) {
 				this.blacklist.push(key);
-			} 
+			}
 
-			// if the key is in the black list, shift an item off
+			// if the key exists in the black list return
 			if (_.indexOf(this.blacklist, key) !== -1) {
 				return;
 			}
 
 			// store the value
 			if (_.isString(value)) {
-
 				// stop the string from taking too much space
 				if (value.length > 100) {
 					value = value.slice(0, 100);
 				}
-
-				this.storeString(data[prefix][bucket][key], value);
+				this.storeString(bucket.keys[key], value);
 			} else if (_.isNumber(value)) {
-				this.storeNumber(data[prefix][bucket][key], value);
+				this.storeNumber(bucket.keys[key], value);
 			} else if (_.isArray(value)) {
-				this.storeArray(data[prefix][bucket][key], value);
+				this.storeArray(bucket.keys[key], value);
 			} else if (value === null) {
 				// 
 			}
+
+			if (bucketExist === -1) {
+				this.data[prefix].push(bucket);
+			}	
 		},
 
 		/**
@@ -186,27 +199,29 @@ define([
 		 */
 		findKey: function (prefix, search) {
 
-
-			if (this.keys[prefix] === undefined || this.keys[prefix].length === 0) {
-				// populate the keys object
-				
-				this.keys[prefix] = [];
-
-				for (var bucket in this.data[prefix]) {
-					if (this.data[prefix].hasOwnProperty(bucket)) {
-						for (var key in this.data[prefix][bucket]) {
-							if (this.data[prefix][bucket].hasOwnProperty(key)) {
-								_.keys(this.data[prefix][bucket][key]).forEach(function (k) {
-									this.keys[prefix].push(key + '.' + k);
-								}.bind(this));
-							}
-						}
+			var findKeys = function (bucket) {
+				var keys = [];
+				for (var key in bucket) {
+					keys.push(key);
+					for (var subkey in bucket[key]) {
+						keys.push(key + '.' + subkey);
 					}
 				}
-				this.keys[prefix] = _.uniq(this.keys[prefix]);
+				return keys;
+			};
 
+			// this will cause the browser to stall so we throttle it
+			var throttled = _.throttle(findKeys, 10);
+
+			if (this.keys[prefix] === undefined || this.keys[prefix].length === 0) {
+				this.keys[prefix] = [];
+				_.each(this.data[prefix], function (obj) {
+					this.keys[prefix] = this.keys[prefix].concat(throttled(obj.keys));
+				}.bind(this));
+				// remove the duplicates
+				this.keys[prefix] = _.uniq(this.keys[prefix]);
+				// add in the special case for Time
 				this.keys[prefix].unshift('Time');
-				this.keys[prefix].unshift('Total');
 			}
 
 			return this.keys[prefix].filter(function (item) {

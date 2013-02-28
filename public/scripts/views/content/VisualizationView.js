@@ -38,14 +38,14 @@ define([
 				endTime = this.model.get('endTime');
 
 			this.$el.html('');
-			// we have to deep copy the data object
-			this.data = $.extend(true, {}, data);
+			// we have to deep copy the data array
+			this.data = data ? data.slice() : false;
 
 			// remove all the buckets which are outside the time range
 			if (startTime || endTime) {
-				for (var bucket in this.data) {
-					if ((startTime && startTime > bucket) || (endTime && endTime < bucket)) {
-						delete(this.data[bucket]);
+				for (var i = 0; i < this.data.length; i++) {
+					if ((startTime && startTime > this.data[i].timestamp) || (endTime && endTime < this.data[i].timestamp)) {
+						this.data.splice(i--, 1);
 					}
 				}
 			}

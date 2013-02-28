@@ -62,19 +62,21 @@ define([
 			this.availGraph = [];
 
 			// fetch all the totals in each bucket
-			for (var datasource in data) {
-				for (var time in data[datasource]) {
-					avail[time] = data[datasource][time].Total.sum;
+			_.each(data, function (datasource) {
+				for (var time in datasource) {
+					avail[datasource[time].timestamp] = datasource[time].keys.Total.sum;
 				}
-			}
+			});
 
 			// add them to an array
 			for (var time in avail) {
 				this.availGraph.push({
-					'time': time,
+					'time': parseInt(time, 10),
 					'value': avail[time]
 				});
 			}
+
+			console.log(this.availGraph);
 
 			this.min = parseInt(d3.min(this.availGraph, function (d) { return d.time; }), 10);
 			this.max = parseInt(d3.max(this.availGraph, function (d) { return d.time; }), 10);
@@ -84,7 +86,6 @@ define([
 
 			var width = 320,
 				height = 54;
-
 
 			var max = d3.max(this.availGraph, function (d) { return d.value; });
 			var min = d3.min(this.availGraph, function (d) { return d.value; });
@@ -97,13 +98,16 @@ define([
 				.attr('width', width)
 				.attr('height', height);
 
+			var barWidth = (width / ((this.max - this.min) / 10000));
+			barWidth = barWidth < 1 ? 1 : barWidth;
+
 			chart.selectAll('rect')
 				.data(this.availGraph)
 			.enter()
 				.append('rect')
-				.attr('x', function (d, i) { return x(d.time); })
+				.attr('x', function (d, i) { return Math.round(x(d.time)); })
 				.attr('y', function (d) { return height - y(d.value); })
-				.attr('width', function (d, i) { return (width / ((this.max - this.min) / 10000)); }.bind(this))
+				.attr('width', function (d, i) { return barWidth;  })
 				.attr('height', function (d) { return y(d.value); });
 		},
 

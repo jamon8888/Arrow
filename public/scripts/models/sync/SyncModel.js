@@ -35,8 +35,6 @@ define([
 				});
 			}
 
-			console.log(download);
-
 			return download;
 		},
 

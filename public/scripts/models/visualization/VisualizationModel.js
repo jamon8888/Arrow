@@ -75,44 +75,51 @@ define([
 				yIndex = _.map(y, this.findex);
 			}
 
+
 			// loop through to find the correct data
-			this.loop(data, function (timestamp, obj) {
+			_.each(data, function (item) {
 				var tmpData = {x: {}, y: {}};
 
 				// loop the properties in the bucket
-				this.loop(obj, function (key1, value1) {
+				
+				for (var key in item.keys) {
 
+					/**
+					 * Pull out the value from the array
+					 */
 					var check = function (index) {
+						// if we are looking at time
 						if (index.key === 'Time') {
-							return new Date(parseInt(timestamp, 10));
+							return new Date(item.timestamp);
 						}
-
-						if (index.key === key1) {
-							for (var item in value1) {
-								if (value1.hasOwnProperty(item) && index.item === item) {
-									return value1[item];
+						// if we are looking at anything else, pluck it out
+						if (index.key === key) {
+							for (var section in item.keys[key]) {
+								if (index.item === section) {
+									return item.keys[key][section];
 								}
-							}	
+							}
 						}
 					};
 
 					if (tmpData.x.length !== xIndex.length) {
 						_.each(xIndex, function(item) {
 							var val = check(item);
-							if (val) tmpData.x[item.original] = val;
+							if (val) { tmpData.x[item.original] = val; }
 						});
 					}
 
 					if (tmpData.y.length !== yIndex.length) {
 						_.each(yIndex, function(item) {
 							var val = check(item);
-							if (val) tmpData.y[item.original] = val;
+							if (val) { tmpData.y[item.original] = val; }
 						});
 					}
-				}.bind(this));
+				}
 
 				// push the data into our array
 				cData.push(tmpData);
+
 			}.bind(this));
 
 			return cData;

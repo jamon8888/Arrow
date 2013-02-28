@@ -69,6 +69,8 @@ define([
 				time = msg.data[msg.data.interaction.type].created_at;
 			}
 
+			time = new Date(time);
+			time = time.getTime();
 			this.traverse(msg.data, '', time);
 		},
 
