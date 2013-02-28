@@ -7,8 +7,9 @@ define([
 	'd3',
 	'models/datasource/DataSourceModel',
 	'views/popup/PopupView',
+	'views/header/ShareView',
 	'text!templates/sidebar/DashboardSettingsView.html'
-], function ($, $ui, _, Backbone, Chosen, d3, DataSourceModel, PopupView, DashboardSettingsTemplate) {
+], function ($, $ui, _, Backbone, Chosen, d3, DataSourceModel, PopupView, ShareView, DashboardSettingsTemplate) {
 
 	'use strict';
 
@@ -17,7 +18,8 @@ define([
 		events: {
 			'click .colors li': 'changeColor',
 			'click .btn.blue': 'save',
-			'click .btn.delete': 'del'
+			'click .btn.delete': 'del',
+			'click #share': 'share'
 		},
 
 		render: function () {
@@ -176,6 +178,11 @@ define([
 			// remove the popup
 			this.popup.remove();
 			this.model.destroy();
+		},
+
+		share: function () {
+			var sv = new ShareView();
+			sv.render();
 		}
 	});
 
