@@ -99,7 +99,7 @@ define([
 
 			chart.selectAll('rect')
 				.data(this.availGraph)
-			.enter()
+				.enter()
 				.append('rect')
 				.attr('x', function (d, i) { return x(d.time); })
 				.attr('y', function (d) { return height - y(d.value); })
