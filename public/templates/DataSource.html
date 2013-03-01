@@ -1,5 +1,5 @@
 <div class="header">
-    <h1>Edit data source</h1>
+    <h1>Configure datasource</h1>
     <div class="close"></div>
 </div>
 
@@ -9,7 +9,7 @@
 
         <div class="field">
             <label>Name</label>
-            <select id="choosetype" data-placeholder="Choose DataSource Type ...." style="width:320px;">
+            <select id="choosetype" data-placeholder="Select datasource type&hellip;" style="width:320px;">
                 <option></option>
                 <% _.each(datasources, function (ds) { %>
                     <option value="<%= ds.prototype.defaults.name %>" <%= datasource && ds.prototype.defaults.name === datasource.get('name') ? 'selected="selected"' : '' %>>
@@ -40,6 +40,6 @@
 
         <input type="hidden" value="<%= datasource ? datasource.get('id') : '' %>" name="id" />
 
-        <div class="btn blue save" style="margin-top:10px;"><%= datasource ? 'Save Data Source' : 'Create Data Source' %></div>
+        <div class="btn blue save" style="margin-top:10px;"><%= datasource ? 'Update' : 'Create' %></div>
     </div>
 </div>

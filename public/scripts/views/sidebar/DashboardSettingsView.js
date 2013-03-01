@@ -18,7 +18,7 @@ define([
 		events: {
 			'click .colors li': 'changeColor',
 			'click .btn.blue': 'save',
-			'click .btn.delete': 'del',
+			'click .delete': 'del',
 			'click #share': 'share'
 		},
 
@@ -151,8 +151,10 @@ define([
 		del: function (evt) {
 
 			var $target = $(evt.target),
-				confirmText = 'Are you sure?',
+				confirmText = 'This cannot be undone. Are you sure?',
 				index = null;
+
+			$target.addClass('confirm');
 
 			if ($target.html() !== confirmText) {
 				$target.html(confirmText);

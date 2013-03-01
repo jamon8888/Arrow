@@ -98,6 +98,8 @@ define([
 			var $target = $(evt.target),
 				confirmText = 'Are you sure?';
 
+			$target.addClass('derp');
+
 			if ($target.html() !== confirmText) {
 				$target.html(confirmText);
 				return;
