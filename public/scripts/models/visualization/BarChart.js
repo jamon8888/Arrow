@@ -30,41 +30,9 @@ define([
 
 		draw: function () {
 
-/*
-
-			// max and min data values
-			var max = d3.max(this.data, function(d) {
-				return d.y[this.get('y')];
-			}.bind(this));
-
-			var min = d3.min(this.data, function(d) {
-				return d.y[this.get('y')];
-			}.bind(this));
-
-			var y = d3.scale.linear().domain([0, max]).rangeRound([0, this.get('height')]);
-			var x = d3.scale.linear().domain([min, max]).range([0, this.get('width')]);
-
-			// max and min time values
-			var maxTime = d3.max(this.data, function(d){
-				return d.x[this.get('x')];
-			}.bind(this));
-
-			maxTime = maxTime.getTime();
-
-			var minTime = d3.min(this.data, function(d){
-				return d.x[this.get('x')];
-			}.bind(this));
-
-			minTime = minTime.getTime();
-
-			console.log(maxTime, minTime, maxTime-minTime);
-
-			// var yy = d3.scale.linear().domain([0, maxTime]).rangeRound([0, this.get('height')]);
-			var xx = d3.scale.linear().domain([minTime, maxTime]).range([0, this.get('width')]);
-*/
-
-			var width = this.get('width'),
-				height = this.get('height'),
+			var padding = this.get('padding'),
+				width = this.get('width') - padding,
+				height = this.get('height') - padding - 80,
 				x = this.get('x'),
 				y = this.get('y');
 
@@ -81,64 +49,43 @@ define([
 				maxX = d3.max(this.data, function (d) { return comparision(d, 'x', x); }),
 				maxY = d3.max(this.data, function (d) { return comparision(d, 'y', y); });
 
-			console.log(minX, minY, maxX, maxY);
 
 			var rangeX = d3.scale.linear().domain([minX, maxX]).range([0, width]),
-				rangeY = d3.scale.linear().domain([minY, maxY]).range([0, height]);
+				rangeY = d3.scale.linear().domain([minY, maxY]).range([height, 0]);
 
 			var chart = d3.select(this.div)
 				.append('svg')
 				.attr('width', width)
-				.attr('height', height - 40);
+				.attr('height', height + 40);
 
 			chart.selectAll('rect')
 				.data(this.data)
 			.enter()
 				.append('rect')
-				// .attr('x', function (d, i) { return ((width / (maxX - minX)) * (comparision(d, 'x', x) - minX)) - ( i * 75); })
-				.attr('x',function(d, i){ return i * (maxX - minX) })
-				.attr('y', function (d) { return rangeY(d.y[y]) - 40; })
+				.attr('x',function(d, i){ return i * width / this.data.length; }.bind(this))
+				.attr('y', function (d) { return rangeY(d.y[y]); })
 				.attr('height', function (d) { return height - rangeY(d.y[y]); })
-				.attr('width', function (d) { return (width / (maxX - minX)) * ((maxX - minX) / this.data.length); }.bind(this));
+				.attr('width', function (d) { return width / this.data.length; }.bind(this));
 
+			// yaxis
+			if (this.get('showy')) {
+				var yaxis = chart.append('g')
+					.attr('class', 'yaxis')
+					.attr('transform', 'translate(' + padding + ',0)')
+					.call(d3.svg.axis().scale(rangeY).orient('left').ticks(5));
+			}
 
+			// xaxis
+			if (this.get('showx')) {
+				var xaxis = chart.append('g')
+					.attr('class', 'xaxis')
+					.attr('transform', 'translate(' + padding + ',' + (height + 40 - padding) + ')')
+					.call(d3.svg.axis().scale(rangeX).orient('bottom').tickValues(this.data.map(function (d) {
+						return d.x[x];
+					})));
+			
+			}
 
-
-/*
-
-
-
-			// draw bars
-			chart.selectAll('rect')
-				 .data(this.data)
-				 .enter()
-				 .append('rect')
-				 .attr('y', function(d){ return this.get('height') - y(d.y[this.get('y')]); }.bind(this))
-				 .attr('height', function (d) { return y(d.y[this.get('y')]); }.bind(this))
-				 .attr('x', function (d) { return xx(d.x[this.get('x')]); }.bind(this))
-				 .attr('width', function (d) { return (width / (maxTime - minTime)) * (d.x[this.get('x')] - minTime) }.bind(this));
-
-
-
-
-				 //.attr('x',function(d, i){ return i * ( this.get('width') / _.keys(this.data).length ); }.bind(this))
-				 //.attr('y', function(d){ return this.get('height') - y(d.y[this.get('y')]); }.bind(this))
-				 // .attr('width', this.get('width') / _.keys(this.data).length - this.get('barspacing'))
-				 // .attr('width', function (d) { return ( y(d.x[this.get('x')]) / _.keys(this.data).length ) - this.get('barspacing'); }.bind(this))
-				 //.attr('width', function (d, i) { return xx(d.x[this.get('y')]); }.bind(this))
-				 //
-
-			// draw labels
-			chart.selectAll('text')
-				 .data(this.data)
-				 .enter()
-				 .append('text')
-				 .text(function(d){ return d.y[this.get('y')]}.bind(this))
-				 .attr('text-anchor', 'middle')
-				 .attr('x',function(d, i){ return i * (this.get('width') / _.keys(this.data).length) + (this.get('width') / _.keys(this.data).length - this.get('barspacing')) / 2; }.bind(this))
-				 .attr('y', function(d){ return this.get('height') - d.y[this.get('y')] - 50}.bind(this));
-
-			*/
 		},
 
 		render: function (data) {
