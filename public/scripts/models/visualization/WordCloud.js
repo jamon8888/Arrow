@@ -82,11 +82,12 @@ define([
 
 			var newData = [],
 				words = [],
-				countObj = {};
+				countObj = {},
+				stop = [];
 
 			// find them all based over time
-			this.loop(data, function (timestamp, obj) {
-				this.loop(obj, function (key, parent) {
+			_.each(data, function (obj) {
+				this.loop(obj.keys, function (key, parent) {
 					if (key === group) {
 						newData.push(parent);
 					}
@@ -99,6 +100,8 @@ define([
 					words = words.concat(word.split(' '));
 				}
 			});
+
+			newData = _.without(newData, stop);
 
 			// count how many times they appear
 			_.each(words, function (word) {
