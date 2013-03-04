@@ -36,8 +36,8 @@ define([
 				countObj = {};
 
 			// find them all based over time
-			this.loop(data, function (timestamp, obj) {
-				this.loop(obj, function (key, parent) {
+			_.each(data, function (obj) {
+				this.loop(obj.keys, function (key, parent) {
 					if (key === group) {
 						newData.push(parent);
 					}
