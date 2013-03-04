@@ -19,7 +19,6 @@ define([
 			width: 300,
 			showx: false,
 			showy: false,
-			legend: true,
 			group: false
 		},
 
@@ -129,8 +128,7 @@ define([
 
 		form: function () {
 			var form = _.template(BarGraphFormTemplate, {
-				'group': this.get('group'),
-				'legend': this.get('legend')
+				'group': this.get('group')
 			});
 			return form;
 		}
