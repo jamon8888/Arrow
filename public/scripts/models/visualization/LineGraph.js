@@ -22,7 +22,6 @@ define([
 		x: '',
 		series: [],
 		legend: [],
-		colors: ['#515f6f', '#FFFFFF', '#00afd4', 'red', 'green', 'purple', 'orange'],
 
 		defaults: {
 			name: 'LineGraph',
@@ -150,12 +149,13 @@ define([
 				lines[s] = this.lineCreator(this.get('x'), s);
 			}.bind(this));
 
-			var colors = _.clone(this.colors);
+			var colors = d3.scale.ordinal().domain([0, this.data.length-1]).range(COLOR);
 
 			// draw each of the lines
+			var i = 0;
 			for (var l in lines) {
 				if (lines.hasOwnProperty(l)) {
-					var color = colors.shift();
+					var color = colors(i);
 					paths[l] = svg.append('path')
 						.attr('d', lines[l](data))
 						.attr('class', l)
@@ -168,6 +168,7 @@ define([
 						color: color
 					});
 				}
+				i++;
 			}
 
 			if (this.get('legend') === 'on') {

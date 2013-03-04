@@ -83,7 +83,7 @@ define([
 				.attr('transform', 'translate(' + (this.get('width')/2) + ',' +  ((this.get('height') - 40)/2) + ')')
 				.attr('class', 'pie');
 
-			var colors = d3.scale.ordinal().domain([0, this.data.length-1]).range(['#f04747', '#00afd4', '#ebaf3c', '#38b87c', '#e9662c']);
+			var colors = d3.scale.ordinal().domain([0, this.data.length-1]).range(COLOR);
 
 			this.arcs = this.svg.selectAll('path')
 				.data(this.pie(this.data))

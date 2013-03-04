@@ -50,3 +50,5 @@ require([
 ], function (App) {
 	App.initialize();
 });
+
+var COLOR = ['#f04747', '#00afd4', '#ebaf3c', '#38b87c', '#e9662c'];
