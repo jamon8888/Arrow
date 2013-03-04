@@ -21,6 +21,7 @@ define([
 		},
 
 		set: function(attributes, options) {
+
 		    if (attributes.visualizations !== undefined && !(attributes.visualizations instanceof VisualizationCollection)) {
 				var visualizationCollection = new VisualizationCollection();
 

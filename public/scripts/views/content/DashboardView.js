@@ -19,10 +19,8 @@ define([
 		},
 
 		initialize: function () {
-			this.model.get('visualizations').on('add', this.addChart, this);
-			this.model.get('visualizations').on('change', this.saveVisualizations, this);
-			this.model.get('visualizations').on('remove', this.saveVisualizations, this);
-			this.model.on('change', this.update, this);
+			this.model.on('change:visualizations', this.changeVisualizations, this);
+			this.model.on('change:hidden', this.update, this);
 			this.model.on('change:startTime', this.render, this);
 			this.model.on('change:endTime', this.render, this);
 		},
@@ -41,6 +39,7 @@ define([
 		},
 
 		addChart: function (chart) {
+
 			var view = new VisualizationView({
 					model: this.model,
 					chart: chart
@@ -57,7 +56,6 @@ define([
 		},
 
 		addAllCharts: function (charts) {
-			this.$el.html();
 			charts.each(this.addChart, this);
 		},
 
@@ -65,8 +63,8 @@ define([
 			new CreateVisualization({model: this.model});
 		},
 
-		saveVisualizations: function () {
-			this.model.save();
+		changeVisualizations: function (model, collection) {
+			this.render();
 		}
 	});
 

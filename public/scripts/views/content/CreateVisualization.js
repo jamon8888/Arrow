@@ -154,7 +154,6 @@ define([
 			instance = new Model(attributes);
 			instance.set('datasource', this.datasource);
 			this.model.addVisualization(instance);
-			this.model.save();
 
 			this.remove();
 		},

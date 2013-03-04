@@ -104,9 +104,10 @@ define([
 				$target.html(confirmText);
 				return;
 			}
-
-			this.remove();
+			
 			this.options.chart.collection.remove(this.options.chart);
+			this.remove();
+			this.model.save();
 		},
 
 		advancedSettings: function () {
