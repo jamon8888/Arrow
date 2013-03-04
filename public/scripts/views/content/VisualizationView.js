@@ -98,13 +98,13 @@ define([
 			var $target = $(evt.target),
 				confirmText = 'Are you sure?';
 
-			$target.addClass('derp');
+			$target.addClass('confirm');
 
 			if ($target.html() !== confirmText) {
-				$target.html(confirmText);
+				$target.html('<span>' + confirmText + '</span>');
 				return;
 			}
-			
+
 			this.options.chart.collection.remove(this.options.chart);
 			this.remove();
 			this.model.save();

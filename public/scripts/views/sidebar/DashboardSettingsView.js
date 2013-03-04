@@ -151,13 +151,13 @@ define([
 		del: function (evt) {
 
 			var $target = $(evt.target),
-				confirmText = 'This cannot be undone. Are you sure?',
+				confirmText = 'Are you sure?',
 				index = null;
 
 			$target.addClass('confirm');
 
 			if ($target.html() !== confirmText) {
-				$target.html(confirmText);
+				$target.html('<span>' + confirmText + '</span>');
 				return;
 			}
 
