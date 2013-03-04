@@ -58,7 +58,8 @@ define([
 
 		addVisualization: function (vis) {
 			var visualizations = this.get('visualizations');
-			visualizations.add(vis);
+			visualizations.add(vis, {slient: true});
+			this.trigger('addviz');
 			this.set('visualizations', visualizations);
 			this.save();
 		}

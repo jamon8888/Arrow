@@ -19,7 +19,8 @@ define([
 		},
 
 		initialize: function () {
-			this.model.on('change:visualizations', this.changeVisualizations, this);
+			this.model.on('addviz', this.render, this);
+			this.model.get('visualizations').on('change', this.changeVisualizations, this);
 			this.model.on('change:hidden', this.update, this);
 			this.model.on('change:startTime', this.render, this);
 			this.model.on('change:endTime', this.render, this);
@@ -64,7 +65,7 @@ define([
 		},
 
 		changeVisualizations: function (model, collection) {
-			this.render();
+			this.model.save();
 		}
 	});
 
