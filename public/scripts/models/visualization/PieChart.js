@@ -17,7 +17,6 @@ define([
 		pie: false,
 		arc: false,
 		arcs: [],
-		colors: ['#515f6f', '#FFFFFF', '#00afd4', 'red', 'green', 'purple', 'orange'],
 
 		defaults: {
 			name: 'PieChart',
@@ -84,13 +83,13 @@ define([
 				.attr('transform', 'translate(' + (this.get('width')/2) + ',' +  ((this.get('height') - 40)/2) + ')')
 				.attr('class', 'pie');
 
-			var colors = _.clone(this.colors);
+			var colors = d3.scale.ordinal().domain([0, this.data.length-1]).range(['#f04747', '#00afd4', '#ebaf3c', '#38b87c', '#e9662c']);
 
 			this.arcs = this.svg.selectAll('path')
 				.data(this.pie(this.data))
 			.enter()
 				.append('path')
-				.attr('fill', function (d, i) { return colors.shift(); })
+				.attr('fill', function (d, i) { return colors(i); })
 				.attr('d', this.arc)
 				.on('mouseover', _.bind(this.mouseOver, this))
 				.on('mouseout', _.bind(this.mouseOut, this));
