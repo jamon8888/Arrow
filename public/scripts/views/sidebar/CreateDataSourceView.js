@@ -17,13 +17,15 @@ define([
 	var DataSourceView = Backbone.View.extend({
 
 		events: {
-			'click .btn.save': 'saveDataSource'
+			'click .btn.save': 'saveDataSource',
+			'click .delete': 'del'
 		},
 
 		render: function (datasource) {
 			var form = _.template(DataSourceTemplate, {
 				'datasources': DataSourceManagerModel.get('datasources'),
-				'datasource': datasource
+				'datasource': datasource,
+				'startNow': datasource && datasource.get('startNow') ? datasource.get('startNow') : true
 			});
 
 			// render the popup
@@ -53,7 +55,8 @@ define([
 				form = $('.type.' + select.val()),
 				fields = $('input', form),
 				attributes = {},
-				id = this.$el.find('input[name="id"]').val();
+				id = this.$el.find('input[name="id"]').val(),
+				as = this.$el.find('#startNow').is(':checked');
 
 			// iterate each of the fields and all the values
 			_.each(fields, function (field) {
@@ -62,6 +65,7 @@ define([
 			});
 
 			attributes.name = select.val();
+			attributes.startNow = as ? 'checked' : 'unchecked';
 
 			if (id) {
 				var model = DataSourceUserCollection.get(id);
@@ -73,6 +77,22 @@ define([
 			}
 
 			// rerender the list
+			this.popup.remove();
+		},
+
+		del: function (evt) {
+
+			var $target = $(evt.target),
+				confirmText = 'Are you sure?';
+
+			$target.addClass('confirm');
+
+			if ($target.html() !== confirmText) {
+				$target.html('<span>' + confirmText + '</span>');
+				return;
+			}
+
+			this.model.destroy();
 			this.popup.remove();
 		}
 

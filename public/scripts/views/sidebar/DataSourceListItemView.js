@@ -28,6 +28,7 @@ define([
 		initialize: function () {
 			this.errorMessage = false;
 			this.model.on('change', this.render, this);
+			this.model.on('remove', this.remove, this);
 		},
 
 		/**
@@ -36,6 +37,11 @@ define([
 		render: function () {
 			var body = this.template(this.model.toJSON());
 			this.$el.html(body);
+
+			if (this.model.get('startNow') === 'checked') {
+				this.toggle();
+			}
+
 			return this;
 		},
 
@@ -88,7 +94,7 @@ define([
 
 		settings: function (evt) {
 			evt.stopPropagation();
-			var dsv = new CreateDataSourceView();
+			var dsv = new CreateDataSourceView({model: this.model});
 			dsv.render(this.model);
 		}
 	});
