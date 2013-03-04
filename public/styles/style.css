@@ -225,19 +225,26 @@ aside .btn.blue { border-color:#00a5c8;}
 #popup .datasource li .delete { background: url(/images/sprite.png) no-repeat 0 -532px; right:10px; }
 #popup .datasource li .delete:hover { background: url(/images/sprite.png) no-repeat -20px -532px; right:10px; }
 
-.delete {position:relative;margin-top:20px;cursor:pointer;color:#747f8c;background:#1c242b	 url(/images/sprite.png) no-repeat -74px -40px;width:32px;height:32px;line-height:32px;overflow:hidden;border-radius:4px;}
+.delete {position:relative;margin-top:20px;cursor:pointer;color:#747f8c;background:#1c242b url(/images/sprite.png) no-repeat -74px -40px;width:32px;height:32px;line-height:32px;overflow:hidden;border-radius:4px;}
 .delete:hover{color:white;}
 .delete.confirm {color:#f04747;background-position: -74px -40px;width:auto;padding:0 0 0 32px;display:inline-block;}
-.delete.confirm span {background:#f04747;color:white;height:32px;line-height:32px;display:block;padding:0 12px;position:relative;}
-.delete.confirm span:before {content:'';display:block;width:0;height:0;line-height:0;border:6px solid #f04747;position:absolute;top:10px;left:-12px;border-top-color:transparent;border-bottom-color:transparent;border-left-color:transparent;}
+.delete.confirm span {background:#f04747;color:white;height:32px;line-height:32px;display:block;padding:0 20px;position:relative;border-top-right-radius:4px;border-bottom-right-radius:4px;}
+.delete.confirm span:before {content:'';display:block;width:0;height:0;line-height:0;border:6px solid #1c242b;position:absolute;top:10px;left:0;border-top-color:transparent;border-bottom-color:transparent;border-right-color:transparent;}
+.delete.confirm:hover {background:#1c242b url(/images/sprite.png) no-repeat -74px -136px;}
+.delete.confirm:hover span {background:#38b87c;}
 
 .deleteTile {position:absolute;bottom:20px;left:20px;}
+
+
+
+
 
 /* LineGraph */
 .linegraph .yaxis path { stroke-width: 1px; stroke: #2f3941; fill: none; shape-rendering: crispEdges; }
 .linegraph .xaxis path { display: none; }
 .linegraph .yaxis text, .linegraph .xaxis text {fill: white;}
 .linegraph .xaxis line { stroke-width: 1px; stroke: #2f3941; fill: none; shape-rendering: crispEdges; }
+
 
 
 
