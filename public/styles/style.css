@@ -271,7 +271,12 @@ aside .btn.blue { border-color:#00a5c8;}
 #importExport {background-image:url(/images/transfer.png);background-position:10px;background-repeat:no-repeat;padding-left:40px;}
 .deleteTile .btn {background-image:url(/images/delete.png);background-position:10px;background-repeat:no-repeat;padding-left:40px;}
 
-input#url {border:0;padding:10px;margin-top:24px;background:#515f6f;color:white;-webkit-box-sizing: border-box;width:100%;}
+
+.shared {padding-left:36px;position:relative;}
+.shared .globe {display:block;position:absolute;top:10px;left:0;width:16px;height:16px;background:url(/images/sprite.png) no-repeat -82px -112px;}
+.shared .globe.loading {background:url(/images/loading.gif);}
+input#url {border:0;padding:10px;background:#e9eef4;-webkit-box-sizing: border-box;width:100%;height:36px;position:relative;}
+.shared .globe:after {content:'';display:block;width:0;height:0;line-height:0;position:absolute;right:-20px;top:2px;border:6px solid #e9eef4;border-top-color:transparent;border-bottom-color:transparent;border-left-color:transparent;}
 
 .exportOption {margin-bottom:20px;}
 
@@ -309,7 +314,7 @@ input#url {border:0;padding:10px;margin-top:24px;background:#515f6f;color:white;
 .colors {list-style:none;margin:0;padding:0;overflow:hidden;background:#363f49;}
 .colors li {display:block;float:left;width:20%;height:40px;position:relative;cursor:pointer;}
 .colors li p {margin:0;position:absolute;top:8px;left:20px;display:block;width:20px;height:20px;border-radius:20px;overflow:hidden;border:2px solid #313841;box-shadow:0 3px 2px rgba(0,0,0,.1);}
-.colors li span {display:block;background:rgba(255,255,255,.2);height:50%;width:100%;}
+/*.colors li span {display:block;background:rgba(255,255,255,.2);height:50%;width:100%;}*/
 .colors li.selected {background:#1c242b;}
 
 
