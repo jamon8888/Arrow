@@ -11,10 +11,6 @@ define([
 
 	var BarChart = VisualizationModel.extend({
 
-		x: '',
-		y: '',
-		legend: true,
-
 		defaults: {
 			name: 'BarChart',
 			niceName: 'Bar Chart',
@@ -23,81 +19,119 @@ define([
 			width: 300,
 			showx: false,
 			showy: false,
-			legend: false,
-			barspacing: 1,
-			padding: 10
+			legend: true,
+			group: false
 		},
 
 		draw: function () {
 
-			var padding = this.get('padding'),
-				width = this.get('width') - padding,
-				height = this.get('height') - padding - 80,
-				x = this.get('x'),
-				y = this.get('y');
+			var width = this.get('width'),
+				height = this.get('height') - 40,
+				group = this.get('group'),
+				showx = this.get('showx'),
+				showy = this.get('showy'),
+				yWidth = 40;
 
-			var comparision = function (d, key, value) {
-				if (_.isDate(d[key][value])) {
-					var date = new Date(d[key][value]);
-					return date.getTime();
-				}
-				return d[key][value];
-			};
+			var maxGroup = d3.max(this.data, function (d) { return d.value; }),
+				range = d3.scale.linear().domain([0, maxGroup]).range([height, 0]),
+				colors = d3.scale.ordinal().domain([0, this.data.length-1]).range(COLOR);
 
-			var minX = d3.min(this.data, function (d) { return comparision(d, 'x', x); }),
-				minY = d3.min(this.data, function (d) { return comparision(d, 'y', y); }),
-				maxX = d3.max(this.data, function (d) { return comparision(d, 'x', x); }),
-				maxY = d3.max(this.data, function (d) { return comparision(d, 'y', y); });
-
-
-			var rangeX = d3.scale.linear().domain([minX, maxX]).range([0, width]),
-				rangeY = d3.scale.linear().domain([minY, maxY]).range([height, 0]);
+			var rangeX = function (i) {
+				return showy ? (((width-yWidth) / this.data.length) * i) + yWidth : i * (width / this.data.length);
+			}.bind(this);
 
 			var chart = d3.select(this.div)
 				.append('svg')
 				.attr('width', width)
-				.attr('height', height + 40);
+				.attr('height', height);
 
 			chart.selectAll('rect')
 				.data(this.data)
 			.enter()
 				.append('rect')
-				.attr('x',function(d, i){ return i * width / this.data.length; }.bind(this))
-				.attr('y', function (d) { return rangeY(d.y[y]); })
-				.attr('height', function (d) { return height - rangeY(d.y[y]); })
-				.attr('width', function (d) { return width / this.data.length; }.bind(this));
+				.attr('x',function(d, i){ return rangeX(i); }.bind(this))
+				.attr('y', function (d) { return range(d.value); })
+				.attr('height', function (d) { return height - range(d.value) ; })
+				.attr('width', function (d) { return (showy ? (width - yWidth) : width) / this.data.length; }.bind(this))
+				.attr('fill', function (d, i) { return colors(i); });
 
-			// yaxis
-			if (this.get('showy')) {
+			if (showy) {
 				var yaxis = chart.append('g')
 					.attr('class', 'yaxis')
-					.attr('transform', 'translate(' + padding + ',0)')
-					.call(d3.svg.axis().scale(rangeY).orient('left').ticks(5));
+					.attr('transform', 'translate(' + 40 + ',0)')
+					.call(d3.svg.axis().scale(range).orient('left').ticks(5));
 			}
 
-			// xaxis
-			if (this.get('showx')) {
+			console.log(this.data);
+
+			if (showx) {
 				var xaxis = chart.append('g')
 					.attr('class', 'xaxis')
-					.attr('transform', 'translate(' + padding + ',' + (height + 40 - padding) + ')')
-					.call(d3.svg.axis().scale(rangeX).orient('bottom').tickValues(this.data.map(function (d) {
-						return d.x[x];
-					})));
-			
-			}
+					.attr('transform', 'translate(' + 0 + ',' + (height - 20) + ')');
 
+				xaxis.selectAll('text')
+					.data(this.data)
+				.enter()
+					.append('text')
+					.attr('y', function (d, i) { 
+						return rangeX(i) +  (((width - yWidth) / this.data.length) / 2); 
+					}.bind(this))
+					.attr('transform', 'rotate(-90)')
+					.text(function (d) {
+						return d.label;
+					});
+			}
 		},
 
 		render: function (data) {
-			this.data = this.process(data, this.get('x'), this.get('y'));
+			this.data = this.process(data, this.get('group'));
 			this.div = document.createElement('div');
 			this.div.className = 'barchartvis';
 			this.draw();
 			return this.div;
 		},
 
+		process: function (data, group) {
+
+			var newData = [],
+				countObj = {};
+
+			// find them all based over time
+			_.each(data, function (obj) {
+				this.loop(obj.keys, function (key, parent) {
+					if (key === group) {
+						newData.push(parent);
+					}
+				});
+			}.bind(this));
+
+			_.each(newData, function (data) {
+				for (var key in data) {
+					if (data.hasOwnProperty(key)) {
+						if (countObj[key] === undefined) {
+							countObj[key] = 0;
+						}
+						countObj[key] += data[key];
+					}
+				}
+			});
+
+			newData = [];
+			for (var label in countObj) {
+				newData.push({
+					value: countObj[label],
+					label: label
+				});
+			}
+
+			return newData;
+		},
+
 		form: function () {
-			var form = _.template(BarGraphFormTemplate, this);
+			var form = _.template(BarGraphFormTemplate, {
+				'group': this.get('group'),
+				'legend': this.get('legend')
+			});
 			return form;
 		}
 	});
