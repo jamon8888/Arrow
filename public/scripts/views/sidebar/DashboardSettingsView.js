@@ -160,10 +160,10 @@ define([
 				confirmText = 'Are you sure?',
 				index = null;
 
-			$target.addClass('confirm');
+			$('.delete').addClass('confirm');
 
 			if ($target.html() !== confirmText) {
-				$target.html('<span>' + confirmText + '</span>');
+				$('.delete').html('<span>' + confirmText + '</span>');
 				return;
 			}
 
