@@ -38,10 +38,6 @@ define([
 			var body = this.template(this.model.toJSON());
 			this.$el.html(body);
 
-			if (this.model.get('startNow') === 'checked') {
-				this.toggle();
-			}
-
 			return this;
 		},
 

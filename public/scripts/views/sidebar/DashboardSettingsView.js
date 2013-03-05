@@ -6,10 +6,11 @@ define([
 	'chosen',
 	'd3',
 	'models/datasource/DataSourceModel',
+	'models/sync/SyncModel',
 	'views/popup/PopupView',
 	'views/header/ShareView',
 	'text!templates/sidebar/DashboardSettingsView.html'
-], function ($, $ui, _, Backbone, Chosen, d3, DataSourceModel, PopupView, ShareView, DashboardSettingsTemplate) {
+], function ($, $ui, _, Backbone, Chosen, d3, DataSourceModel, SyncModel, PopupView, ShareView, DashboardSettingsTemplate) {
 
 	'use strict';
 
@@ -17,9 +18,10 @@ define([
 
 		events: {
 			'click .colors li': 'changeColor',
+			'click .colors li p': 'changeColor',
 			'click .btn.blue': 'save',
 			'click .delete': 'del',
-			'click #share': 'share'
+			'click .share': 'share'
 		},
 
 		render: function () {
@@ -116,6 +118,11 @@ define([
 		changeColor: function (evt) {
 			var $target = $(evt.target);
 			this.$el.find('.colors li').removeClass('selected');
+
+			if (evt.target.tagName === 'P') {
+				$target = $target.parent();
+			}
+
 			$target.addClass('selected');
 		},
 
@@ -124,7 +131,7 @@ define([
 			// get the name
 			var name = this.$el.find('input[name="name"]').val();
 			// get the color
-			var color = this.$el.find('.colors li.selected').attr('data-color');
+			var color = this.$el.find('.colors li.selected p').attr('data-color');
 			// get the time range
 			var timeframe = this.$el.find('#slider').slider('values');
 
@@ -183,8 +190,28 @@ define([
 		},
 
 		share: function () {
-			var sv = new ShareView();
-			sv.render();
+			var location = window.location,
+				host = location.host,
+				field = this.$el.find('.shared'),
+				input = this.$el.find('#url');
+
+			field.show();
+			field.addClass('loading');
+			input.attr('disabled', 'disabled');
+
+			var ws = new WebSocket('ws://' + host);
+			ws.onopen = function (event) {
+				ws.send(JSON.stringify({
+					'method': 'sync',
+					'payload': SyncModel.exportData()
+				}));
+
+				ws.onmessage = function (res) {
+					input.val('http://' + host + '/dashboard/' + res.data);
+					input.attr('disabled', '');
+					field.removeClass('loading');
+				}.bind(this);
+			}.bind(this);
 		}
 	});
 
