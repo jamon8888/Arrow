@@ -17,6 +17,7 @@ define([
 
 		events: {
 			'click .colors li': 'changeColor',
+			'click .colors li p': 'changeColor',
 			'click .btn.blue': 'save',
 			'click .delete': 'del',
 			'click #share': 'share'
@@ -116,6 +117,11 @@ define([
 		changeColor: function (evt) {
 			var $target = $(evt.target);
 			this.$el.find('.colors li').removeClass('selected');
+
+			if (evt.target.tagName === 'P') {
+				$target = $target.parent();
+			}
+
 			$target.addClass('selected');
 		},
 
@@ -124,7 +130,7 @@ define([
 			// get the name
 			var name = this.$el.find('input[name="name"]').val();
 			// get the color
-			var color = this.$el.find('.colors li.selected').attr('data-color');
+			var color = this.$el.find('.colors li.selected p').attr('data-color');
 			// get the time range
 			var timeframe = this.$el.find('#slider').slider('values');
 

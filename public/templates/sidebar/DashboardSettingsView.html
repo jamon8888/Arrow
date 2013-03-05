@@ -21,7 +21,7 @@
 		<label for="colors">Colour</label>
 		<ul class="colors">
 			<% _.each(colors, function (col) { %>
-				<li>
+				<li class="<%= color === col ? 'selected': '' %>">
 					<p class="<%= color === col ? 'selected': '' %>" data-color="<%= col %>" style="background-color: <%= col %>"><span></span></p>
 				</li>
 			<% }) %>
