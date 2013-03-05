@@ -61,8 +61,6 @@ define([
 					.call(d3.svg.axis().scale(range).orient('left').ticks(5));
 			}
 
-			console.log(this.data);
-
 			if (showx) {
 				var xaxis = chart.append('g')
 					.attr('class', 'xaxis')
