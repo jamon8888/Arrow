@@ -43,14 +43,19 @@
                 <input type="checkbox" name="startNow" id="startNow" <%= startNow === 'checked' ? 'checked="checked"' : '' %> />
                 <label for="startNow"></label>
             </div>
-            <span>Start Data Source</span>
+            <span>Start running datasource?</span>
+            <span class="info"></span>
         </div><!--/.checkbox-->
+
+        <div class="note">
+            You can either start this datasource immediately, or start it later by clicking the <span class="play-icon"></span> icon, found next to each data source you add.
+        </div>
 
 
         <input type="hidden" value="<%= datasource ? datasource.get('id') : '' %>" name="id" />
 
         <div class="btn blue save" style="margin-top:10px;"><%= datasource ? 'Update' : 'Create' %></div>
 
-        <div class="delete"></div>
+        <div class="delete"><span class="del-label">Delete</span></div>
     </div>
 </div>

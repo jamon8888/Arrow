@@ -154,10 +154,10 @@ define([
 				confirmText = 'Are you sure?',
 				index = null;
 
-			$('.delete').addClass('confirm');
+			this.$el.find('.delete').addClass('confirm');
 
 			if ($target.html() !== confirmText) {
-				$('.delete').html('<span>' + confirmText + '</span>');
+				this.$el.find('.delete').html('<span class="del-label">' + confirmText + '</span>');
 				return;
 			}
 
