@@ -6,10 +6,11 @@ define([
 	'chosen',
 	'd3',
 	'models/datasource/DataSourceModel',
+	'models/sync/SyncModel',
 	'views/popup/PopupView',
 	'views/header/ShareView',
 	'text!templates/sidebar/DashboardSettingsView.html'
-], function ($, $ui, _, Backbone, Chosen, d3, DataSourceModel, PopupView, ShareView, DashboardSettingsTemplate) {
+], function ($, $ui, _, Backbone, Chosen, d3, DataSourceModel, SyncModel, PopupView, ShareView, DashboardSettingsTemplate) {
 
 	'use strict';
 
@@ -20,7 +21,7 @@ define([
 			'click .colors li p': 'changeColor',
 			'click .btn.blue': 'save',
 			'click .delete': 'del',
-			'click #share': 'share'
+			'click .share': 'share'
 		},
 
 		render: function () {
@@ -189,8 +190,28 @@ define([
 		},
 
 		share: function () {
-			var sv = new ShareView();
-			sv.render();
+			var location = window.location,
+				host = location.host,
+				field = this.$el.find('.shared'),
+				input = this.$el.find('#url');
+
+			field.show();
+			field.addClass('loading');
+			input.attr('disabled', 'disabled');
+
+			var ws = new WebSocket('ws://' + host);
+			ws.onopen = function (event) {
+				ws.send(JSON.stringify({
+					'method': 'sync',
+					'payload': SyncModel.exportData()
+				}));
+
+				ws.onmessage = function (res) {
+					input.val('http://' + host + '/dashboard/' + res.data);
+					input.attr('disabled', '');
+					field.removeClass('loading');
+				}.bind(this);
+			}.bind(this);
 		}
 	});
 
