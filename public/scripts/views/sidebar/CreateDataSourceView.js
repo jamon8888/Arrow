@@ -25,7 +25,7 @@ define([
 			var form = _.template(DataSourceTemplate, {
 				'datasources': DataSourceManagerModel.get('datasources'),
 				'datasource': datasource,
-				'startNow': datasource && datasource.get('startNow') ? datasource.get('startNow') : true
+				'startNow': datasource && datasource.get('startNow') ? datasource.get('startNow') : 'checked'
 			});
 
 			// render the popup
