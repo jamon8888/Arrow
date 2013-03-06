@@ -3,6 +3,9 @@ body { padding: 0; margin: 0; }
 .left { float: left; }
 .right { float: right; }
 
+
+
+
 /* Typography */
 body { font-family: 'Open Sans', sans-serif; font-size: 12px; color:#2b323b;}
 h1 {font-size:14px;font-weight:600;}
@@ -225,27 +228,17 @@ aside .btn.blue { border-color:#00a5c8;}
 #popup .datasource li .delete { background: url(/images/sprite.png) no-repeat 0 -532px; right:10px; }
 #popup .datasource li .delete:hover { background: url(/images/sprite.png) no-repeat -20px -532px; right:10px; }
 
-
-.delete {position:relative;margin-top:20px;cursor:pointer;color:#747f8c;background:#1c242b url(/images/sprite.png) no-repeat -74px -40px;height:32px;line-height:32px;overflow:hidden;border-radius:4px;display:inline-block;padding:0 0 0 32px;width:0;}
+.delete {position:relative;margin-top:24px;cursor:pointer;color:#747f8c;background:#1c242b url(/images/sprite.png) no-repeat -74px -40px;height:32px;line-height:32px;overflow:hidden;border-radius:4px;display:inline-block;padding:0 0 0 32px;width:0;}
 .delete:hover {width:auto;}
-.delete span {background:#f04747;color:white;height:32px;line-height:32px;display:block;padding:0 20px;position:relative;border-top-right-radius:4px;border-bottom-right-radius:4px;}
-.delete span:before {content:'';display:block;width:0;height:0;line-height:0;border:6px solid #1c242b;position:absolute;top:10px;left:0;border-top-color:transparent;border-bottom-color:transparent;border-right-color:transparent;}
+.delete span.del-label {background:#f04747;color:white;height:32px;line-height:32px;display:block;padding:0 20px;position:relative;border-top-right-radius:4px;border-bottom-right-radius:4px;}
+.delete span.del-label:before {content:'';display:block;width:0;height:0;line-height:0;border:6px solid #1c242b;position:absolute;top:10px;left:0;border-top-color:transparent;border-bottom-color:transparent;border-right-color:transparent;}
 .delete.confirm {background:#1c242b url(/images/sprite.png) no-repeat -74px -136px;width:auto;}
-.delete.confirm span {background:#38b87c;}
+.delete.confirm span.del-label {background:#38b87c;}
 
+.delete.confirm span.del-exit {background:yellow;display:block;width:16px;height:16px;position:absolute;right:8px;top:8px;}
 
-
-
-
-/*.delete {position:relative;margin-top:20px;cursor:pointer;color:#747f8c;background:#1c242b url(/images/sprite.png) no-repeat -74px -40px;width:32px;height:32px;line-height:32px;overflow:hidden;border-radius:4px;}
-.delete:hover{color:white;}
-.delete.confirm {background-position: -74px -40px;width:auto;padding:0 0 0 32px;display:inline-block;}
-.delete.confirm span {background:#f04747;color:white;height:32px;line-height:32px;display:block;padding:0 20px;position:relative;border-top-right-radius:4px;border-bottom-right-radius:4px;}
-.delete.confirm span:before {content:'';display:block;width:0;height:0;line-height:0;border:6px solid #1c242b;position:absolute;top:10px;left:0;border-top-color:transparent;border-bottom-color:transparent;border-right-color:transparent;}
-.delete.confirm:hover {background:#1c242b url(/images/sprite.png) no-repeat -74px -136px;}
-.delete.confirm:hover span {background:#38b87c;}*/
-
-.deleteTile {position:absolute;bottom:20px;left:20px;}
+.deleteTile {position:absolute;bottom:20px;left:20px;height:32px;}
+.deleteTile .delete {margin:0;position:relative;}
 
 
 
@@ -308,7 +301,7 @@ input#url {border:0;padding:10px;background:#e9eef4;-webkit-box-sizing: border-b
 
 .field {margin-bottom:10px;}
 
-.checkbox {overflow:hidden;margin-bottom:20px;}
+.checkbox {overflow:hidden;margin-bottom:20px;position:relative;line-height:20px;}
 
 .roundedCheckbox input[type="checkbox"]{visibility:hidden;position:relative;}
 .roundedCheckbox {float:left;margin-right:10px;width: 20px;height: 20px;background: #515f6f;border-radius: 50px;position: relative;}
@@ -321,8 +314,14 @@ input#url {border:0;padding:10px;background:#e9eef4;-webkit-box-sizing: border-b
 
 
 /* Warning notice to press play after adding data source */
-.note {color:#38b87c;margin-top:24px;background:none !important;border:2px dashed #38b87c;border-radius:2px;padding:10px;}
+.info {position:absolute;right:0;top:0;display:block;width:16px;height:16px;background:#313841;border:2px solid #38b87c;border-radius:100%;text-align:center;line-height:20px;cursor:pointer;}
+.info:hover {background:#38b87c;}
+.note {color:#38b87c;margin-bottom:20px;background:none;border:2px dashed #38b87c;border-radius:2px;padding:10px;display:none;}
 .play-icon{display:inline-block;width:16px;height:16px;background-image:url(/images/play-stream.png);background-repeat:no-repeat;position:relative;top:4px;margin:0 5px;}
+
+.info.info-shown {background:#38b87c;}
+.info.info-shown:hover {background:#f04747;border-color:#f04747;}
+.note.shown {display:block;}
 
 
 
@@ -340,7 +339,7 @@ input#url {border:0;padding:10px;background:#e9eef4;-webkit-box-sizing: border-b
 /* Time range slider styles */
 .ui-slider {background:#1c242b !important;margin:10px 0 0 0 !important;border-radius:30px !important;height:16px !important;border:none !important;border:none !important;height:6px !important;padding:2px !important;}
 .ui-slider-range {border-radius:30px !important;background:#38b87c !important;position:relative !important;}
-/*.ui-slider-range:after {content:'';display:block;position:absolute;top:-72px;background:rgba(0,0,0,.2);height:46px;width:100%;border:4px solid transparent;left:-4px;}*/
+
 /* handles */
 .ui-slider-handle {background:white !important;border-radius:100% !important;width:16px !important;height:16px !important;top:-5px !important;margin:0 0 0 -4px !important;border:2px solid #1c242b !important;box-shadow:0 3px 2px rgba(0,0,0,.1);}
 .ui-slider-handle:focus{outline:none;}

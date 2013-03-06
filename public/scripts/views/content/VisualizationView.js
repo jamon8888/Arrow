@@ -110,10 +110,10 @@ define([
 			var $target = $(evt.target),
 				confirmText = 'Are you sure?';
 
-			$target.addClass('confirm');
+			this.$el.find('.delete').addClass('confirm');
 
 			if ($target.html() !== confirmText) {
-				$target.html('<span>' + confirmText + '</span>');
+				this.$el.find('.delete').html('<span class="del-label">' + confirmText + '</span>').addClass('can-cancel');
 				return;
 			}
 

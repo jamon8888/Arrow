@@ -18,7 +18,8 @@ define([
 
 		events: {
 			'click .btn.save': 'saveDataSource',
-			'click .delete': 'del'
+			'click .delete': 'del',
+			'click .info' : 'info'
 		},
 
 		render: function (datasource) {
@@ -85,15 +86,23 @@ define([
 			var $target = $(evt.target),
 				confirmText = 'Are you sure?';
 
-			$target.addClass('confirm');
+			this.$el.find('.delete').addClass('confirm');
 
 			if ($target.html() !== confirmText) {
-				$target.html('<span>' + confirmText + '</span>');
+				this.$el.find('.delete').html('<span class="del-label">' + confirmText + '</span>');
 				return;
 			}
 
 			this.model.destroy();
 			this.popup.remove();
+		},
+
+		info: function (evt) {
+			var $target = $(evt.target),
+				   note = $('.note');
+
+			$target.toggleClass('info-shown');
+			note.toggleClass('shown');
 		}
 
 	});
