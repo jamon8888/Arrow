@@ -68,7 +68,9 @@ define([
 					color.brighter(2).toString(), 
 					color.darker().toString(), 
 					color.brighter().toString(), 
-					color.darker(2).toString()
+					color.darker(2).toString(),
+					color.brighter(3).toString(),
+					color.darker(3).toString()
 				]);
 
 			var element = this.options.chart.render(this.data, colours);
