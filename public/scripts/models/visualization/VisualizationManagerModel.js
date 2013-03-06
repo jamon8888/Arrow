@@ -22,7 +22,8 @@ define([
 			// line graph model
 			visualizations.push(LineGraph);
 			visualizations.push(PieChart);
-			visualizations.push(WordCloud);
+			// the word cloud is too processor intensive
+			//visualizations.push(WordCloud);
 			visualizations.push(BarChart);
 			// another model
 			// visualizations.push(blah);

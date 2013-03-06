@@ -55,6 +55,8 @@
 
         <div class="btn blue save" style="margin-top:10px;"><%= datasource ? 'Update' : 'Create' %></div>
 
-        <div class="delete"><span class="del-label">Delete</span></div>
+        <% if (datasource) { %>
+            <div class="delete"><span class="del-label">Delete</span></div>
+        <% } %>
     </div>
 </div>
