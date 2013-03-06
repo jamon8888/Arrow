@@ -9,8 +9,13 @@ var express = require('express'),
 	redis = require('redis'),
 	clients = [];
 
-server.listen(3000);
-console.log('Listening on port 3000');
+if ('development' === app.get('env')) {
+	server.listen(3000);
+	console.log('Listening to port 3000 in DEVELOPMENT mode');
+} else {
+	server.listen(8082);
+	console.log('Listening to port 8080 in PRODUCTION mode');
+}
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
