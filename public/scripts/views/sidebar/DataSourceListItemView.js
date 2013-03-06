@@ -38,6 +38,13 @@ define([
 			var body = this.template(this.model.toJSON());
 			this.$el.html(body);
 
+			// wait a second for everything to be finished
+			setTimeout(function () {			
+				if (this.model.get('startNow') === 'checked') {
+					this.toggle();
+				}
+			}.bind(this), 1000);
+
 			return this;
 		},
 
