@@ -37,6 +37,7 @@ define([
 		render: function () {
 			var body = this.template(this.model.toJSON());
 			this.$el.html(body);
+			this.$el.attr('title', this.model.getActivityStatus() === 'running' ? 'Stop Data Source' : 'Start Data Source');
 
 			// wait a second for everything to be finished
 			setTimeout(function () {			
