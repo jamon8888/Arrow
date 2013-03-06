@@ -25,6 +25,7 @@ define([
 			this.model.on('change:hidden', this.update, this);
 			this.model.on('change:startTime', this.render, this);
 			this.model.on('change:endTime', this.render, this);
+			this.model.on('change:color', this.render, this);
 		},
 
 		render: function () {
@@ -66,6 +67,7 @@ define([
 		},
 
 		changeVisualizations: function (model, collection) {
+			this.model.set('visualizations', this.model.get('visualizations'));
 			this.model.save();
 		}
 	});

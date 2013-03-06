@@ -2,13 +2,14 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
+	'd3',
 	'vent',
 	'models/user/DataSourceUserModel',
 	'models/visualization/VisualizationManagerModel',
 	'views/popup/PopupView',
 	'text!templates/visualization/Visualization.html',
 	'text!templates/visualization/EditVisualization.html'
-], function ($, _, Backbone, vent, DataSourceUserModel, VisualizationManagerModel, PopupView, VisulizationTemplate, EditVisualizationTemplate) {
+], function ($, _, Backbone, d3, vent, DataSourceUserModel, VisualizationManagerModel, PopupView, VisulizationTemplate, EditVisualizationTemplate) {
 
 	'use strict';
 
@@ -61,7 +62,16 @@ define([
 			_.extend(this.properties, options);
 			this.options.chart.set(this.properties);
 
-			var element = this.options.chart.render(this.data);
+			var color = d3.rgb(this.model.get('color')),
+				colours = d3.scale.ordinal().range([
+					color.toString(), 
+					color.brighter(2).toString(), 
+					color.darker().toString(), 
+					color.brighter().toString(), 
+					color.darker(2).toString()
+				]);
+
+			var element = this.options.chart.render(this.data, colours);
 
 			var body = _.template(VisulizationTemplate, {
 				'title': this.options.chart.get('userName'),

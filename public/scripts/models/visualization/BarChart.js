@@ -32,8 +32,7 @@ define([
 				yWidth = 40;
 
 			var maxGroup = d3.max(this.data, function (d) { return d.value; }),
-				range = d3.scale.linear().domain([0, maxGroup]).range([height, 0]),
-				colors = d3.scale.ordinal().domain([0, this.data.length-1]).range(COLOR);
+				range = d3.scale.linear().domain([0, maxGroup]).range([height, 0]);
 
 			var rangeX = function (i) {
 				return showy ? (((width-yWidth) / this.data.length) * i) + yWidth : i * (width / this.data.length);
@@ -52,7 +51,7 @@ define([
 				.attr('y', function (d) { return range(d.value); })
 				.attr('height', function (d) { return height - range(d.value) ; })
 				.attr('width', function (d) { return (showy ? (width - yWidth) : width) / this.data.length; }.bind(this))
-				.attr('fill', function (d, i) { return colors(i); });
+				.attr('fill', function (d, i) { return this.colors(i); }.bind(this));
 
 			if (showy) {
 				var yaxis = chart.append('g')
@@ -80,10 +79,11 @@ define([
 			}
 		},
 
-		render: function (data) {
+		render: function (data, colors) {
 			this.data = this.process(data, this.get('group'));
 			this.div = document.createElement('div');
 			this.div.className = 'barchartvis';
+			this.colors = colors;
 			this.draw();
 			return this.div;
 		},

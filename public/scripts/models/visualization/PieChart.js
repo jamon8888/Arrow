@@ -83,13 +83,11 @@ define([
 				.attr('transform', 'translate(' + (this.get('width')/2) + ',' +  ((this.get('height') - 40)/2) + ')')
 				.attr('class', 'pie');
 
-			var colors = d3.scale.ordinal().domain([0, this.data.length-1]).range(COLOR);
-
 			this.arcs = this.svg.selectAll('path')
 				.data(this.pie(this.data))
 			.enter()
 				.append('path')
-				.attr('fill', function (d, i) { return colors(i); })
+				.attr('fill', function (d, i) { return this.colors(i); }.bind(this))
 				.attr('d', this.arc)
 				.on('mouseover', _.bind(this.mouseOver, this))
 				.on('mouseout', _.bind(this.mouseOut, this));
@@ -126,11 +124,11 @@ define([
 			$(this.tooltip).remove();
 		},
 
-		render: function (data) {
-
+		render: function (data, colors) {
 			this.data = this.process(data, this.get('group'));
 			this.div = document.createElement('div');
 			this.div.className = 'PieChart';
+			this.colors = colors;
 			this.draw();
 
 			return this.div;

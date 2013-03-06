@@ -80,8 +80,6 @@ define([
 				});
 			}
 
-			console.log(this.availGraph);
-
 			this.min = parseInt(d3.min(this.availGraph, function (d) { return d.time; }), 10);
 			this.max = parseInt(d3.max(this.availGraph, function (d) { return d.time; }), 10);
 		},

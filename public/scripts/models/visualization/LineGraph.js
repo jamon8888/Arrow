@@ -149,13 +149,11 @@ define([
 				lines[s] = this.lineCreator(this.get('x'), s);
 			}.bind(this));
 
-			var colors = d3.scale.ordinal().domain([0, this.data.length-1]).range(COLOR);
-
 			// draw each of the lines
 			var i = 0;
 			for (var l in lines) {
 				if (lines.hasOwnProperty(l)) {
-					var color = colors(i);
+					var color = this.colors(i);
 					paths[l] = svg.append('path')
 						.attr('d', lines[l](data))
 						.attr('class', l)
@@ -195,7 +193,7 @@ define([
 			this.paths = paths;
 		},
 
-		render: function (data) {
+		render: function (data, colors) {
 
 			var series = [],
 				counter = 1;
@@ -218,7 +216,7 @@ define([
 
 			this.div = document.createElement('div');
 			this.div.className = 'linegraph';
-
+			this.colors = colors;
 			this.draw();
 
 			return this.div;
