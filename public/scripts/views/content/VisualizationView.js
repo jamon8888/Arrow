@@ -4,13 +4,14 @@ define([
 	'backbone',
 	'd3',
 	'vent',
+	'collections/visualization/VisualizationCollection',
 	'models/user/DataSourceUserModel',
 	'models/visualization/VisualizationManagerModel',
 	'views/popup/PopupView',
 	'views/content/CreateVisualization',
 	'text!templates/visualization/Visualization.html',
 	'text!templates/visualization/EditVisualization.html'
-], function ($, _, Backbone, d3, vent, DataSourceUserModel, VisualizationManagerModel, PopupView, CreateVisualization, VisulizationTemplate, EditVisualizationTemplate) {
+], function ($, _, Backbone, d3, vent, VisualizationCollection, DataSourceUserModel, VisualizationManagerModel, PopupView, CreateVisualization, VisulizationTemplate, EditVisualizationTemplate) {
 
 	'use strict';
 
@@ -190,8 +191,9 @@ define([
 				return;
 			}
 
-			this.model.destroy();
-			this.model.save();
+			var model = VisualizationCollection.get(this.model.id);
+			model.destroy();
+			this.remove();
 		},
 
 		/**
