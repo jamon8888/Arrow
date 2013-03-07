@@ -168,7 +168,7 @@ define([
 				datasource = this.datasource;
 			}
 
-			if (!datasource) {
+			if (!datasource || _.indexOf([13, 38, 40], e.keyCode) !== -1) {
 				return;
 			}
 
@@ -179,8 +179,6 @@ define([
 
 			var datasourceModel = DataSourceUserCollection.get(datasource);
 			datasourceModel = datasourceModel.getDataSource();
-
-
 
 			if (element.val().length > 2) {
 				var options = datasourceModel.findKey(datasource, element.val()).slice(0, 10);
