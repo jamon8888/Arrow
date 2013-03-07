@@ -21,8 +21,6 @@ define([
 
 		initialize: function () {
 			VisualisationCollection.on('add', this.render, this);
-
-			console.log(this.model, 'dashboardview');
 			
 			this.model.on('change', this.toggle, this);
 			this.model.on('change:startTime', this.render, this);
