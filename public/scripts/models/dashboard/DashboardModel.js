@@ -13,14 +13,9 @@ define([
 		defaults: {
 			title: '',
 			hidden: true,
-			allColors: ['#f04747', '#00afd4', '#ebaf3c', '#38b87c', '#e9662c'],
 			color: '#e9e9e9',
 			startTime: false,
 			endTime: false
-		},
-
-		getCharts: function () {
-			return this.visualizations;
 		},
 
 		show: function () {

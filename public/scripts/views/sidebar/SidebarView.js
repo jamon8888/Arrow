@@ -27,16 +27,12 @@ define([
 		render: function () {
 			// loading spinner
 			this.$el.addClass('loading');
+			this.renderDashboards(DashboardCollection);
 
 			// fetch the datasource
 			DataSourceUserCollection.fetch({
 				success: _.bind(this.renderDataSources, this),
 				error: function () {}
-			});
-
-			// fetch the dashboards
-			DashboardCollection.fetch({
-				success: _.bind(this.renderDashboards, this)
 			});
 		},
 

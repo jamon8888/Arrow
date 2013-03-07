@@ -52,12 +52,10 @@ define([
 			if ($(event.target).hasClass('del')) {
 				return;
 			}
-
 			this.model.collection.each(function (d) {
 				d.hide();
 			});
 			this.model.show();
-			this.model.save();
 		},
 
 		settings: function () {
