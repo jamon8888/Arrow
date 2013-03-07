@@ -8,8 +8,9 @@ define([
 	'use strict';
 
 	var VisualizationCollection = Backbone.Collection.extend({
-		model: VisualizationModel
+		model: VisualizationModel,
+		localStorage: new Backbone.LocalStorage('VisualizationCollection')
 	});
 
-	return VisualizationCollection;
+	return new VisualizationCollection();
 });

@@ -158,39 +158,76 @@ define([
 			this.remove();
 		},
 
-		autoComplete: function (e) {
+		autoComplete: function (e, datasource) {
 
-			var element = $(e.target);
+			var element = $(e.target),
+				index = -1,
+				autocomplete = $('#autocomplete');
 
-			if (!this.datasource) {
+			if (!datasource) {
+				datasource = this.datasource;
+			}
+
+			if (!datasource) {
 				return;
 			}
 
-			var datasource = DataSourceUserCollection.get(this.datasource);
-			datasource = datasource.getDataSource();
-
-			if ($('#autocomplete')) {
-				$('#autocomplete').remove();
+			if (autocomplete) {
+				autocomplete.remove();
+				$(document).unbind('keyup');
 			}
 
+			var datasourceModel = DataSourceUserCollection.get(datasource);
+			datasourceModel = datasourceModel.getDataSource();
+
+
+
 			if (element.val().length > 2) {
-				var options = datasource.findKey(this.datasource, element.val()).slice(0, 10);
+				var options = datasourceModel.findKey(datasource, element.val()).slice(0, 10);
 				var text = _.template(AutoCompleteTemplate, {
 					options: options,
 					offset: element.offset(),
 					width: element.width()
 				});
+
 				$(document.body).append(text);
+				autocomplete = $('#autocomplete');
+
+				$(document).keyup(function (e) {
+
+					if (_.indexOf([13, 38, 40], e.keyCode) === -1) {
+						return;
+					}
+					
+					// going up or down
+					index += e.keyCode === 40 ? 1 : (e.keyCode === 38 ? -1 : 0); 
+
+					if (index < 0 || index > options.length) {
+						index = 0;
+					}
+
+					var lis = $('#autocomplete li');
+					lis.removeClass('selected');
+					$(lis[index]).addClass('selected');
+
+					if (e.keyCode === 13) {
+						element.val(lis[index].innerHTML);
+						autocomplete.remove();
+						$(document).unbind('keyup');
+					}
+				});
 
 				_.each($('#autocomplete li'), function (li) {
 					$(li).on('click', function () {
 						element.val(li.innerHTML);
-						$('#autocomplete').remove();
+						autocomplete.remove();
+						$(document).unbind('keyup');
 					});
 				});
 
-				this.$el.one('click', function () {
-					$('#autocomplete').remove();
+				element.one('click', function () {
+					autocomplete.remove();
+					$(document).unbind('keyup');
 				});
 			} 
 		}

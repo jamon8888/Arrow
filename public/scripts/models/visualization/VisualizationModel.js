@@ -15,7 +15,8 @@ define([
 
 		defaults: {
 			title: '',
-			datasource: false
+			datasource: false,
+			dashboard: false
 		},
 
 		/**
@@ -48,6 +49,24 @@ define([
 
 		prefix: function () {
 			return this.get('datasource');
+		},
+
+		set: function (attributes, options) {
+			// we need to update our instance
+			if (this.instance) {
+				this.instance.set(attributes, options);
+			}
+			Backbone.Model.prototype.set.call(this, attributes, options);
+		},
+
+		setInstance: function (instance) {
+			if (!this.instance) {
+				this.instance = instance;
+			}
+		},
+
+		getInstance: function () {
+			return this.instance;
 		},
 
 		/**

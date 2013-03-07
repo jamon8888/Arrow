@@ -3,11 +3,12 @@ define([
 	'underscore',
 	'backbone',
 	'collections/dashboard/DashboardCollection',
+	'collections/visualization/VisualizationCollection',
 	'models/sync/SyncModel',
 	'views/sidebar/SidebarView',
 	'views/content/ContentView',
 	'views/header/HeaderView'
-], function($, _, Backbone, DashboardCollection, SyncModel, SidebarView, ContentView, HeaderView) {
+], function($, _, Backbone, DashboardCollection, VisualizationCollection, SyncModel, SidebarView, ContentView, HeaderView) {
 	
 	'use strict';
 
@@ -27,12 +28,18 @@ define([
 			DashboardCollection.fetch({
 				success: function (collection) {
 
+					// fetch all the visualisations
+					VisualizationCollection.fetch({
+						success: function (visualisations) {
+							var cv = new ContentView();
+							cv.render(collection);
+						}
+					});
+
 					var sv = new SidebarView(),
-						cv = new ContentView(),
 						hv = new HeaderView();
 
 					sv.render(collection); 
-					cv.render(collection);
 					hv.render();
 				},
 				error: function () {

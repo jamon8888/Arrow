@@ -4,9 +4,10 @@ define([
 	'backbone',
 	'vent',
 	'collections/dashboard/DashboardCollection',
+	'collections/visualization/VisualizationCollection',
 	'views/content/CreateVisualization',
 	'views/content/VisualizationView'
-], function ($, _, Backbone, vent, DashboardCollection, CreateVisualization, VisualizationView) {
+], function ($, _, Backbone, vent, DashboardCollection, VisualisationCollection, CreateVisualization, VisualizationView) {
 
 	'use strict';
 
@@ -19,9 +20,8 @@ define([
 		},
 
 		initialize: function () {
-			this.model.on('addviz', this.render, this);
-			this.model.get('visualizations').on('change', this.changeVisualizations, this);
-			this.model.get('visualizations').on('remove', this.changeVisualizations, this);
+			VisualisationCollection.on('add', this.render, this);
+			
 			this.model.on('change:hidden', this.update, this);
 			this.model.on('change:startTime', this.render, this);
 			this.model.on('change:endTime', this.render, this);
@@ -29,24 +29,31 @@ define([
 		},
 
 		render: function () {
+
+			var visualisations = VisualisationCollection.where({dashboard: this.model.id});
+			// wipe the content
 			this.$el.html('');
-			this.update();
+			// toggle
+			this.toggle();
+
 			// add all the visulizations
-			this.addAllCharts(this.model.get('visualizations'));
+			this.addAllCharts(visualisations);
+			// now append our special add block
 			this.$el.append('<div class="add vis"><span></span></div>');
 			return this;
 		},
 
-		update: function () {
-			this.model.get('hidden') ? this.$el.hide() : this.$el.show();
+		toggle: function () {
+			if (this.model.get('hidden')) {
+				this.$el.hide();
+			} else {
+				this.$el.show();
+			}
 		},
 
 		addChart: function (chart) {
 
-			var view = new VisualizationView({
-					model: this.model,
-					chart: chart
-				}),
+			var view = new VisualizationView({ model: chart, dashboard: this.model}),
 				data = chart.getDataSource().getData(),
 				addNew = $('.add.vis', this.$el),
 				html = view.render(data[chart.get('datasource')]).el;
@@ -59,16 +66,11 @@ define([
 		},
 
 		addAllCharts: function (charts) {
-			charts.each(this.addChart, this);
+			_.each(charts, _.bind(this.addChart, this));
 		},
 
 		createVisualization: function () {
 			new CreateVisualization({model: this.model});
-		},
-
-		changeVisualizations: function (model, collection) {
-			this.model.set('visualizations', this.model.get('visualizations'));
-			this.model.save();
 		}
 	});
 

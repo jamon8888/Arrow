@@ -126,6 +126,7 @@ define([
 
 		render: function (data, colors) {
 			this.data = this.process(data, this.get('group'));
+
 			this.div = document.createElement('div');
 			this.div.className = 'PieChart';
 			this.colors = colors;

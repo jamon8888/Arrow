@@ -31,7 +31,6 @@ define([
 			this.set('visualizations', visualizations);
 		},
 
-
 		findVisualization: function (name) {
 			var vis = this.get('visualizations'),
 				v = false;
