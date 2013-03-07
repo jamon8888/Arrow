@@ -22,11 +22,11 @@ define([
 		tagName: 'div',
 
 		events: {
-			'click .settings': 'settings',
-			'click .return': 'settings',
-			'click .btn.save': 'saveSettings',
-			'click .btn.advanced': 'advancedSettings',
-			'click .delete': 'del',
+			'mousedown .settings': 'settings',
+			'mousedown .return': 'settings',
+			'mousedown .btn.save': 'saveSettings',
+			'mousedown .btn.advanced': 'advancedSettings',
+			'mousedown .delete': 'del',
 			'mousedown .drag': 'dragging'
 		},
 
@@ -155,7 +155,7 @@ define([
 			$('#popup .axis').on('keyup', _.bind(this.autoComplete, this));
 
 			// When we click submit
-			$('.btn.blue', pvElement).click(function () {
+			$('.btn.blue', pvElement).mousedown(function () {
 				var fields = $('.varea input', pvElement);
 				_.each(fields, function (field) {
 					if ($(field).val() !== '') {

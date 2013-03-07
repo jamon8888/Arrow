@@ -19,8 +19,8 @@ define([
 		el: $('aside'),
 
 		events: {
-			'click #addDataSource': 'addDataSource',
-			'click #createdashboard': 'showCreateDashboard',
+			'mousedown #addDataSource': 'addDataSource',
+			'mousedown #createdashboard': 'showCreateDashboard',
 			'keyup #newdashboard input': 'createDashboard'
 		},
 

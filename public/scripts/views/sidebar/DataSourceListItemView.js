@@ -16,8 +16,8 @@ define([
 		tagName: 'li',
 
 		events: {
-			'click': 'toggle',
-			'click .set': 'settings'
+			'mousedown': 'toggle',
+			'mousedown .set': 'settings'
 		},
 
 		template: _.template('<span class="status"></span><span class="label-clip"><%= niceName %></span><div class="set"></div></li>'),

@@ -16,7 +16,7 @@ define([
 		tagName: 'div',
 
 		events: {
-			'click .add': 'createVisualization'
+			'mousedown .add': 'createVisualization'
 		},
 
 		initialize: function () {
