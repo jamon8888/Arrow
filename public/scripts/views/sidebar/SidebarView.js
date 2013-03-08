@@ -57,6 +57,7 @@ define([
 		showCreateDashboard: function () {
 			$('#newdashboard').show();
 			$('#newdashboard input').val('');
+			// have to put in a small delay
 			setTimeout(function () {
 				$('#newdashboard input').focus();
 			}, 100);

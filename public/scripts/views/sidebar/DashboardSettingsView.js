@@ -93,7 +93,7 @@ define([
 			var min = d3.min(this.availGraph, function (d) { return d.value; });
 
 			var y = d3.scale.linear().domain([0, max]).rangeRound([0, height]);
-			var x = d3.scale.linear().domain([this.min, this.max]).range([0, width]);
+			var x = d3.scale.linear().domain([this.min, this.max]).range([0, width - 1]);
 
 			var chart = d3.select('#barchart')
 				.append('svg')
