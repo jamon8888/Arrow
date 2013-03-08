@@ -57,7 +57,9 @@ define([
 		showCreateDashboard: function () {
 			$('#newdashboard').show();
 			$('#newdashboard input').val('');
-			$('#newdashboard input').focus();
+			setTimeout(function () {
+				$('#newdashboard input').focus();
+			}, 100);
 		},
 
 		/**

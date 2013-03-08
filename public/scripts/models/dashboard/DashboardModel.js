@@ -14,6 +14,7 @@ define([
 			title: '',
 			hidden: true,
 			color: '#e9e9e9',
+			allColors: ['#f04747', '#00afd4', '#ebaf3c', '#38b87c', '#e9662c'],
 			startTime: false,
 			endTime: false
 		},
