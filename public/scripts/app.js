@@ -54,7 +54,6 @@ define([
 			ws.onopen = function () {
 				ws.send(JSON.stringify({'key': path[2]}));
 				ws.onmessage = function (data) {
-					data = JSON.parse(data.data);
 					SyncModel.importData(data);
 					start();
 				};

@@ -32,6 +32,10 @@ define([
 		addVisualization: function (vis) {
 			vis.set('dashboard', this.id);
 			VisualizationCollection.create(vis);
+		},
+
+		getVisualizations: function () {
+			return VisualizationCollection.where({dashboard: this.id});
 		}
 
 	});

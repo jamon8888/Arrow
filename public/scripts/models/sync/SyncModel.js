@@ -3,8 +3,9 @@ define([
 	'underscore',
 	'backbone',
 	'collections/dashboard/DashboardCollection',
-	'collections/user/DataSourceUserCollection'
-], function ($, _, Backbone, DashboardCollection, DataSourceUserCollection) {
+	'collections/user/DataSourceUserCollection',
+	'collections/visualization/VisualizationCollection'
+], function ($, _, Backbone, DashboardCollection, DataSourceUserCollection, VisualisationCollection) {
 
 	var SyncModel = Backbone.Model.extend({
 
@@ -14,26 +15,28 @@ define([
 		 * 
 		 * @return {Object} A object representing the local storage
 		 */
-		exportData: function () {
-			var download = {};
-			// get everything in our localstorage
-			Object.keys(localStorage).forEach(function (key) {
-				download[key] = localStorage.getItem(key);
-			});
+		exportData: function (dashboard) {
 
-			if (download.DataSourceCollection) {
-				// we need to remove the sensitive information from the datasources
-				var datasources = download.DataSourceCollection.split(',');
-				_.each(datasources, function (datasource) {
-					var ds = JSON.parse(download['DataSourceCollection-' + datasource]);
-					for (var key in ds) {
-						if (key !== 'name' && key !== 'niceName' && key !== 'id' && key !== 'hash') {
-							delete(ds[key]);
-						}
-					}
-					download['DataSourceCollection-' + datasources] = JSON.stringify(ds);
-				});
-			}
+			var download = {};
+
+			// all datasources
+			download.DataSourceCollection = _.map(DataSourceUserCollection.toJSON(), function (datasource) {
+				// remove the api key
+				if (datasource.apikey) { datasource.apikey = ''; }
+				if (datasource.username) { datasource.username = ''; }
+				return datasource;
+			});
+			
+			// get the data
+			download.Data = JSON.parse(localStorage.getItem('data'));
+
+			// get this dashboard
+			download.Dashboard = dashboard.toJSON();
+
+			// get the visualisations
+			download.Visualisations = _.map(dashboard.getVisualizations(), function (model) {
+				return model.toJSON();
+			});
 
 			return download;
 		},
@@ -44,42 +47,57 @@ define([
 		 * @param  {Object} d The data representation
 		 */
 		importData: function (d) {
-			// data
-			var data = JSON.parse(localStorage.getItem('data')) || {};
-			d.data = JSON.parse(d.data);
-			for (var id in d.data) {
-				if (d.data.hasOwnProperty(id)) {
+
+			var download = JSON.parse(d.data),
+				data = JSON.parse(localStorage.getItem('data')) || {};
+
+			// import the datasource
+			_.each(download.DataSourceCollection, function (collection) {
+				if (DataSourceUserCollection.get(collection.id)) {
+					DataSourceUserCollection.get(collection.id).update(collection);
+				} else {
+					DataSourceUserCollection.create(collection);
+				}
+			});
+
+			// import the dashboards
+			if (DashboardCollection.get(download.Dashboard.id)) {
+				DashboardCollection.get(download.Dashboard.id).update(download.Dashboard);
+			} else {
+				DashboardCollection.create(download.Dashboard);
+			}
+
+			// import the visualisations
+			_.each(download.Visualisations, function (collection) {
+				if (VisualisationCollection.get(collection.id)) {
+					VisualisationCollection.get(collection.id).update(collection);
+				} else {
+					VisualisationCollection.create(collection);
+				}
+			});
+
+			// update the data
+			for (var id in download.Data) {
+				if (download.Data.hasOwnProperty(id)) {
 					if (data[id] === undefined) {
-						data[id] = d.data[id];
+						data[id] = download.Data[id];
 					} else {
 						// attempt to extend it
-						_.extend(data[id], d.data[id]);
+						_.extend(data[id], download.Data[id]);
 					}
 				}
 			}
-			localStorage.setItem('data', JSON.stringify(data));
 
-			// datasources
-			var datasources = d.DataSourceCollection.split(',');
-			_.each(datasources, function (ds) {
-				var item = JSON.parse(d['DataSourceCollection-' + ds]);
-				if (!DataSourceUserCollection.get(item.id)) {
-					DataSourceUserCollection.create(item);
-				} else {
-					console.log('Datasource already exists');
+			/**
+			 * @todo If the users cache is full then we will have a problem 
+			 */
+			try {
+				localStorage.setItem('data', JSON.stringify(data));
+			} catch (exception) {
+				if (exception.name === "QUOTA_EXCEEDED_ERR") {
+					alert('We are unable to import the data, this will exceed your quota.');
 				}
-			});
-
-			// dashboards
-			var dashboards = d.DashboardCollection.split(',');
-			_.each(dashboards, function (dashboard) {
-				var item = JSON.parse(d['DashboardCollection-' + dashboard]);
-				if (!DashboardCollection.get(item.id)) { 
-					DashboardCollection.create(item);
-				} else {
-					console.log('Dashboard already exists');
-				}
-			});
+			}
 		}
 	});
 	return new SyncModel();

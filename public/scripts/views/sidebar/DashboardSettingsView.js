@@ -201,7 +201,7 @@ define([
 			ws.onopen = function (event) {
 				ws.send(JSON.stringify({
 					'method': 'sync',
-					'payload': SyncModel.exportData()
+					'payload': SyncModel.exportData(this.model)
 				}));
 
 				ws.onmessage = function (res) {
