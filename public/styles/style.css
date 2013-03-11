@@ -250,6 +250,10 @@ aside .btn.blue { border-color:#00a5c8;}
 .linegraph .yaxis text, .linegraph .xaxis text {fill: white;}
 .linegraph .xaxis line { stroke-width: 1px; stroke: #2f3941; fill: none; shape-rendering: crispEdges; }
 
+/* Bar Chart */
+
+.barchartvis .yaxis path { stroke-width: 1px; stroke: #2f3941; fill: none; shape-rendering: crispEdges; }
+
 
 
 
