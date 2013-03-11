@@ -145,7 +145,10 @@ content { float: left; margin: 60px 0 0 260px; padding: 10px; }
 /* Form */
 input[type="text"],.element{outline:none;background:#e9eef4;border:0; border-radius: 2px; box-sizing: border-box; width: 100%; padding:10px;font-size: 12px;  margin-bottom: 10px;}
 input[type="text"]:focus,.element:focus {background:#fcfce2;}
-input[type="text"].error { border-color: #895099; }
+input[type="text"].error { background: #f04747; }
+input[type="text"].error::-webkit-input-placeholder { color: #FFFFFF; } 
+input[type="text"].error::-moz-placeholder { color: #FFFFFF; } 
+input[type="text"].error::-ms-placeholder { color: #FFFFFF; } 
 
 
 

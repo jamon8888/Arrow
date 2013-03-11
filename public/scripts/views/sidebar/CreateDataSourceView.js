@@ -57,13 +57,25 @@ define([
 				fields = $('input', form),
 				attributes = {},
 				id = this.$el.find('input[name="id"]').val(),
-				as = this.$el.find('#startNow').is(':checked');
+				as = this.$el.find('#startNow').is(':checked'),
+				errorCount = 0;
 
 			// iterate each of the fields and all the values
 			_.each(fields, function (field) {
 				field = $(field);
-				attributes[field.attr('name')] = field.val();
+				if (field.val() !== '') {
+					attributes[field.attr('name')] = field.val();
+					field.removeClass('error');
+				} else {
+					field.addClass('error');
+					errorCount++;
+				}
 			});
+
+			if (errorCount > 0) {
+				// the form has errors
+				return;
+			}
 
 			attributes.name = select.val();
 			attributes.startNow = as ? 'checked' : 'unchecked';

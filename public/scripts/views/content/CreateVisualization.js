@@ -143,12 +143,24 @@ define([
 			var Model = this.findVisualization(this.visualization),
 				instance = false,
 				fields = $('.varea input'),
-				attributes = {};
+				attributes = {},
+				errorCount = 0;
 
 			_.each(fields, function (field) {
 				field = $(field);
-				attributes[field.attr('name')] = field.val();
+				if (field.val() !== '') {
+					attributes[field.attr('name')] = field.val();
+					field.removeClass('error');
+				} else {
+					errorCount++;
+					field.addClass('error');
+				}
 			});
+
+			if (errorCount > 0 || fields.length === 0) {
+				// the form has errors
+				return;
+			}
 
 			attributes.userName = $('input[name="userName"]').val();
 
