@@ -104,7 +104,10 @@ define([
 		 * @return {[type]}        [description]
 		 */
 		storeLatLong: function (bucket, value) {
-
+			if (!_.isArray(bucket)) {
+				bucket = [];
+			}
+			bucket.push(value);
 		},
 
 		/**
@@ -171,19 +174,18 @@ define([
 				return;
 			}
 
-			// store the value
-			if (_.isString(value)) {
-				// stop the string from taking too much space
-				if (value.length > 100) {
-					value = value.slice(0, 100);
-				}
+			// store latlong
+			if (_.isString(value) && value.match(/^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$/)) {
+				this.storeLatLong(bucket.keys[key], value);
+			} else if (_.isString(value)) {
+				value = value.length > 100 ? value.slice(0, 100) : value;
 				this.storeString(bucket.keys[key], value);
 			} else if (_.isNumber(value)) {
 				this.storeNumber(bucket.keys[key], value);
 			} else if (_.isArray(value)) {
 				this.storeArray(bucket.keys[key], value);
 			} else if (value === null) {
-				// 
+				// ummmmmm?
 			}
 
 			if (bucketExist === -1) {

@@ -69,6 +69,10 @@ define([
 				time = msg.data[msg.data.interaction.type].created_at;
 			}
 
+			if (msg.data && msg.data.interaction && msg.data.interaction.geo) {
+				msg.data.interaction.geo = msg.data.interaction.geo.latitude + ',' + msg.data.interaction.geo.longitude;
+			}
+
 			time = new Date(time);
 			time = time.getTime();
 			this.traverse(msg.data, '', time);
