@@ -126,6 +126,7 @@ define([
 			var	Model = this.findVisualization(this.visualization),
 				vis = new Model();
 
+			$('#popup .varea').html('');
 			$('#popup .varea').append(vis.form());
 		},
 
