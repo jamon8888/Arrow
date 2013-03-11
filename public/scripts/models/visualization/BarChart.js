@@ -84,6 +84,13 @@ define([
 			this.div = document.createElement('div');
 			this.div.className = 'barchartvis';
 			this.colors = colors;
+
+			// if we have no data
+			if (this.data.length === 0) {
+				this.noData();
+				return this.div;
+			}
+
 			this.draw();
 			return this.div;
 		},

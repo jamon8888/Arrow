@@ -70,6 +70,16 @@ define([
 		},
 
 		/**
+		 * Sometimes there is no data for visualisations
+		 */
+		noData: function () {
+			if (!this.div) {
+				throw 'No DIV defined';
+			}
+			$(this.div).append('<div class="nodata">Sorry there is no data for this visualization, try changing your parameters?</div>');
+		},
+
+		/**
 		 * Turn the default dataset arrow provides into the data we need
 		 * 
 		 * @param  {[type]} data [description]

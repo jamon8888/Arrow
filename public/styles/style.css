@@ -361,3 +361,5 @@ input#url {border:0;padding:10px;background:#e9eef4;-webkit-box-sizing: border-b
 /* Bar chart styles */
 /*.barchartvis {background:red;padding:20px;}*/
 .barchartvis text {fill:white;}
+
+.nodata { color: #FFFFFF; padding: 20px; }

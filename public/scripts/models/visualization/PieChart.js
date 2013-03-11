@@ -130,6 +130,12 @@ define([
 			this.div = document.createElement('div');
 			this.div.className = 'PieChart';
 			this.colors = colors;
+
+			if (this.data.length === 0) {
+				this.noData();
+				return this.div;
+			}
+
 			this.draw();
 
 			return this.div;

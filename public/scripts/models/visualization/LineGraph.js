@@ -198,24 +198,30 @@ define([
 			var series = [],
 				counter = 1;
 
-			this.series = _.compact(this.series);
+			// create the DIV
+			this.div = document.createElement('div');
+			this.div.className = 'linegraph';
 
+			// find the axis
+			this.series = _.compact(this.series);
 			// get all the lines we need to draw
 			while (this.get('y' + counter) !== undefined) {
 				series.push(this.get('y' + counter));
 				counter++;
 			}
+			this.series = series;
 
 			this.x = this.get('x');
+			this.data = this.process(data, this.x, series);
 
-			this.series = series;
-			this.data = this.process(data, this.get('x'), series);
+			if (this.data.length === 0) {
+				this.noData();
+				return this.div;
+			}
 
 			// calculate all the data
 			this.calculate();
 
-			this.div = document.createElement('div');
-			this.div.className = 'linegraph';
 			this.colors = colors;
 			this.draw();
 
