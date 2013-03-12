@@ -104,9 +104,6 @@ define([
 		 * @return {[type]}        [description]
 		 */
 		storeLatLong: function (bucket, value) {
-			if (!_.isArray(bucket)) {
-				bucket = [];
-			}
 			bucket.push(value);
 		},
 
@@ -176,6 +173,9 @@ define([
 
 			// store latlong
 			if (_.isString(value) && value.match(/^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$/)) {
+				if (!_.isArray(bucket.keys[key])) {
+					bucket.keys[key] = [];
+				}
 				this.storeLatLong(bucket.keys[key], value);
 			} else if (_.isString(value)) {
 				value = value.length > 100 ? value.slice(0, 100) : value;

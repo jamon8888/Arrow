@@ -362,4 +362,6 @@ input#url {border:0;padding:10px;background:#e9eef4;-webkit-box-sizing: border-b
 /*.barchartvis {background:red;padding:20px;}*/
 .barchartvis text {fill:white;}
 
+.worldmap path { fill: #1c242b; }
+
 .nodata { color: #FFFFFF; padding: 20px; }

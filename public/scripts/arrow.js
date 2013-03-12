@@ -28,6 +28,9 @@ require.config({
 				'd3'
 			],
 			exports: 'cloud'
+		},
+		'worlddata': {
+			exports: 'worldData'
 		}
 	},
 
@@ -41,7 +44,8 @@ require.config({
 		datasift: 'libraries/ds',
 		d3: 'libraries/d3',
 		cloud: 'libraries/d3.layout.cloud',
-		chosen: 'libraries/chosen/chosen.jquery'
+		chosen: 'libraries/chosen/chosen.jquery',
+		worlddata: 'libraries/worlddata'
 	}
 });
 

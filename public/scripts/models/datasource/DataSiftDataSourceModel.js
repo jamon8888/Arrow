@@ -69,10 +69,6 @@ define([
 				time = msg.data[msg.data.interaction.type].created_at;
 			}
 
-			if (msg.data && msg.data.interaction && msg.data.interaction.geo) {
-				msg.data.interaction.geo = msg.data.interaction.geo.latitude + ',' + msg.data.interaction.geo.longitude;
-			}
-
 			time = new Date(time);
 			time = time.getTime();
 			this.traverse(msg.data, '', time);
@@ -148,6 +144,12 @@ define([
 			name = name ? name + '.' : '';
 			for (var key in obj) {
 				if (obj.hasOwnProperty(key)) {
+
+					// fix for geo
+					if (key.indexOf('geo') !== -1 && obj[key].longitude && obj[key].latitude) {
+						obj[key] = obj[key].longitude + ',' + obj[key].latitude;
+					}
+
 					if (_.isArray(obj[key])) {
 						this.store(this.get('id'), name + key, obj[key], time);
 					} else if (_.isObject(obj[key])) {
