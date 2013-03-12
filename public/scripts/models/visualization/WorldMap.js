@@ -110,9 +110,10 @@ define([
 				if (_.isString(item)) {
 					return item.split(',');
 				}
+				return false;
 			});
 
-			return newData;
+			return _.uniq(newData);
 		},
 
 		form: function () {
