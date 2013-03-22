@@ -21,6 +21,7 @@ define([
 		apikey: false, 
 		hash: false,
 		closed: true,
+		messageQueue: [],
 
 		initialize: function (attributes) {
 			this.refreshAttributes(attributes);
@@ -56,22 +57,46 @@ define([
 		 * 
 		 * @param  String msg
 		 */
-		onMessage: function (msg) {
-			msg = JSON.parse(msg.data);
-			if (msg.status === 'failure') {
-				this.onError(msg);
+		onMessage: function (event) {
+			this.messageQueue.push(event.data);
+		},
+
+		processMessages: function () {
+
+			if (this.messageQueue.length === 0) {
+				this.processTimer = setTimeout(_.bind(this.processMessages, this), 100);
 				return;
 			}
 
-			// get the time for this interaction
-			var time = msg.data.interaction.created_at;
-			if (msg.data[msg.data.interaction.type].created_at) {
-				time = msg.data[msg.data.interaction.type].created_at;
+			for (var i = 0; i < 5; i++) {
+				if (this.messageQueue.length > 0) {
+					var msg = this.messageQueue.shift();
+
+					try {
+						msg = JSON.parse(msg);
+					} catch (err) {
+						// invalid json
+						continue;
+					}
+
+					if (msg.status === 'failure') {
+						this.onError(msg);
+						return;
+					}
+
+					// get the time for this interaction
+					var time = msg.data.interaction.created_at;
+					if (msg.data[msg.data.interaction.type].created_at) {
+						time = msg.data[msg.data.interaction.type].created_at;
+					}
+
+					time = new Date(time);
+					time = time.getTime();
+					this.traverse(msg.data, '', time);
+				}
 			}
 
-			time = new Date(time);
-			time = time.getTime();
-			this.traverse(msg.data, '', time);
+			setTimeout(_.bind(this.processMessages, this), 5);
 		},
 
 		/**
@@ -105,6 +130,10 @@ define([
 				this.socket.send(msg);
 				this.set('running', true);
 				this.success();
+				this.processMessages();
+			/*setInterval(function () {
+				console.log(this.messageQueue.length);
+			}.bind(this), 1000);*/
 			}.bind(this);
 
 			if (this.closed) {
@@ -131,6 +160,9 @@ define([
 			this.error = error;
 			this.success = success;
 			this.success();
+			if (this.processTimer) {
+				clearTimeout(this.processTimer);
+			}
 		},
 
 		/**
@@ -146,7 +178,7 @@ define([
 				if (obj.hasOwnProperty(key)) {
 
 					// fix for geo
-					if (key.indexOf('geo') !== -1 && obj[key].longitude && obj[key].latitude) {
+					if (key.indexOf('geo') !== -1 && obj[key] && obj[key].longitude && obj[key].latitude) {
 						obj[key] = obj[key].longitude + ',' + obj[key].latitude;
 					}
 

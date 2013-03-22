@@ -31,6 +31,12 @@ require.config({
 		},
 		'worlddata': {
 			exports: 'worldData'
+		},
+		'RawDeflate': {
+			exports: 'RawDeflate'
+		},
+		'RawInflate': {
+			exports: 'RawInflate'
 		}
 	},
 
@@ -45,7 +51,9 @@ require.config({
 		d3: 'libraries/d3',
 		cloud: 'libraries/d3.layout.cloud',
 		chosen: 'libraries/chosen/chosen.jquery',
-		worlddata: 'libraries/worlddata'
+		worlddata: 'libraries/worlddata',
+		RawDeflate: 'libraries/deflate/rawdeflate',
+		RawInflate: 'libraries/deflate/rawinflate'
 	}
 });
 
