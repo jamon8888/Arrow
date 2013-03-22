@@ -183,7 +183,17 @@ define([
 					}
 
 					if (_.isArray(obj[key])) {
-						this.store(this.get('id'), name + key, obj[key], time);
+
+						var others = [];
+						_.each(obj[key], function (item) {
+							if (_.isString(item) || _.isNumber(item) || _.isArray(item)) {
+								others.push(item);
+							} else {
+								this.traverse(item, name + key, time);
+							}
+						}.bind(this));
+
+						this.store(this.get('id'), name + key, others, time);
 					} else if (_.isObject(obj[key])) {
 						this.traverse(obj[key], name + key, time);
 					} else {

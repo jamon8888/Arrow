@@ -2,10 +2,11 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
+	'RawDeflate',
 	'collections/dashboard/DashboardCollection',
 	'collections/user/DataSourceUserCollection',
 	'collections/visualization/VisualizationCollection'
-], function ($, _, Backbone, DashboardCollection, DataSourceUserCollection, VisualisationCollection) {
+], function ($, _, Backbone, RawDeflate, DashboardCollection, DataSourceUserCollection, VisualisationCollection) {
 
 	var SyncModel = Backbone.Model.extend({
 
@@ -28,7 +29,7 @@ define([
 			});
 			
 			// get the data
-			download.Data = JSON.parse(localStorage.getItem('data'));
+			download.Data = JSON.parse(unescape(RawDeflate.inflate(data)));
 
 			// get this dashboard
 			download.Dashboard = dashboard.toJSON();
@@ -49,7 +50,7 @@ define([
 		importData: function (d) {
 
 			var download = JSON.parse(d.data),
-				data = JSON.parse(localStorage.getItem('data')) || {};
+				data = JSON.parse(unescape(RawDeflate.inflate(data))) || {};
 
 			// import the datasource
 			_.each(download.DataSourceCollection, function (collection) {
@@ -92,7 +93,8 @@ define([
 			 * @todo If the users cache is full then we will have a problem 
 			 */
 			try {
-				localStorage.setItem('data', JSON.stringify(data));
+				var deflatedObject = RawDeflate.deflate(escape(JSON.stringify(this.data)));
+				localStorage.setItem('data', deflatedObject);
 			} catch (exception) {
 				if (exception.name === "QUOTA_EXCEEDED_ERR") {
 					alert('We are unable to import the data, this will exceed your quota.');
