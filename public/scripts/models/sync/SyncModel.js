@@ -29,7 +29,7 @@ define([
 			});
 			
 			// get the data
-			download.Data = JSON.parse(unescape(RawDeflate.inflate(data)));
+			download.Data = localStorage.getItem('data');
 
 			// get this dashboard
 			download.Dashboard = dashboard.toJSON();
@@ -50,7 +50,9 @@ define([
 		importData: function (d) {
 
 			var download = JSON.parse(d.data),
-				data = JSON.parse(unescape(RawDeflate.inflate(data))) || {};
+				data = localStorage.getItem('data') ? JSON.parse(unescape(RawDeflate.inflate(localStorage.getItem('data')))) : {};
+
+			download.Data = JSON.parse(unescape(RawDeflate.inflate(download.Data)));
 
 			// import the datasource
 			_.each(download.DataSourceCollection, function (collection) {
@@ -93,7 +95,7 @@ define([
 			 * @todo If the users cache is full then we will have a problem 
 			 */
 			try {
-				var deflatedObject = RawDeflate.deflate(escape(JSON.stringify(this.data)));
+				var deflatedObject = RawDeflate.deflate(escape(JSON.stringify(data)));
 				localStorage.setItem('data', deflatedObject);
 			} catch (exception) {
 				if (exception.name === "QUOTA_EXCEEDED_ERR") {
