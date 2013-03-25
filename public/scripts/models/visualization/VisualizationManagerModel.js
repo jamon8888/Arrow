@@ -6,8 +6,9 @@ define([
 	'models/visualization/PieChart',
 	'models/visualization/WordCloud',
 	'models/visualization/BarChart',
-	'models/visualization/WorldMap'
-], function ($, _, Backbone, LineGraph, PieChart, WordCloud, BarChart, WorldMap) {
+	'models/visualization/WorldMap',
+	'models/visualization/ListChart'
+], function ($, _, Backbone, LineGraph, PieChart, WordCloud, BarChart, WorldMap, ListChart) {
 
 	'use strict';
 
@@ -27,6 +28,7 @@ define([
 			//visualizations.push(WordCloud);
 			visualizations.push(BarChart);
 			visualizations.push(WorldMap);
+			visualizations.push(ListChart);
 			// another model
 			// visualizations.push(blah);
 
