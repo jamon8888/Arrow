@@ -54,11 +54,7 @@ define([
 			var startTime = this.options.dashboard.get('startTime'),
 				endTime = this.options.dashboard.get('endTime'),
 				color = d3.rgb(this.options.dashboard.get('color')),
-				colors = d3.scale.ordinal().range([
-					color.toString(), color.brighter(2).toString(), 
-					color.darker().toString(), color.brighter().toString(), 
-					color.darker(2).toString()
-				]),
+				colors = d3.scale.category20(),
 				element = false,
 				body = false;
 
