@@ -1,3 +1,11 @@
+/*==================================================*/
+/*  Arrow
+/*  Visualize all the things
+/*==================================================*/
+
+/*  Base
+/*==================================================*/
+
 body {
     padding: 0;
     margin: 0;
@@ -11,10 +19,9 @@ body {
     float: right;
 }
 
+/*  Typography
+/*==================================================*/
 
-
-
-/* Typography */
 body {
     font-family: 'Open Sans', sans-serif;
     font-size: 12px;
@@ -34,10 +41,9 @@ input {
     margin-top: 0;
 }
 
+/*  Header
+/*==================================================*/
 
-
-
-/* Header */
 header {
     background: #313841;
     height: 60px;
@@ -85,10 +91,9 @@ header .options #share {
     margin-left: 10px;
 }
 
+/*  Sidebar
+/*==================================================*/
 
-
-
-/* Sidebar */
 aside {
     background: #F4F4F4;
     bottom: 0;
@@ -252,10 +257,9 @@ aside .btn {
     z-index: 9999;
 }
 
+/*  Sidebar dashboard list
+/*==================================================*/
 
-
-
-/* Sidebar Dashboard list */
 #dashboardlist {
     list-style: none;
     padding: 0;
@@ -382,20 +386,18 @@ aside .btn {
     background-position: 0 -20px;
 }
 
+/*  Content
+/*==================================================*/
 
-
-
-/* Content */
 content {
     float: left;
     margin: 60px 0 0 260px;
     padding: 10px;
 }
 
+/*  Charts
+/*==================================================*/
 
-
-
-/* Charts */
 .vis {
     height: 300px;
     float: left;
@@ -456,10 +458,9 @@ content {
     padding: 20px;
 }
 
+/*  Flipping effects - horizontal
+/*==================================================*/
 
-
-
-/* Flipping effect - horizontal flip */
 .vis {
     -webkit-perspective: 1000;
     -moz-perspective: 1000;
@@ -541,10 +542,9 @@ content {
     border: 2px dashed #313841;
 }
 
+/*  Flipping effects - vertical
+/*==================================================*/
 
-
-
-/* Flipping effect - vertical flip */
 .vis.landscape .back {
     -webkit-transform: rotateX(180deg);
     -moz-transform: rotateX(180deg);
@@ -561,10 +561,9 @@ content {
     transform: rotateX(180deg);
 }
 
+/*  Add vis
+/*==================================================*/
 
-
-
-/* Add Vis */
 .add.vis {
     border: 2px dashed #92979b;
     border-radius: 5px;
@@ -589,10 +588,9 @@ content {
     background-position: 0 -120px;
 }
 
+/*  Form
+/*==================================================*/
 
-
-
-/* Form */
 input[type="text"],.element {
     outline: none;
     background: #e9eef4;
@@ -634,10 +632,9 @@ input[type="text"].error::-ms-placeholder {
     color: #FFFFFF;
 }
 
+/*  Form labels
+/*==================================================*/
 
-
-
-/* Form labels */
 label {
     display: block;
     margin-bottom: 10px;
@@ -850,10 +847,9 @@ aside .btn.blue {
     cursor: pointer;
 }
 
+/*  Overlay
+/*==================================================*/
 
-
-
-/* Overlay */
 #overlay {
     background: rgba(0,0,0,0.85);
     bottom: 0;
@@ -1133,11 +1129,9 @@ aside .btn.blue {
     position: relative;
 }
 
+/*  Line graph
+/*==================================================*/
 
-
-
-
-/* LineGraph */
 .linegraph .yaxis path {
     stroke-width: 1px;
     stroke: #2f3941;
@@ -1160,7 +1154,8 @@ aside .btn.blue {
     shape-rendering: crispEdges;
 }
 
-/* Bar Chart */
+/*  Bar chart
+/*==================================================*/
 
 .barchartvis .yaxis path {
     stroke-width: 1px;
@@ -1169,11 +1164,20 @@ aside .btn.blue {
     shape-rendering: crispEdges;
 }
 
+/*  List chart
+/*==================================================*/
 
+.ListChart {
+    color:white;
+}
 
+.ListChart a {
+    color:;
+}
 
+/*  Legend
+/*==================================================*/
 
-/* Legend */
 .legend {
     color: white;
     position: absolute;
@@ -1193,10 +1197,9 @@ aside .btn.blue {
     padding-left: 5px;
 }
 
+/*  Tooltips
+/*==================================================*/
 
-
-
-/* Tooltips */
 [data-tip] {
     position: relative;
 }
@@ -1238,10 +1241,9 @@ aside .btn.blue {
     display: block;
 }
 
+/*  Pie tooltips
+/*==================================================*/
 
-
-
-/* Pie Tooltip */
 #tooltip {
     background: #1a1a1a;
     color: #FFFFFF;
@@ -1256,10 +1258,9 @@ aside .btn.blue {
     word-wrap: normal;
 }
 
+/*  Specific glyphs
+/*==================================================*/
 
-
-
-/* Specific glyphs */
 #share {
     background-image: url(/images/share.png);
     background-position: 10px;
@@ -1329,13 +1330,13 @@ input#url {
     margin-bottom: 20px;
 }
 
+/*  Chosen styles
+/*==================================================*/
 
-
-
-/* Chosen styles */
 .chzn-search {
     display: none;
 }
+
 .chzn-container {
     background: #e9eef4;
     border-radius: 2px;
@@ -1443,10 +1444,9 @@ input#url {
     opacity: 1;
 }
 
+/*  Warning notice - autplay
+/*==================================================*/
 
-
-
-/* Warning notice to press play after adding data source */
 .info {
     position: absolute;
     right: 0;
@@ -1505,15 +1505,14 @@ input#url {
     -o-box-shadow: 0 3px 2px rgba(0,0,0,.1);
     box-shadow: 0 3px 2px rgba(0,0,0,.1);
 }
-/* box-shadow:0 3px 2px rgba(0,0,0,.1); */
+
 .note.shown {
     display: block;
 }
 
+/*  Colour selection options
+/*==================================================*/
 
-
-
-/* Colour selection options */
 .colors {
     list-style: none;
     margin: 0;
@@ -1557,10 +1556,9 @@ input#url {
     background: #1c242b;
 }
 
+/*  Time range slider
+/*==================================================*/
 
-
-
-/* Time range slider styles */
 .ui-slider {
     background: #1c242b !important;
     margin: 10px 0 0 0 !important;
@@ -1624,11 +1622,9 @@ input#url {
     fill: #38b87c;
 }
 
+/*  Bar chart
+/*==================================================*/
 
-
-
-/* Bar chart styles */
-/*.barchartvis {background:red;padding:20px;}*/
 .barchartvis text {
     fill: white;
 }
@@ -1638,14 +1634,21 @@ input#url {
 }
 
 .nodata {
-    color: #FFFFFF;
-    padding: 20px;
+    color: #f04747;
+    margin: 20px;
+    background: none;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+    border-radius: 2px;
+    padding: 36px 10px 10px 10px;
+    background: #363f49 url(/images/nodata.png) no-repeat center 10px;
 }
 
+/*  Wizard, harry
+/*==================================================*/
 
-
-
-/* Introductionwizardthing */
 .introduction {
     padding: 20px;
     width: 500px;
