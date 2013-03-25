@@ -26,7 +26,8 @@ define([
 			width: 300,
 			showlegend: false,
 			padding: 0,
-			group: false
+			group: false,
+			limit: 10
 		},
 
 		process: function (data, group) {
@@ -59,6 +60,27 @@ define([
 				newData.push({
 					value: countObj[label],
 					label: label
+				});
+			}
+
+			// sort them
+			newData = newData.sort(function (a, b) {
+				return b.value - a.value;
+			});
+
+			// now trim off everything but the last 10
+			var totalSum = 0;
+			if (newData.length > this.get('limit')) {
+				// work out the total of the remaining
+				for (var i = this.get('limit'); i < newData.length; i++) {
+					totalSum += newData[i].value;
+				}
+				// now trim the fat
+				newData = newData.splice(0, this.get('limit'));
+				// add the other
+				newData.push({
+					'label': 'other',
+					'value': totalSum
 				});
 			}
 
@@ -143,7 +165,8 @@ define([
 
 		form: function () {
 			var form = _.template(PieChartFormTemplate, {
-				'group': this.get('group')
+				'group': this.get('group'),
+				'limit': this.get('limit')
 			});
 			return form;
 		}
